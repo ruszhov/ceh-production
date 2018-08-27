@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% include "includes/form_snippet.html"%}
+
+{% block title %}Нове замовлення - {{ block.super }}{% endblock %}
+{% block content %}
+
+{% load static %}
+
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/dynamic-formset.js' %}"></script>
+
+	<ol class="breadcrumb my-4">
+		<li class="breadcrumb-item"><a href="{% url 'materialorder' %}">Замовлення матеріалів</a></li>
+		<li class="breadcrumb-item active">Нове замовлення матеріалу</li>
+	</ol>
+
+
+<!-- № рахунку {{ edit_material_order_form.invoice }}  -->
+
+<h4 align="center">Статус виконання замовлення: {{ paid_status.invoice }}</h4>
+
+  <form method="post" class="form-inline printorder-status" novalidate class="input-sm container newOrder">
+  {% csrf_token %}
+  
+  
+  <div class="card" style="margin: 30px auto">
+    <table class="table">
+    <tr>
+        <td style="width: 25%">Статус:</td>
+        <td colspan="2" style="width: 50%">{{form_ps.paid}}{{form_ps.status.errors}}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td style="width: 25%">Примітка:</td>
+        <td colspan="3" style="width: 50%">{{form_ps.description}}{{form_ps.description.errors}}</td>
+    </tr>
+    <tr>
+        <td>Виконавець:</td>
+        <td colspan="2">{{ user.username }}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><button type="submit" class="save btn btn-success new-campaign">Зберегти новий статус</button></td>
+        <td></td>
+    </tr>
+</table>
+  </div>  
+</form>
+
+{% endblock %}
+

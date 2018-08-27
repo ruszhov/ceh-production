@@ -1,0 +1,113 @@
+{% load static %}<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Акваріум - виробництво{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet"> 
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicons.png' %}">
+    <!-- <link rel="shortcut icon" type="image/png" href="{% static 'images/swatch/*.*' %}"> -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'css/materialorder.css' %}">
+    <link rel="stylesheet" href="{% static 'css/paid_status.css' %}">
+    <link rel="stylesheet" href="{% static 'css/swatch/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/swatch/demo.css' %}">
+
+    <!-- Datepicker -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <script src="{% static 'js/datepicker/gijgo.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/datepicker/gijgo.min.css' %}">
+
+    <script src="{% static 'js/datepicker/messages.ua-ua.js' %}"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    
+    <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet" type="text/css" /> -->
+
+    <!-- <link rel="stylesheet" href="{% static 'fontawesome/web-fonts-with-css/css/fontawesome.css' %}"> -->
+    <script defer src="{% static 'fontawesome/fontawesome-all.js' %}"></script>
+
+    
+    {% block stylesheet %}{% endblock stylesheet %}
+  </head>
+
+  <body>
+  {% block body %}
+
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="{% static 'images/logo1.png' %}" width="40" height="30" style="padding: none;">
+    </a>
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+
+    <div class="collapse navbar-collapse" id="mainMenu">
+        <ul class="navbar-nav">
+          <li {% if request.resolver_match.url_name == 'home' %} class="active" {% elif request.resolver_match.url_name == 'new_order' %} class="active" {% elif request.resolver_match.url_name == 'new_campaign' %} class="active" {% endif %} class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Замовлення друку <span class="sr-only">(current)</span></a>
+          </li>
+          <li {% if request.resolver_match.url_name == 'materialorder' %} class="active" {% elif request.resolver_match.url_name == 'materialorder_new' %} class="active" {% endif %} class="nav-item">
+            <a class="nav-link" href="{% url 'materialorder' %}">Замовлення матеріалів</a>
+          </li>
+          <li {% if request.resolver_match.url_name == 'printstatistics' %} class="active" {% elif request.resolver_match.url_name == 'printstatistics_bbs' %} class="active" {% elif request.resolver_match.url_name == 'printstatistics_baner' %} class="active" {% elif request.resolver_match.url_name == 'printstatistics_oracal' %} class="active" {% elif request.resolver_match.url_name == 'printstatistics_holst' %} class="active" {% endif %} class="nav-item">
+            <a class="nav-link" href="{% url 'printstatistics' %}">Статистика</a>
+          </li>
+          <li {% if request.resolver_match.url_name == 'about' %} class="active" {% endif %} class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">Про нас</a>
+          </li>
+        </ul>
+        {% if user.is_authenticated %}
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Ви увійшли як: <span>{{ user.username }} </span><i class="fas fa-user"></i> 
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+              <a class="dropdown-item" href="#">Мій акаунт</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Вийти</a>
+            </div>
+          </li>
+        </ul>
+      {% else %}
+        <form class="form-inline ml-auto">
+          <a href="{% url 'login' %}" class="btn btn-outline-secondary"><i class="fas fa-sign-in-alt"></i> Увійти</a>
+          <a href="{% url 'signup' %}" class="btn btn-primary ml-2"><i class="fas fa-user-circle"></i> Реєстрація</a>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+    <div class="container-fluid">
+      {% block content %}
+      {% endblock %}
+    </div>
+    
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+
+    <script src="{% static 'js/xls-export/excelExportJs.js' %}"></script>
+
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/js.js' %}"></script>
+    <script src="{% static 'js/materialorder.js' %}"></script>
+    <script src="{% static 'js/fuzzy.js' %}"></script>
+    <script src="{% static 'js/dynamic-formset.js' %}"></script>
+    <script src="{% static 'js/col.js' %}"></script>
+    <script src="{% static 'js/excel-export.js' %}"></script>
+    <script src="{% static 'js/nanobar.min.js' %}"></script>
+    <!-- Swatch -->
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="{% static 'js/swatch/jquery.swatchbook.js' %}"></script>
+    <script src="{% static 'js/swatch/modernizr.custom.79639.js' %}"></script> -->
+    
+    {% endblock body %}
+  </body>
+</html>

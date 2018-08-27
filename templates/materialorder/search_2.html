@@ -1,0 +1,20 @@
+{% load static %}
+
+	<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+	<script src="{% static 'js/datepicker/gijgo.min.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'css/datepicker/gijgo.min.css' %}">
+
+	<script src="{% static 'js/datepicker/messages.ua-ua.js' %}"></script>
+
+<body>
+    <input id="datepicker" width="276" />
+    <script>
+        $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap4',
+            locale: 'ua-ua',
+            format: 'yyyy-mm-dd'
+        });
+    </script>
+</body>

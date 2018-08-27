@@ -1,0 +1,6 @@
+{% for form.name_of_camp in form %}
+    <div class="fieldWrapper">
+        {{ form.name_of_camp.errors }}
+        {{ form.name_of_camp.label_tag }} {{ form.name_of_camp }}
+    </div>
+{% endfor %}

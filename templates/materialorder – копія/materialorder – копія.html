@@ -1,0 +1,70 @@
+{% extends 'base.html' %}{% load static%}
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Змовлення друку</li>
+{% endblock %}
+
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="row">
+  
+    <div class="col-lg-4">
+        <input type="search" id="search" value="" class="form-control" placeholder="Пошук...">
+    </div>
+    <iframe id="txtArea1" style="display:none"></iframe>
+    <div class="btn-group" role="group" aria-label="Basic example">
+      {% if perms.printOrder.change_PrintOrder %}
+      <a href="{% url 'materialorder_new' %}" class="btn btn-info"><i class="fas fa-file"></i> Нове замовлення</a>
+      {% endif %}
+      <!-- {% if perms.printOrder.change_CampaignName %}
+      <a href="{% url 'new_campaign' %}" class="btn btn-success"><i class="fas fa-file-alt"></i> Новий сюжет</a>
+      {% endif %} -->
+      <button type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" class="btn btn-default xls"><i class="fas fa-file-excel"></i> Експортувати дані в xls</button>
+      <!-- <button id="btnExport" onclick="fnExcelReport();" class="btn btn-warning"><i class="fas fa-file-excel"></i> Експортувати дані в xls</button> -->
+      <!-- <button id="btnExport" class="btn btn-warning"><i class="fas fa-file-excel"></i> Експортувати дані в xls</button> -->
+      <!-- <div>
+        <button id="btnExport">Export to excel</button>
+      </div> -->
+    </div>
+  
+</div>
+<table class="table table-hover table-responsive table-striped table-sm" id="materialorder">
+  <thead class="thead-dark">
+    <tr">
+      {% if perms.printOrder.change_PrintOrder %}
+      <th>Ред</th>
+      {% endif %}
+      <th>Дата</th>
+      <th>№ рахунку</th>
+      <th>Постачальник</th>
+      <th>Матеріал</th>
+      <th>Кількість</th>
+      <th>Ціна, грн.</th>
+      <th>Примітка</th>
+      <th>Статус</th>
+    </tr>
+  </thead>
+  <tbody>
+    <div id="searchable-container">
+    {% for mat in materials %}
+      <tr>
+        {% if perms.printOrder.change_PrintOrder %}
+        <td><a href="{% url 'materialorder_edit' pk=mat.pk %}"><i class="far fa-edit"></i></a></td>
+        {% endif %}
+        <td>{{ mat.created|date:"d.m" }}<br></td>
+        <td>{{ mat.invoice }} <br></b></td>
+        <td>{{ mat.provider.name_of_provider }}</a></td>      
+        <td>{{ mat.material.name_of_material }}<br>{{ mat.paint.name_of_paint }}<br>{{ mat.other.name_of_other }}</td>
+        <td>{{ mat.m_kv_of_material }} м<sup>2</sup><br>{{ mat.number_of_litres }} л.<br>{{ mat.number_of_other }} шт.<br></td>
+        <td>{{ mat.total_of_material }} грн.<br>{{ mat.total_of_paint }} грн.<br>{{ mat.total_of_other }} грн.<br></td>
+        <td>{{ mat.description }} <br></td>
+        <td>{{ mat.paid }} <br></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</div>
+
+</table>
+
+
+{% endblock %}

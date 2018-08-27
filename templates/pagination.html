@@ -1,0 +1,79 @@
+{% extends 'home.html' %}{% load static%}
+
+{% block pagination %}
+<div class="paginator">
+  {% if orders.has_other_pages %}
+    {% with request.get_full_path as querystring %}
+        <nav aria-label="Topics pagination" class="mb-4">
+          <ul class="pagination pagination-sm justify-content-center">
+            <!-- Previous page section -->
+            {% if orders.has_previous %}
+                {% if 'invoice' in querystring %}
+                    {% if 'page' in querystring %}
+                        <li class="page-item {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring|slice:":-7" }}&page={{ orders.previous_page_number }}">Попередня</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring }}&page={{ orders.previous_page_number }}">Попередня</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item {% if orders.number == page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ orders.previous_page_number }}">Попередня</a>
+                    </li>
+                {% endif %}
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Попередня</span>
+              </li>
+            {% endif %}
+
+            <!-- All orders section -->
+            {% for page in orders.paginator.page_range %}
+                {% if 'invoice' in querystring %}
+                    {% if 'page' in querystring %}
+                        <li class="page-item {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring|slice:":-7" }}&page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring }}&page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item {% if orders.number == page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Next page section -->
+            {% if orders.has_next %}
+                {% if 'invoice' in querystring %}
+                    {% if 'page' in querystring %}
+                        <li class="page-item {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring|slice:":-7" }}&page={{ orders.next_page_number }}">Наступна</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring }}&page={{ orders.next_page_number }}">Наступна</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item {% if orders.number == page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ orders.next_page_number }}">Наступна</a>
+                    </li>
+                {% endif %}
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Наступна</span>
+              </li>
+            {% endif %}
+
+        </ul>
+      </nav>
+    {% endwith %}
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+
+{% block title %}Новий сюжет{% endblock %}
+{% block content %}
+
+  <ol class="breadcrumb my-4">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Замовлення друку</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'new_order' %}">Нове замовлення</a></li>
+    <li class="breadcrumb-item active">Новий сюжет</li>
+  </ol>
+
+<h4 align="center">Новий сюжет</h4>
+
+  <form method="post" class="form-inline new_campaign" novalidate class="input-sm container newOrder">
+  {% csrf_token %}
+  <div class="container">
+  	<table class="table">
+    <tr>
+        <td style="width: 25%">Назва сюжету:</td>
+        <td colspan="2" style="width: 50%">{{form_nc.name_of_new_camp}}{{form_nc.name_of_new_camp.errors}}</td>
+    </tr>
+    <tr>
+        <td>Опис (якщо потрібно):</td>
+        <td colspan="2">{{ form_nc.description }}{{ form_nc.description.errors }}</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><button type="submit" class="save btn btn-success new-campaign col-sm-3">Зберегти сюжет</button></td>
+    </tr>
+</table>
+	</div>
+        
+</form>
+
+<div class="container">
+  <h6>Наявні сюжети в системі:</h6>
+  <div class="column">
+    {% for camp in campaigns %}
+      <p>{{ camp.name_of_new_camp }}</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

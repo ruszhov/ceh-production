@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ order.name_of_camp.name }} - {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home' %}">Замовлення друку</a></li>
+  <li class="breadcrumb-item active">{{ order.name_of_camp.name }}</li>
+{% endblock %}
+
+{% block content %}
+    <!-- наразі просто залиште це місце пустим. ми згодом додамо сюди ядро -->
+{% endblock %}

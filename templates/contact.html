@@ -1,0 +1,199 @@
+{% extends 'about.html' %}{% load static%}
+
+{% block contacts %}
+
+<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+	<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+	  <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
+	  <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
+	  <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+	  <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+	</div>
+</div>
+<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+<div class="tab-content" id="v-pills-tabContent">
+  <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+  	<table class="table">
+	  <thead class="thead-dark">
+	    <tr>
+	      <th scope="col">ПІБ</th>
+	      <th scope="col">Посада</th>
+	      <th scope="col">Дата народження</th>
+	      <th scope="col">Телефон</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <th scope="row">Сорока Галина Богданівна</th>
+	      <td>Директор</td>
+	      <td>14.10.1974</td>
+	      <td>067-744-09-23</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Саєнко Олександр Львович</th>
+	      <td>Заступник директора</td>
+	      <td>20.01.1971</td>
+	      <td>067-671-30-04</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Германова Сабіна Георгіївна</th>
+	      <td>Головний бухгалтер</td>
+	      <td>26.12.1968</td>
+	      <td>067-779-30-55</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Тесляк Любов Володимирівна</th>
+	      <td>Заступник голоного бухгалтера</td>
+	      <td>24.12.1973</td>
+	      <td>097-492-10-69</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Жовнірів Руслан Михайлович</th>
+	      <td>Системний адміністратор</td>
+	      <td>15.07.1987</td>
+	      <td>096-918-51-21</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Цюрак Галина Ярославівна</th>
+	      <td>Секретар</td>
+	      <td>28.06.1975</td>
+	      <td>067-984-03-53</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Шлеян Олег Миронович</th>
+	      <td>Все робить :)</td>
+	      <td>23.11.1970</td>
+	      <td>067-700-70-87</td>
+	    </tr>
+	  </tbody>
+	</table>
+  </div>
+  <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+  	<table class="table">
+	  <thead class="thead-dark">
+	    <tr>
+	      <th scope="col">ПІБ</th>
+	      <th scope="col">Посада</th>
+	      <th scope="col">Дата народження</th>
+	      <th scope="col">Телефон</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <th scope="row">Микольців Леся Миколаївна</th>
+	      <td>Головний менеджер</td>
+	      <td>22.02.1985</td>
+	      <td>096-510-62-95</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Дальман Наталія Володимирівна</th>
+	      <td>Менеджер з продажу</td>
+	      <td>29.01.1971</td>
+	      <td>050-689-04-62</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Безгребельний Данило Петрович</th>
+	      <td>Менеджер з реклами</td>
+	      <td>26.07.1970</td>
+	      <td>068-501-96-04</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Біла Олена Миколаївна</th>
+	      <td>Менеджер з реклами</td>
+	      <td>25.05.1983</td>
+	      <td>067-679-51-14</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Тукало Христина Степанівна</th>
+	      <td>Менеджер з реклами</td>
+	      <td>19.08.1992</td>
+	      <td>093-130-98-56, 095-876-32-17</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Чернецький Сергій Леонідович</th>
+	      <td>Дизайнер</td>
+	      <td>08.05.1969</td>
+	      <td>097-345-90-69</td>
+	    </tr>
+	    <tr>
+	      <th scope="row">Долгова Василина Ігорівна</th>
+	      <td>Дизайнер</td>
+	      <td>18.01.1996</td>
+	      <td>096-090-43-44</td>
+	    </tr>
+	  </tbody>
+	</table>
+  </div>
+  <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+  	<table class="table">
+		  <thead class="thead-dark">
+		    <tr>
+		      <th scope="col">ПІБ</th>
+		      <th scope="col">Посада</th>
+		      <th scope="col">Дата народження</th>
+		      <th scope="col">Телефон</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <th scope="row">Погорельцев Олександр Володимирович</th>
+		      <td>Керівник виробництва</td>
+		      <td>19.12.1977</td>
+		      <td>097-524-54-76</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">Сорокевич Віталік Михайлович</th>
+		      <td>Менеджер з продажу</td>
+		      <td>14.09.1980</td>
+		      <td>097-734-51-08, 063-411-26-99</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">Лавриненко Олег Олександрович</th>
+		      <td>Друкар-технолог</td>
+		      <td>11.06.1970</td>
+		      <td>097-985-79-73</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">Лозинський Петро Анатолійович</th>
+		      <td>Друкар-технолог</td>
+		      <td>18.11.1985</td>
+		      <td>098-475-40-69</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">Смага Сергій Ярославович</th>
+		      <td>Друкар-технолог</td>
+		      <td>24.04.1977</td>
+		      <td>098-420-97-51, 050-581-93-23</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">Довган Тарас Романович</th>
+		      <td>Водій</td>
+		      <td>23.04.1977</td>
+		      <td>067-313-53-01</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">Зарівний Роман Степанович</th>
+		      <td>Порізчик</td>
+		      <td>23.07.1990</td>
+		      <td>093-130-00-18</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">Кміта Юрій Володимирович</th>
+		      <td>Порізчик</td>
+		      <td>13.04.1986</td>
+		      <td>067-939-92-68</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">Парандій Денис</th>
+		      <td>Порізчик</td>
+		      <td></td>
+		      <td>067-672-77-40</td>
+		    </tr>
+		  </tbody>
+		</table>
+  </div>
+  <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">))))</div>
+</div>
+</div>
+
+{% endblock %}

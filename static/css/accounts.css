@@ -1,0 +1,17 @@
+body {
+ background-image: url(../images/Background_Akvarium-02_gray.jpg);
+}
+/*.logo {
+ font-family: 'Peralta', cursive;
+}*/
+.login-sign-logo{
+    font-size: 30px;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+.logo a {
+ color: rgba(0,0,0,.9);
+}
+.logo a:hover,
+.logo a:active {
+ text-decoration: none;
+}

@@ -1,0 +1,608 @@
+/*Загальна таблиця з замовленнями*/
+.container-fluid{
+	padding: 3px;
+}
+.basic-btn-group{
+	padding-top: 0px;
+}
+
+/* form starting stylings ------------------------------- */
+.materialorder .group {
+  position: relative;
+  margin-bottom: 20px;
+}
+.materialorder input, select {
+  font-size: 13px;
+  padding: 10px;
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+}
+.materialorder input:focus, select:focus {
+  outline: none;
+}
+/* LABEL ======================================= */
+.materialorder label {
+  color: #999;
+  font-size: 13px;
+  position: absolute;
+  pointer-events: none;
+  left: 10px;
+  top: 15px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+/* active state */
+.materialorder input:focus ~ label {
+  top: -15px;
+  font-size: 12px;
+  color: #5264AE;
+}
+.materialorder select:focus ~ label {
+  top: -15px;
+  font-size: 12px;
+  color: #5264AE;
+}
+.materialorder .not-empty ~ label{ 
+	top: -15px;
+    font-size: 12px;
+    color: #5264AE;
+ }
+
+/* BOTTOM BARS ================================= */
+.materialorder .bar {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+.materialorder .bar:before, .materialorder .bar:after {
+  content: "";
+  height: 2px;
+  width: 0;
+  bottom: 0;
+  position: absolute;
+  background: #5264AE;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.materialorder .bar:before {
+  left: 50%;
+}
+.materialorder .bar:after {
+  right: 50%;
+}
+
+/* active state */
+.materialorder input:focus ~ .bar:before,
+.materialorder input:focus ~ .bar:after {
+  width: 50%;
+}
+.materialorder select:focus ~ .bar:before,
+.materialorder select:focus ~ .bar:after {
+  width: 50%;
+}
+.materialorder .button-group{
+	display: inline-block;
+	/*position: relative;*/
+	padding-top: 10px;
+	float: right;
+	width: 25%;
+	height: 30px;
+	margin-right: 0;
+}
+.materialorder .button {
+    /*position: relative;*/
+    /*display: inline-block;*/
+    background-color: #007bff;
+    border: none;
+    font-size: 13px;
+    color: #FFFFFF;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+.materialorder a.button:hover{
+	background-color: #225b6c;
+	color: #fff;
+}
+.materialorder a.button{
+	display: inline-block;
+	color: #fff !important;
+	border: none;
+}
+.materialorder nav, div#nav-tabContent-materalorder {
+    width: 100%;
+}
+/*.materialorder .nav-tabs { border-bottom: 2px solid #DDD; }*/
+.materialorder nav, .tab-content{
+	padding-top: 30px;
+}
+.materialorder #nav-tab a.active{
+	color: #000;
+	background: #ccc;
+}
+.materialorder #nav-item{
+	border: 1px solid #ccc;
+}
+div#nav-tabContent-materalorder{
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 30px;
+}
+
+/*Позиціювання полів форми матеріали*/
+.group{
+	display: inline-block;
+}
+.invoice, .provider{
+	display: inline-block;
+	width: 25%;
+	height: 5%;
+	float: left;
+}
+.provider{
+	margin-left: 6%;
+}
+.invoice{
+	margin-left: none;
+	margin-right: 4.5%;
+}
+.button-group.add-provider-button {
+    margin-right: 3%;
+    float: right;
+}
+.invoice input, .provider select{
+	font-weight: bold;
+}
+.material select, .total-of-material input, .material .bar, .total-of-material .bar{
+	width: 100%;
+}
+.button-material{
+	display: inline-block;
+	width: 15%;
+	float: left;
+	margin-right: 4%;
+	margin-top: 10px;
+}
+.material-width, .material-height, .number-of-material{
+	width: 10%;
+	margin-right: 4%;
+	float: left;
+}
+.m-kv-of-material{
+	width: 10%;
+	float: right;
+}
+.material-width input, .material-height input, .number-of-material input, .m-kv-of-material input, .material-width .bar, .material-height .bar, .number-of-material .bar, .m-kv-of-material .bar {
+	width: 100%;
+	text-align: center;
+}
+.materialorder  .valuta{
+	display: inline-block;
+	margin-top: 20px;
+}
+.materialorder  .material-description {
+    width: 100%;
+    margin-top: 10px;
+}
+.row{
+	width: 100%;
+}
+.materialorder textarea {
+    width: 100%;
+    padding: 15px;
+    height: 50px;
+    border-color: #ccc;
+}
+.materialorder textarea::placeholder{
+	font-style: italic;
+	font-size: 14px;
+}
+.group.material {
+    float: left;
+    width: 25%;
+    margin-right: 4%;
+}
+.total-of-material{
+	width: 25%;
+	margin-right: 1%;
+	float: left;
+}
+
+/*Позиціювання полів форми фарби*/
+.paint{
+	width: 25%;
+	margin-right: 4%;
+	float: left;
+}
+.total_of_paint{
+	width: 25%;
+	margin-right: 1%;
+	float: left;
+}
+.paint select, .total_of_paint input, .paint .bar, .total_of_paint .bar{
+	width: 100%;
+}
+.button-paint{
+	display: inline-block;
+	width: 15%;
+	float: left;
+	margin-right: 4%;
+	margin-top: 10px;
+}
+.litr_of_paint, .number_of_litres{
+	width: 14.5%;
+	margin-right: 4%;
+	float: left;
+}
+.all_litres{
+	width: 14.5%;
+	float: right;
+}
+.litr_of_paint input, .number_of_litres input, .all_litres input, .litr_of_paint .bar, .number_of_litres .bar, .all_litres .bar {
+	width: 100%;
+	text-align: center;
+}
+
+/*Позиціювання полів інше*/
+
+.other{
+	width: 25%;
+	margin-right: 4%;
+	float: left;
+}
+.total_of_other{
+	width: 25%;
+	margin-right: 1%;
+	float: left;
+}
+.other select, .total_of_other input, .other .bar, .total_of_other .bar{
+	width: 100%;
+}
+.button-other{
+	display: inline-block;
+	width: 15%;
+	float: left;
+	margin-right: 4%;
+	margin-top: 10px;
+}
+.packing_of_other, .number_of_other{
+	width: 14.5%;
+	margin-right: 4%;
+	float: left;
+}
+.all_of_other{
+	width: 14.5%;
+	float: right;
+}
+.packing_of_other input, .number_of_other input, .all_of_other input, .packing_of_other .bar, .number_of_other .bar, .all_of_other .bar {
+	width: 100%;
+	text-align: center;
+}
+
+/*Модальне вікно - постачальник*/
+#new_provider_form input{
+	width: 100%;
+	height: 100%;
+	border: none;
+	padding: 5px;
+	outline: none;
+}
+.selector-to-clone{
+	position: relative;
+}
+#del_current_order{
+	position: absolute;
+	top: 15%;
+    right: -2%;
+    display: block;
+    width: 20px;
+    height: 20px;
+    color: red;
+    cursor: pointer;
+}
+#del_current_order svg{
+	width: 20px;
+	height: 20px;
+}
+/*кнопка зберегти*/
+.materialorder .materialorder-save-button {
+	display: inline-block;
+    width: 25%;
+    float: right;
+    /* margin-right: 4%; */
+    margin: 5px 0 0 50%;
+    background: #5ac46a
+}
+.materialorder .materialorder-save-button .button{
+    background: #5ac46a;
+    height: 30px;
+}
+.materialorder .materialorder-save-button .button:hover{
+    background: #4b8c55;
+}
+.hidden{
+	display: none;
+}
+/*кнопка додати ще*/
+.materialorder .materialorder-add-button {
+	display: inline-block;
+    width: 25%;
+    float: left;
+    height: 30px;
+    margin-top: 5px;
+
+    /*display: inline-block;
+	width: 15%;
+	float: left;
+	margin-right: 4%;
+	margin-top: 10px;*/
+}
+.materalorder #del_last_material{
+	display: inline-block;
+    width: 25%;
+    float: left;
+    height: 30px;
+    margin-top: 5px;
+}
+.materialorder .materialorder-add-button .button{
+    background: #828791;
+    height: 30px;
+}
+.materialorder .materialorder-add-button .button:hover{
+    background: #5e6166;
+}
+
+/*оплачено-неоплачено*/
+.materialorder .paid {
+	display: inline-block;
+	width: 300px;
+	left: 20%;
+	/*background: #ccc;*/
+	margin: 0 auto;
+}
+.materialorder .paid{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.materialorder .paid span{
+	font-size: 14px;
+}
+/*.materialorder .invoice{
+	margin: 20px;
+	width: 20%;
+	/*margin-bottom: 50px;*/
+/*}*/
+/*.material .paid #id_paid{
+	border: 1px solid red;
+}*/
+/*materialorder*/
+table#materialorder{
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+.materialorder span{
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+.group.invoice.hidden, .group.provider.hidden, .button-group.add-provider-button.hidden{
+	display: none;
+}
+/*.add-provider-button{
+	float: right;
+}*/
+/*section.materialorder {
+  position: relative;
+  border: 1px solid #000;
+  padding-top: 37px;
+  background: #500;
+}
+section.materialorder.positioned {
+  position: absolute;
+  top:50px;
+  left:50px;
+  width:800px;
+  box-shadow: 0 0 15px #333;
+}
+.container-fluid {
+  overflow-y: auto;
+  height: 800px;
+}*/
+
+
+/*Сторінка materialorder, фільтр*/
+.search-box{
+	background-color: #f5f5f5;
+ 	height: 0px;
+ 	border: 1px solid #ccc;
+ 	border-radius: 5px;
+}
+.search-box h6{
+	padding: 10px;
+	margin: 0 auto;
+}
+.search-box .form-group span {
+    display: inline-block;
+    position: absolute;
+    left: -5px;
+    top: 5px;
+    margin-left: 5%;
+}
+/*.search-box select#id_paid {
+    position: absolute;
+    width: 80%;
+    left: 35px;
+    margin-left: 10%;
+}*/
+.search-box .close-material a{
+	text-decoration: none;
+	color: #fff;
+}
+.transform {
+  -webkit-transition: all 1s ease;  
+  -moz-transition: all 1s ease;  
+  -o-transition: all 1s ease;  
+  -ms-transition: all 1s ease;  
+  transition: all 1s ease;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
+  margin: 0;
+  /*transition: visibility 0.15s, opacity 0.5s ease, height 0.5s;*/
+  /*transition-timing-function: cubic-bezier(0, 1, 0.5, 1)*/
+}
+
+.transform-active {
+  background-color: #f5f5f5;
+  height: 130px;
+  overflow: hidden;
+  visibility: visible;
+  opacity: 1;
+  margin-bottom: 3px;
+}
+
+/*Головна таблиця materialorder*/
+/*table#materialorder{
+	overflow-y: auto;
+	overflow-x: auto;
+}*/
+table#materialorder{
+	display: block;
+	overflow: auto;
+}
+table#materialorder>thead, table#materialorder>tbody, table#materialorder>tr, table#materialorder>td, table#materialorder>th { display: block; }
+
+table#materialorder>thead{
+    width: 1480px;
+}
+table#materialorder tbody{
+    width: 1480px;
+}
+table#materialorder td{
+    /*display: block;*/
+}
+table#materialorder>tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+table#materialorder>tbody {
+    height: 83vh;
+    overflow-y: auto;
+}
+
+table#materialorder>thead {
+    /* fallback */
+}
+
+table#materialorder>tbody td, table#materialorder>thead th {
+    /*width: 5%;*/
+    /*float: left;*/
+}
+th.m1, th.m2, th.m3, th.m4, th.m5, th.m6, th.m7, th.m8, th.m9, th.m10, th.m11h{
+	text-align: center;
+}
+.m1{
+    width: 40px;
+}
+.m2{
+    width: 70px;
+    margin-left: auto;
+}
+/*th.t3{
+    text-align: center;
+}*/
+.m3{
+    width: 170px;
+}
+/*th.t4{
+    text-align: center;
+}*/
+.m4{
+    width: 200px;
+}
+.m5{
+    width: 220px;
+    white-space: normal !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    
+    word-break: break-all;
+    
+    word-break: break-word;
+
+    /
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+.m6{
+    width: 80px;
+}
+.m7{
+    width: 120px;
+}
+.m8{
+   white-space: normal !important;
+    width: 200px;
+    /*display: inline-block;*/
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    
+    word-break: break-all;
+    
+    word-break: break-word;
+
+    /
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+/*th.t9{
+    padding-left: 15px;
+}*/
+.m9{
+    width: 100px;
+}
+.m10{
+    width: 130px;
+}
+.m11{
+    width: 130px;
+    /*color: #000;*/
+}
+.m11h{
+	width: 148px;
+}
+/*table#main-table{
+    height: 80vh;
+}*/
+table#materialorder th, table#materialorder td{
+    /*border: 1px solid red;*/
+    border: 1px solid #cce;
+    /*border: none;*/
+}
+span.all_litres, span.all_of_other{
+	float: left;
+}

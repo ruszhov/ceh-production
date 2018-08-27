@@ -1,0 +1,189 @@
+{% extends 'base.html' %}{% load static%}
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Змовлення друку</li>
+{% endblock %}
+
+{% load widget_tweaks %}
+{% block content %}
+	<!-- <script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/series-label.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script> -->
+
+    <script src="{% static 'js/chart/highcharts.js' %}"></script>    
+    <script src="{% static 'js/chart/series-label.js' %}"></script>
+    <script src="{% static 'js/chart/exporting.js' %}"></script>
+	<script src="{% static 'js/chart/export-data.js' %}"></script>
+	
+<div id="container_1"></div>
+
+{% block js-stuff %}
+<script type="text/javascript">
+	
+	var data = {{ charts_data_holst|safe }}
+	
+	Highcharts.chart('container_1', {
+
+    title: {
+        text: 'Статистика використання матеріалів за останній місяць'
+    },
+
+    subtitle: {
+        text: 'Розхід матеріалів за останній місяць'
+    },
+
+    yAxis: {
+        title: {
+            text: 'м.кв'
+        }
+    },
+
+    xAxis: {
+    	categories: data.chart_print.days_list,
+    	title: {text: 'Період друку'}
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        
+    },
+
+    series: data.chart_print.series,
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+</script>
+
+<script type="text/javascript">
+	
+	var data = {{ charts_data|safe }}
+	
+	Highcharts.chart('container_2', {
+
+    title: {
+        text: 'Статистика використання матеріалів за останній тиждень'
+    },
+
+    subtitle: {
+        text: 'Розхід матеріалів за останній тиждень'
+    },
+
+    yAxis: {
+        title: {
+            text: 'м.кв'
+        }
+    },
+
+    xAxis: {
+    	categories: data.chart_print.days_list,
+    	title: {text: 'Період друку'}
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        
+    },
+
+    series: data.chart_print.series,
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+</script>
+
+<script type="text/javascript">
+	
+	var data = {{ charts_data|safe }}
+	
+	Highcharts.chart('container_3', {
+
+    title: {
+        text: 'Статистика використання матеріалів за останній тиждень'
+    },
+
+    subtitle: {
+        text: 'Розхід матеріалів за останній тиждень'
+    },
+
+    yAxis: {
+        title: {
+            text: 'м.кв'
+        }
+    },
+
+    xAxis: {
+    	categories: data.chart_print.days_list,
+    	title: {text: 'Період друку'}
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        
+    },
+
+    series: data.chart_print.series,
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+</script>
+
+
+
+{% endblock js-stuff %}
+{% endblock content %}

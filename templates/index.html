@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% include "includes/form_snippet.html"%}
+
+{% block title %}Нове замовлення - {{ block.super }}{% endblock %}
+{% block content %}
+{% load static %}
+
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/dynamic-formset.js' %}"></script>
+
+	<ol class="breadcrumb my-4">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">Замовлення друку</a></li>
+		<li class="breadcrumb-item active">Нове замовлення</li>
+	</ol>
+
+<h4 align="center">Нове замовлення</h4>
+<form method="post" action="">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    {{ formset.as_p }}
+    <input type="submit" value="Вперед">
+</form>
+{% endblock %}

@@ -1,0 +1,306 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% include "includes/form_snippet.html"%}
+
+{% block title %}Нове замовлення - {{ block.super }}{% endblock %}
+{% block content %}
+
+{% load static %}
+
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/dynamic-formset.js' %}"></script>
+
+	<ol class="breadcrumb my-4">
+		<li class="breadcrumb-item"><a href="{% url 'materialorder' %}">Замовлення матеріалів</a></li>
+		<li class="breadcrumb-item active">Нове замовлення матеріалу</li>
+	</ol>
+
+
+<!-- № рахунку {{ edit_material_order_form.invoice }}  -->
+
+<div class="container">
+    <form method="post" action="" autocomplete="off" class="materialorder">{% csrf_token %}
+       <div class="group invoice">
+          {{ edit_material_order_form.invoice }}
+          {{ edit_material_order_form.invoice.errors }}
+          <span class="bar"></span>
+          <label>№ рахунку</label>
+       </div>
+       <div class="group provider">      
+          {{ edit_material_order_form.provider }}
+          {{ edit_material_order_form.provider.errors }}
+          <span class="bar"></span>
+          <label>Постачальник</label>
+       </div>
+
+       <div class="button-group">
+           <button class="button" type="button" data-toggle="modal" data-target="#modal-add-provider">Додати постачальника</button>
+       </div>
+
+        <div class="row">
+            <nav>
+                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Матеріал</a>
+                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Чорнила</a>
+                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Інше</a>
+                </div>
+            </nav>
+            <p>
+            <div class="tab-content" id="nav-tabContent-materalorder">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="group material">
+                      {{ edit_material_order_form.material }}
+                      {{ edit_material_order_form.material.errors }}
+                      <span class="bar"></span>
+                      <label>Матеріал</label>
+                    </div>
+                    <div class="button-material">
+                       <button class="button" type="button" data-toggle="modal" data-target="#modal-add-material">Додати матеріал</button>
+                    </div>
+                    <div class="group material-width">
+                      {{ edit_material_order_form.material_width }}
+                      {{ edit_material_order_form.material_width.errors }}
+                      <span class="bar"></span>
+                      <label>Ширина</label>
+                    </div>
+                    <div class="group material-height">
+                      {{ edit_material_order_form.material_height }}
+                      {{ edit_material_order_form.material_height.errors }}
+                      <span class="bar"></span>
+                      <label>Довжина</label>
+                    </div>
+                    <div class="group number-of-material">
+                      {{ edit_material_order_form.number_of_material }}
+                      {{ edit_material_order_form.number_of_material.errors }}
+                      <span class="bar"></span>
+                      <label>Кількість</label>
+                    </div>
+                    <div class="group m-kv-of-material">
+                      {{ edit_material_order_form.m_kv_of_material }}
+                      {{ edit_material_order_form.m_kv_of_material.errors }}
+                      <span class="bar"></span>
+                      <label>м<sup>2</sup></label>
+                    </div>
+                    <div class="group total-of-material">
+                      {{ edit_material_order_form.total_of_material }}
+                      {{ edit_material_order_form.total_of_material.errors }}
+                      <span class="bar"></span>
+                      <label>Сума</label>
+                    </div>
+                    <span class="valuta">грн.</span>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                     <div class="group paint">
+                      {{ edit_material_order_form.paint }}
+                      {{ edit_material_order_form.paint.errors }}
+                      <span class="bar"></span>
+                      <label>Фарба</label>
+                    </div>
+                    <div class="button-paint">
+                       <button class="button" type="button" data-toggle="modal" data-target="#modal-add-paint">Додати фарбу</button>
+                    </div>
+                    <div class="group litr_of_paint">
+                      {{ edit_material_order_form.litr_of_paint }}
+                      {{ edit_material_order_form.litr_of_paint.errors }}
+                      <span class="bar"></span>
+                      <label>Літри</label>
+                    </div>
+                    <div class="group number_of_litres">
+                      {{ edit_material_order_form.number_of_litres }}
+                      {{ edit_material_order_form.number_of_litres.errors }}
+                      <span class="bar"></span>
+                      <label>Кількість</label>
+                    </div>
+                    <div class="group all_litres">
+                      {{ edit_material_order_form.all_litres }}
+                      {{ edit_material_order_form.all_litres.errors }}
+                      <span class="bar"></span>
+                      <label>Всього, л.</label>
+                    </div>
+                    <div class="group total_of_paint">
+                      {{ edit_material_order_form.total_of_paint }}
+                      {{ edit_material_order_form.total_of_paint.errors }}
+                      <span class="bar"></span>
+                      <label>Сума</label>
+                    </div>
+                    <span class="valuta">грн.</span>
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="group other">
+                      {{ edit_material_order_form.other }}
+                      {{ edit_material_order_form.other.errors }}
+                      <span class="bar"></span>
+                      <label>Інші товари</label>
+                    </div>
+                    <div class="button-other">
+                       <button class="button" type="button" data-toggle="modal" data-target="#modal-add-other">Додати товар</button>
+                    </div>
+                    <div class="group packing_of_other">
+                      {{ edit_material_order_form.packing_of_other }}
+                      {{ edit_material_order_form.packing_of_other.errors }}
+                      <span class="bar"></span>
+                      <label>Упаковка, шт.</label>
+                    </div>
+                    <div class="group number_of_other">
+                      {{ edit_material_order_form.number_of_other }}
+                      {{ edit_material_order_form.number_of_other.errors }}
+                      <span class="bar"></span>
+                      <label>Кількість</label>
+                    </div>
+                    <div class="group all_of_other">
+                      {{ edit_material_order_form.all_of_other }}
+                      {{ edit_material_order_form.all_of_other.errors }}
+                      <span class="bar"></span>
+                      <label>Всього, шт.</label>
+                    </div>
+                    <div class="group total_of_other">
+                      {{ edit_material_order_form.total_of_other }}
+                      {{ edit_material_order_form.total_of_other.errors }}
+                      <span class="bar"></span>
+                      <label>Сума</label>
+                    </div>
+                    <span class="valuta">грн.</span>            
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="material-description">
+              {{ edit_material_order_form.description }}
+              {{ edit_material_order_form.description.errors }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="save-button materialorder-button"><button type="submit" class="btn btn-success">Зберегти</button></div>
+        </div>     
+    </form>
+</div>
+
+<!-- ModalWindows -->
+<!-- Модальне вікно для додавання постачальника -->
+    <div class="modal fade" id="modal-add-provider" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Додати постачальника</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h6>Введіть назву нового постачальника:</h6>
+                    <p>
+                    <form action="" id="new_provider_form" role="form" method="post" autocomplete="off">{% csrf_token %}
+                    <div class="form-control">
+                      {{ provider_form.name_of_provider }}
+                      {{ provider_form.name_of_provider.errors }}
+                    </div>
+                    <p></p>Опис (якщо потрібно):
+                    <div class="form-control">
+                      {{ provider_form.description }}
+                      {{ provider_form.description.errors }}
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+                    <button type="submit" class="btn btn-primary">Зберегти</button>
+                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальне вікно для додавання нового матеріалу -->
+    <div class="modal fade" id="modal-add-material" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Додати матеріал</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h6>Введіть назву нового матеріалу:</h6>
+                    <p>
+                    <form action="" id="new_provider_form" role="form" method="post" autocomplete="off">{% csrf_token %}
+                    <div class="form-control">
+                      {{ material_in_form.name_of_material }}
+                      {{ material_in_form.name_of_material.errors }}
+                    </div>
+                    <p></p>Опис (якщо потрібно):
+                    <div class="form-control">
+                      {{ material_in_form.description }}
+                      {{ material_in_form.description.errors }}
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+                    <button type="submit" class="btn btn-primary">Зберегти</button>
+                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальне вікно для додавання нової фарби -->
+    <div class="modal fade" id="modal-add-paint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Додати матеріал</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h6>Введіть назву нової фарби:</h6>
+                    <p>
+                    <form action="" id="new_provider_form" role="form" method="post" autocomplete="off">{% csrf_token %}
+                    <div class="form-control">
+                      {{ paint_in_form.name_of_paint }}
+                      {{ paint_in_form.name_of_paint.errors }}
+                    </div>
+                    <p></p>Опис (якщо потрібно):
+                    <div class="form-control">
+                      {{ paint_in_form.description }}
+                      {{ paint_in_form.description.errors }}
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+                    <button type="submit" class="btn btn-primary">Зберегти</button>
+                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальне вікно для додавання нової переферії(інше) -->
+    <div class="modal fade" id="modal-add-other" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Додати матеріал</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h6>Інше(назва):</h6>
+                    <p>
+                    <form action="" id="new_provider_form" role="form" method="post" autocomplete="off">{% csrf_token %}
+                    <div class="form-control">
+                      {{ other_in_form.name_of_other }}
+                      {{ other_in_form.name_of_other.errors }}
+                    </div>
+                    <p></p>Опис (якщо потрібно):
+                    <div class="form-control">
+                      {{ other_in_form.description }}
+                      {{ other_in_form.description.errors }}
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+                    <button type="submit" class="btn btn-primary">Зберегти</button>
+                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

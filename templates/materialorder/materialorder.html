@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load widget_tweaks %}
+
+<div class="container transform search-box">
+  <form method="get" autocomplete="off">
+    <div class="well">
+      <h6>Фільтрування даних за заданими параметрами:</h6>
+      <div class="row">
+        <div class="form-group col-sm-3 col-md-2">
+          <!-- {{ material_filter.form.invoice.label_tag }} -->
+          {% render_field material_filter.form.invoice class="form-control" %}
+        </div>
+        <div class="form-group col-sm-3 col-md-2">
+           <!-- {{ material_filter.form.provider__name_of_provider.label_tag }} -->
+          {% render_field material_filter.form.provider class="form-control" %}
+        </div>
+        <div class="form-group col-sm-3 col-md-2">
+          <!-- {{ material_filter.form.material__name_of_material.label_tag }} -->
+          {% render_field material_filter.form.material class="form-control" %}
+        </div>
+        <div class="form-group col-sm-3 col-md-2">
+          <!-- {{ material_filter.form.paint__name_of_paint.label_tag }} -->
+          {% render_field material_filter.form.paint class="form-control" %}
+        </div>
+        <div class="form-group col-sm-3 col-md-2">
+          <!-- {{ material_filter.form.other__name_of_other.label_tag }} -->
+          {% render_field material_filter.form.other class="form-control" %}
+        </div>
+         <div class="form-group col-sm-3 col-md-2">
+          <!-- {{ material_filter.form.paid.label_tag }} -->
+          <!-- <span>Статус:</span> -->
+          {% render_field material_filter.form.paid class="form-control" %}
+        </div>
+        <div class="form-inline col-sm-8 col-md-6">
+          <!-- {{ material_filter.form.created.label_tag }} -->
+          Період:&nbsp;{% render_field material_filter.form.created class="form-control" %}
+        </div>
+        
+        <div class="btn-group" role="group" aria-label="material_filter group">
+          <button type="submit" class="btn btn-primary search-material">
+          <span class="glyphicon glyphicon-search"></span><i class="fas fa-search"></i> Шукати
+          </button>
+          <button type="button" class="btn btn-warning clean-material">
+          <span class="glyphicon glyphicon-search"></span><i class="fas fa-eraser"></i> Очистити
+          </button>
+          <button type="button" class="btn btn-danger close-material">
+          <a href="{% url 'materialorder' %}"><span class="glyphicon glyphicon-search"></span><i class="fas fa-times"></i> Закрити</a>
+          </button>
+        </div>
+        
+      </div>
+      
+    </div>
+  </form>
+</div>
+  
+<div class="row">
+    <div class="btn-group basic-btn-group" role="group" aria-label="Basic example">
+      <button type="button" id="search-toggle" class="btn btn-warning"><i class="fas fa-filter"></i> Фільтр</button>
+      {% if perms.printOrder.change_PrintOrder %}
+      <a href="{% url 'materialorder_new' %}" class="btn btn-info"><i class="fas fa-file"></i> Новий рахунок</a>
+      {% endif %}
+      <!-- {% if perms.printOrder.change_CampaignName %}
+      <a href="{% url 'new_campaign' %}" class="btn btn-success"><i class="fas fa-file-alt"></i> Новий сюжет</a>
+      {% endif %} -->
+      <button type="button" onclick="tableToExcelmat('testTable', 'W3C Example Table')" class="btn btn-default xls"><i class="fas fa-file-excel"></i> Експортувати дані в xls</button>
+      <!-- <button id="btnExport" onclick="fnExcelReport();" class="btn btn-warning"><i class="fas fa-file-excel"></i> Експортувати дані в xls</button> -->
+      <!-- <button id="btnExport" class="btn btn-warning"><i class="fas fa-file-excel"></i> Експортувати дані в xls</button> -->
+      <!-- <div>
+        <button id="btnExport">Export to excel</button>
+      </div> -->
+    </div>
+</div>
+
+<table class="table table-hover table-striped table-sm" id="materialorder">
+  <thead class="thead-dark">
+    <tr>
+      {% if perms.MaterialOrder.change_PrintOrder %}
+      <th class="m1">Ред</th>
+      {% endif %}
+      <th class="m2">Дата</th>
+      <th class="m3">№ рахунку</th>
+      <th class="m4">Постачальник</th>
+      <th class="m5">Матеріал</th>
+      <th class="m6">Кількість</th>
+      <th class="m7">Ціна, грн.</th>
+      <th class="m8">Примітка</th>
+      <th class="m9">Статус</th>
+      <th class="m10">Додав</th>
+      <th class="m11h">Редагував</th>
+    </tr>
+  </thead>
+  <tbody>
+    <div id="searchable-container">
+    {% for mat in orders %}
+      <tr>
+        {% if perms.MaterialOrder.change_PrintOrder %}
+        <td rowspan="3" class="m1"><a href="{% url 'materialorder_edit' pk=mat.pk %}"><i class="far fa-edit"></i></a></td>
+        {% endif %}
+        <td rowspan="3" class="m2">{{ mat.created|date:"d.m"}}/{{ mat.created|date:"H:i" }}<br></td>
+        <td rowspan="3" class="m3">{{ mat.invoice }} <br></td>
+        <td rowspan="3" class="m4">{{ mat.provider.name_of_provider }}</td>
+        <td class="m5">{{ mat.material.name_of_material }}</td>
+        <td class="m6"><span class="m_kv_of_material">{{ mat.m_kv_of_material }}&nbsp;м<sup>2</sup></span></td>
+        <td class="m7"><span class="total_of_material">{{ mat.total_of_material }}&nbsp;грн.</span></td>
+        <!-- <td class="m7"><span class="total_of_material">{{ mat.total_of_material }}&nbsp;грн.</span></td> -->
+        <td rowspan="3" class="m8">{{ mat.description }}</td>
+        <td rowspan="3" class="m9"><a href="{% url 'paid_status' pk=mat.pk %}"><i class="fas fa-pencil-alt"></i></i></a>&nbsp;<span>{{ mat.paid }}</span></td>
+        <td rowspan="3" class="m10">{{ mat.created_by }}</td>
+        <td rowspan="3" class="m11">{{ mat.updated_by }}</td>
+    </tr>
+    <tr>
+        <td class="m5">{{ mat.paint.name_of_paint }}</td>
+        <td class="m6"><span class="all_litres">{{ mat.all_litres }}&nbsp;л.</span></td>
+        <td class="m7"><span class="total_of_paint">{{ mat.total_of_paint }}&nbsp;грн.</span></td>
+        <!-- <td class="m7"><span class="total_of_paint">{{ mat.total_of_paint }}&nbsp;грн.</span></td> -->
+    </tr>
+    <tr>
+        <td class="m5">{{ mat.other.name_of_other }}</td>
+        <td class="m6"><span class="all_of_other">{{ mat.all_of_other }}&nbsp;шт.</span></td>
+        <td class="m7"><span class="total_of_other">{{ mat.total_of_other }}&nbsp;грн.</span></td>
+        <!-- <td class="m7"><span class="total_of_other">{{ mat.total_of_other }}&nbsp;грн.</span></td> -->
+    {% endfor %}
+  </tbody>
+</div>
+
+</table>
+
+{% block pagination %}
+<div class="paginator">
+  {% if orders.has_other_pages %}
+    {% with request.get_full_path as querystring %}
+        <nav aria-label="Topics pagination" class="mb-4">
+          <ul class="pagination pagination-sm justify-content-center">
+            <!-- Previous page section -->
+            {% if orders.has_previous %}
+                {% if 'created_min' in querystring %}
+                    {% if 'page' in querystring %}
+                        <li class="page-item {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring|slice:":-7" }}&page={{ orders.previous_page_number }}">Попередня</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring }}&page={{ orders.previous_page_number }}">Попередня</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item {% if orders.number == page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ orders.previous_page_number }}">Попередня</a>
+                    </li>
+                {% endif %}
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Попередня</span>
+              </li>
+            {% endif %}
+
+            <!-- All orders section -->
+            {% for page in orders.paginator.page_range %}
+                {% if 'created_min' in querystring %}
+                    {% if 'page' in querystring %}
+                        <li class="page-item {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring|slice:":-7" }}&page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring }}&page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item {% if orders.number == page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Next page section -->
+            {% if orders.has_next %}
+                {% if 'created_min' in querystring %}
+                    {% if 'page' in querystring %}
+                        <li class="page-item {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring|slice:":-7" }}&page={{ orders.next_page_number }}">Наступна</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item {% if orders.number == page %}active{% endif %}">
+                            <a class="page-link" href="{{ querystring }}&page={{ orders.next_page_number }}">Наступна</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item {% if orders.number == page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ orders.next_page_number }}">Наступна</a>
+                    </li>
+                {% endif %}
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Наступна</span>
+              </li>
+            {% endif %}
+
+        </ul>
+      </nav>
+    {% endwith %}
+  {% endif %}
+</div>
+{% endblock %}
+
+<script>
+  $('#id_created_0').datepicker({
+      uiLibrary: 'bootstrap4',
+      locale: 'ua-ua',
+      format: 'yyyy-mm-dd'
+  });
+  $('#id_created_1').datepicker({
+      uiLibrary: 'bootstrap4',
+      locale: 'ua-ua',
+      format: 'yyyy-mm-dd'
+  });
+</script>
+
+{% endblock %}

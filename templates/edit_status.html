@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+
+{% block title %}Статус виконання{% endblock %}
+{% block content %}
+
+  <ol class="breadcrumb my-4">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Замовлення друку</a></li>
+    <li class="breadcrumb-item active">Статус виконання</li>
+  </ol>
+
+<h4 align="center">Статус виконання замовлення</h4>
+
+  <form method="post" class="form-inline printorder-status" novalidate class="input-sm container newOrder">
+  {% csrf_token %}
+  
+  
+  <div class="card" style="margin: 30px auto">
+  	<table class="table">
+    <tr>
+        <td style="width: 25%">Статус:</td>
+        <td colspan="2" style="width: 50%">{{form.status}}{{form.status.errors}}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td style="width: 25%">Примітка:</td>
+        <td colspan="3" style="width: 50%">{{form.description}}{{form.description.errors}}</td>
+    </tr>
+    <tr>
+        <td>Виконавець:</td>
+        <td colspan="2">{{ user.username }}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><button type="submit" class="save btn btn-success new-campaign">Зберегти новий статус</button></td>
+        <td></td>
+    </tr>
+</table>
+	</div>  
+</form>
+
+{% endblock %}

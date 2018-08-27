@@ -1,0 +1,85 @@
+{% extends 'base.html' %}{% load static%}
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Змовлення друку</li>
+{% endblock %}
+
+{% load widget_tweaks %}
+{% block content %}
+
+    <!-- Swatch -->
+    <script src="{% static 'js/swatch/jquery1.8.3.js' %}"></script>
+    <script src="{% static 'js/swatch/jquery.swatchbook.js' %}"></script>
+    <script src="{% static 'js/swatch/modernizr.custom.79639.js' %}"></script>
+    <h4 style="text-align: center; padding: 15px 0;">Типи матеріалів</h4>
+	<div class="body-swatch">
+        <div class="container-swatch">
+            
+            <section class="main-swatch">
+            
+                <div id="sb-container" class="sb-container">
+                
+                    <div>
+                        <span class="sb-icon icon-cog"></span>
+                        <a href="{% url 'printstatistics_holst' %}"><h4><span>Холст</span></h4></a>
+                    </div>
+                    <div>
+                        <span class="sb-icon icon-flight"></span>
+                        <a href="{% url 'printstatistics_holst' %}"><h4><span>Фотошпалери</span></h4></a>
+                    </div>  
+                    <div>
+                        <span class="sb-icon icon-eye"></span>
+                        <a href="{% url 'printstatistics_bbs' %}"><h4><span>Сітік</span></h4></a>
+                    </div>  
+                    <div>
+                        <span class="sb-icon icon-install"></span>
+                        <a href="{% url 'printstatistics_bbs' %}"><h4><span>Скролл</span></h4></a>
+                    </div>  
+                    <div>
+                        <span class="sb-icon icon-bag"></span>
+                        <a href="{% url 'printstatistics_oracal' %}"><h4><span>Оракал матовий</span></h4></a>
+                    </div>  
+                    <div>
+                        <span class="sb-icon icon-globe"></span>
+                        <a href="{% url 'printstatistics_oracal' %}"><h4><span>Оракал глянцевий</span></h4></a>
+                    </div>  
+                    <div>
+                        <span class="sb-icon icon-picture"></span>
+                        <a href="{% url 'printstatistics_baner' %}"><h4><span>Бекліт</span></h4></a>                                           
+                    </div>  
+                    <div>
+                        <span class="sb-icon icon-video"></span>
+                        <a href="{% url 'printstatistics_bbs' %}"><h4><span>Блюбек</span></h4></a>                                           
+                    </div>  
+                    <div>
+                        <span class="sb-icon icon-download"></span>
+                        <a href="{% url 'printstatistics_baner' %}"><h4><span>Банерна сітка</span></h4></a>                                          
+                    </div>  
+                    <div>
+                        <span class="sb-icon icon-mobile"></span>
+                        <a href="{% url 'printstatistics_baner' %}"><h4><span>Банер литий</span></h4></a>                                          
+                    </div>
+                    <div>
+                        <span class="sb-icon icon-camera"></span>
+                        <a href="{% url 'printstatistics_baner' %}"><h4><span>Банер ламінований</span></h4></a>                                           
+                    </div>
+                    <div >
+                        <h4><span>Матеріали</span></h4>
+                        <h5><span class= "swatch-brand">We &hearts; akvarium</span></h5>                                         
+                    </div>
+                    
+                    
+                </div><!-- sb-container -->
+                
+            </section>
+            
+        </div>
+        
+        <script type="text/javascript">
+            $(function() {
+            
+                $( '#sb-container' ).swatchbook();
+            
+            });
+        </script>
+    </body>
+{% endblock content %}

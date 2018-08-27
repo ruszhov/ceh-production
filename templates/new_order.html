@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% include "includes/form_snippet.html"%}
+
+{% block title %}Нове замовлення - {{ block.super }}{% endblock %}
+{% block content %}
+
+{% load static %}
+
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/dynamic-formset.js' %}"></script>
+
+	<ol class="breadcrumb my-4">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">Замовлення друку</a></li>
+		<li class="breadcrumb-item active">Нове замовлення</li>
+	</ol>
+
+<form method="post" action="">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="container form-group">
+        <div class="table">
+        <h4 align="center" id="h4">Нове замовлення <span class="figure"></span></h4>
+        <table class="table" id="new_order">
+            {% for form in formset %}
+            <tr>
+                <td class="desc">Сюжет:</td>
+                <td colspan="3" style="width: 65%">{{form.name_of_camp}}{{form.name_of_camp.errors}}</td>
+                <td><a href="{% url 'new_campaign' %}" class="btn btn btn-info">Додати сюжет</a>
+            </tr>
+            <tr>
+                <td class="desc">Файл:</td>
+                <td colspan="3">{{ form.image_url }}{{ form.image_url.errors }}</td>
+                <td><!-- <button class="btn btn btn-info">Додати</button> --></td>
+            </tr>
+            <div class="formatka" id="formatka">
+                <tr>
+                    <td></td>
+                    <td><span class="label">Довжина:</span><br>{{ form.print_height }}{{ form.print_height.errors }}</td>
+                    <td>Ширина:<br>{{ form.print_width }}{{ form.print_width.errors }}</td>
+                    <td class="new_ord_nmb">Кількість:<br>{{ form.number }}{{ form.number.errors }}</td>
+                    <td>м<sup>2</sup>:<br>{{ form.m_kv }}{{ form.m_kv.errors }}</td>
+                </tr>
+                    <tr>
+                        <td></td>
+                        <td class="desc">Форматка:</td>
+                        <td class="formatka" colspan="2">
+                            <!--<a class="btn btn-info">a</a>-->
+                            <a class="btn btn-secondary btn-sm" id="a0n">A0</a>
+                            <a class="btn btn-secondary btn-sm" id="a1n">A1</a>
+                            <a class="btn btn-secondary btn-sm" id="a2n">A2</a>
+                            <a class="btn btn-secondary btn-sm" id="a3n">A3</a>
+                            <a class="btn btn-secondary btn-sm" id="a4n">A4</a>
+                            <a class="btn btn-secondary btn-sm" id="a5n">A5</a>
+                            <a class="btn btn-secondary btn-sm" id="a6n">A6</a>
+                            <a class="btn btn-secondary btn-sm" id="andel">Очистити</a>
+                            <span style="float: right;">Пріорітетність друку:</span>
+                        </td>
+                        <td>{{ form.prioritet }}{{ form.prioritet.errors }}</td>
+                    </tr>
+            </div>
+                <tr>
+                    <td></td>
+                    <td>Матеріал:<br>{{ form.material }}{{ form.material.errors }}</td>
+                    <td>Менеджер:<br>{{ form.manager }}{{ form.manager.errors|escape }}</td>
+                    <td>Статус:<br>{{ form.status }}{{ form.status.errors }}</td>
+                    <td></td>                    
+                </tr>
+                <tr>
+                    <td class="desc">Примітка:</td>
+                    <td colspan="3">{{ form.description }}{{ form.description.errors }}</td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+        </table>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 edit-buttons"><button type="button" class="btn btn-info" id="add_more">Додати ще замовлення</button></div>
+            <div class="col-sm-2 save-button"><input type="submit" class="btn btn-success" value="Зберегти"></div>
+        </div>
+    </div>
+</form>
+
+<script>
+
+    $('#add_more').click(function() {
+        cloneMore('div.table:last', 'service');
+    });
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+
+{% block title %}Примітка в замовленні{% endblock %}
+{% block content %}
+
+  <ol class="breadcrumb my-4">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Замовлення друку</a></li>
+    <li class="breadcrumb-item active">Примітка</li>
+  </ol>
+
+<h4 align="center">Редагування примітки</h4>
+
+  <form method="post" class="form-inline edit-printorder-description" novalidate class="input-sm container newOrder">
+  {% csrf_token %}
+  
+  
+  <div class="card" style="margin: 30px auto">
+    <table class="table">
+    
+    <tr>
+        <td style="width: 25%">Примітка:</td>
+        <td colspan="3" style="width: 50%">{{form.description}}{{form.description.errors}}</td>
+    </tr>
+   
+    <tr>
+        <td></td>
+        <td></td>
+        <td><button type="submit" class="save btn btn-success new-campaign">Зберегти новий статус</button></td>
+        <td></td>
+    </tr>
+</table>
+  </div>  
+</form>
+
+{% endblock %}

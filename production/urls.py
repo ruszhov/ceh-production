@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('printstatistics.urls')),
 	path('', include('materialorder.urls')),
     path('', include('about.urls')),
+    path('', include('kyivstar.urls')),
 	path('admin/', admin.site.urls),
 
     	

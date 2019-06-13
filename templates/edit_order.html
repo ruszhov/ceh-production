@@ -32,31 +32,56 @@
                 <td colspan="3">{{ form.image_url }}{{ form.image_url.errors }}</td>
                 <td><!-- <button class="btn btn btn-info">Додати</button> --></td>
             </tr>
-            <tr class="formatka" id="formatka">
-                <tr>
-                    <td></td>
-                    <td><span class="label">Довжина:</span><br>{{ form.print_height }}{{ form.print_height.errors }}</td>
-                    <td>Ширина:<br>{{ form.print_width }}{{ form.print_width.errors }}</td>
-                    <td>Кількість:<br>{{ form.number }}{{ form.number.errors }}</td>
-                    <td>м<sup>2</sup>:<br>{{ form.m_kv }}{{ form.m_kv.errors }}</td>
-                </tr>
-                    <tr>
-                        <td></td>
-                        <td class="desc">Форматка:</td>
-                        <td class="formatka" colspan="2">
-                            <!--<a class="btn btn-info">a</a>-->
-                            <a class="btn btn-secondary btn-sm" id="a0n">A0</a>
-                            <a class="btn btn-secondary btn-sm" id="a1n">A1</a>
-                            <a class="btn btn-secondary btn-sm" id="a2n">A2</a>
-                            <a class="btn btn-secondary btn-sm" id="a3n">A3</a>
-                            <a class="btn btn-secondary btn-sm" id="a4n">A4</a>
-                            <a class="btn btn-secondary btn-sm" id="a5n">A5</a>
-                            <a class="btn btn-secondary btn-sm" id="a6n">A6</a>
-                            <a class="btn btn-secondary btn-sm" id="andel">Очистити</a>
-                            <span style="float: right;">Пріорітетність друку:</span>
-                        </td>
-                        <td>{{ form.prioritet }}{{ form.prioritet.errors }}</td>
-                    </tr>
+            <tr>
+                <td></td>
+                <td><span class="label">Довжина:</span><br>{{ form.print_height }}{{ form.print_height.errors }}</td>
+                <td>Ширина:<br>{{ form.print_width }}{{ form.print_width.errors }}</td>
+                <td class="new_ord_nmb">Кількість:<br>{{ form.number }}{{ form.number.errors }}
+                    <div class="angles">
+                        <a class="add_one"><i class="fas fa-angle-up"></i></a>
+                        <a class="remove_one"><i class="fas fa-angle-down"></i></a>
+                    </div>
+                </td>
+                <td>м<sup>2</sup>:<br>{{ form.m_kv }}{{ form.m_kv.errors }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="desc formatka">
+                    <span style="float: left;">
+                        Постери: &nbsp;&nbsp;
+                        <a class="btn btn-secondary btn-sm" id="6x3">6x3</a>
+                        <a class="btn btn-secondary btn-sm" id="5_9x2_9">5.9x2.9</a>
+                        <a class="btn btn-secondary btn-sm" id="4x3">4x3</a>
+                    </span>
+                Форматка:</td>
+                <td class="formatka" colspan="2">
+                    <!--<a class="btn btn-info">a</a>-->
+                    <a class="btn btn-secondary btn-sm" id="a0n">A0</a>
+                    <a class="btn btn-secondary btn-sm" id="a1n">A1</a>
+                    <a class="btn btn-secondary btn-sm" id="a2n">A2</a>
+                    <a class="btn btn-secondary btn-sm" id="a3n">A3</a>
+                    <a class="btn btn-secondary btn-sm" id="a4n">A4</a>
+                    <a class="btn btn-secondary btn-sm" id="a5n">A5</a>
+                    <a class="btn btn-secondary btn-sm" id="a6n">A6</a>
+                    <a class="btn btn-secondary btn-sm" id="andel">Очистити</a>
+                    <span style="float: right;">Пріорітетність друку:</span>
+                </td>
+                <td>{{ form.prioritet }}{{ form.prioritet.errors }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <span style="float: right;">
+                        Сітік/скролл:
+                    </span>
+                </td>
+                <td colspan="2" class="formatka">
+                    <a class="btn btn-secondary btn-sm" id="3_14x2_32">3.14x2.32</a>
+                    <a class="btn btn-secondary btn-sm" id="3_14x2_3">3.14x2.3</a>
+                    <a class="btn btn-secondary btn-sm" id="1_2x1_8">1.2x1.8</a>
+                    <a class="btn btn-secondary btn-sm" id="1_27x1_86">1.27x1.86</a>
+                </td>
+                <td></td>
             </tr>
                 <tr>
                     <td></td>

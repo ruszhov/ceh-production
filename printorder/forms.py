@@ -27,8 +27,8 @@ class EditDescForm(forms.ModelForm):
 		super(EditDescForm, self).__init__(*args, **kwargs)
 
 		self.fields['description'].widget.attrs['placeholder'] = 'Примітка'
-		# self.fields['description'].widget.attrs['size=40']
-		# self.fields['description'].widget = forms.SelectMultiple(attrs={'height':'40px'})
+		# self.fields['tmp_number'].required = False
+		# self.fields['tmp_updated_by'].required = False
 
 	class Meta:
 		model = PrintOrder
@@ -41,3 +41,16 @@ class NewCampaignForm(forms.ModelForm):
 		exclude = []
 
 
+class EditDoneStepsForm(forms.ModelForm):
+
+	def __init__(self, *args, **kwargs):
+		super(EditDoneStepsForm, self).__init__(*args, **kwargs)
+
+		self.fields['tmp_number'].required = False
+		self.fields['print_order'].required = False
+		self.fields['created_by'].required = False
+		self.fields['updated_by'].required = False
+
+	class Meta:
+		model = DoneSteps
+		fields = ('tmp_number', 'print_order', 'created_by', 'updated_by')

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}{% load static%}
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Змовлення друку</li>
+{% endblock %}
+
+{% load widget_tweaks %}
+{% block content %}
+    <!-- <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script> -->
+
+    <script src="{% static 'js/chart/highcharts.js' %}"></script>    
+    <script src="{% static 'js/chart/series-label.js' %}"></script>
+    <script src="{% static 'js/chart/exporting.js' %}"></script>
+    <script src="{% static 'js/chart/export-data.js' %}"></script>
+    
+<div id="container_1"></div>
+<div id="container_2"></div>
+
+{% block js-stuff %}
+<script type="text/javascript">
+    
+    var data = {{ charts_data_baner|safe }}
+    
+    Highcharts.chart('container_1', {
+
+    title: {
+        text: 'Статистика використання матеріалу БАНЕРНА СІТКА за останній місяць'
+    },
+
+    subtitle: {
+        text: 'Розхід матеріалів за останній місяць'
+    },
+
+    yAxis: {
+        title: {
+            text: 'м.кв'
+        }
+    },
+
+    xAxis: {
+        categories: data.chart_print.days_list,
+        title: {text: 'Період друку'}
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        
+    },
+
+    series: data.chart_print.series,
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+</script>
+
+<script type="text/javascript">
+
+var data = {{ charts_data_baner_sitka_months|safe }}
+// console.log(data);
+
+Highcharts.chart('container_2', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Статистика витрати матеріалу БАНЕРНА СІТКА за останній рік'
+    },
+    subtitle: {
+        text: 'Помісячна витрата матеріалу'
+    },
+    xAxis: {
+        categories: data.chart_print.months_list,
+    },
+    yAxis: [{
+        min: 0,
+        title: {
+            text: 'м.кв'
+        }
+    }, {
+        title: {
+            text: ''
+        },
+        opposite: true
+    }],
+    legend: {
+        shadow: false
+    },
+    tooltip: {
+        shared: true
+    },
+    plotOptions: {
+        column: {
+            grouping: false,
+            shadow: false,
+            borderWidth: 0,
+        }
+    },
+    series:data.chart_print.months_series,
+});
+</script>
+
+{% endblock js-stuff %}
+{% endblock content %}

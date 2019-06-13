@@ -89,7 +89,14 @@
                       {{ input_material_form.total_of_material }}
                       {{ input_material_form.total_of_material.errors }}
                       <span class="bar"></span>
-                      <label>Сума</label>
+                      <label>Сума без ПДВ</label>
+                    </div>
+                    <span class="valuta">грн.</span>
+                    <div class="group total-of-material-pdv">
+                      {{ input_material_form.total_of_material_pdv }}
+                      {{ input_material_form.total_of_material_pdv.errors }}
+                      <span class="bar"></span>
+                      <label>Сума з ПДВ</label>
                     </div>
                     <span class="valuta">грн.</span>
                 </div>
@@ -125,7 +132,14 @@
                       {{ input_material_form.total_of_paint }}
                       {{ input_material_form.total_of_paint.errors }}
                       <span class="bar"></span>
-                      <label>Сума</label>
+                      <label>Сума без ПДВ</label>
+                    </div>
+                    <span class="valuta">грн.</span>
+                    <div class="group total_of_paint_pdv">
+                      {{ input_material_form.total_of_paint_pdv }}
+                      {{ input_material_form.total_of_paint_pdv.errors }}
+                      <span class="bar"></span>
+                      <label>Сума з ПДВ</label>
                     </div>
                     <span class="valuta">грн.</span>
                 </div>
@@ -161,7 +175,14 @@
                       {{ input_material_form.total_of_other }}
                       {{ input_material_form.total_of_other.errors }}
                       <span class="bar"></span>
-                      <label>Сума</label>
+                      <label>Сума без ПДВ</label>
+                    </div>
+                    <span class="valuta">грн.</span>          
+                    <div class="group total_of_other_pdv">
+                      {{ input_material_form.total_of_other_pdv }}
+                      {{ input_material_form.total_of_other_pdv.errors }}
+                      <span class="bar"></span>
+                      <label>Сума з ПДВ</label>
                     </div>
                     <span class="valuta">грн.</span>            
                 </div>

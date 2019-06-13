@@ -86,7 +86,8 @@
       <th class="m4">Постачальник</th>
       <th class="m5">Матеріал</th>
       <th class="m6">Кількість</th>
-      <th class="m7">Ціна, грн.</th>
+      <th class="m7">Сума без ПДВ</th>
+      <th class="m7">Сума з ПДВ</th>
       <th class="m8">Примітка</th>
       <th class="m9">Статус</th>
       <th class="m10">Додав</th>
@@ -106,9 +107,9 @@
         <td class="m5">{{ mat.material.name_of_material }}</td>
         <td class="m6"><span class="m_kv_of_material">{{ mat.m_kv_of_material }}&nbsp;м<sup>2</sup></span></td>
         <td class="m7"><span class="total_of_material">{{ mat.total_of_material }}&nbsp;грн.</span></td>
-        <!-- <td class="m7"><span class="total_of_material">{{ mat.total_of_material }}&nbsp;грн.</span></td> -->
+        <td class="m7"><span class="total_of_material">{{ mat.total_of_material_pdv }}&nbsp;грн.</span></td>
         <td rowspan="3" class="m8">{{ mat.description }}</td>
-        <td rowspan="3" class="m9"><a href="{% url 'paid_status' pk=mat.pk %}"><i class="fas fa-pencil-alt"></i></i></a>&nbsp;<span>{{ mat.paid }}</span></td>
+        <td rowspan="3" class="m9"><a href="{% url 'paid_status' pk=mat.pk %}?next={{ request.get_full_path|urlencode }}"><i class="fas fa-pencil-alt"></i></i></a>&nbsp;<span>{{ mat.paid }}</span></td>
         <td rowspan="3" class="m10">{{ mat.created_by }}</td>
         <td rowspan="3" class="m11">{{ mat.updated_by }}</td>
     </tr>
@@ -116,13 +117,13 @@
         <td class="m5">{{ mat.paint.name_of_paint }}</td>
         <td class="m6"><span class="all_litres">{{ mat.all_litres }}&nbsp;л.</span></td>
         <td class="m7"><span class="total_of_paint">{{ mat.total_of_paint }}&nbsp;грн.</span></td>
-        <!-- <td class="m7"><span class="total_of_paint">{{ mat.total_of_paint }}&nbsp;грн.</span></td> -->
+        <td class="m7"><span class="total_of_paint">{{ mat.total_of_paint_pdv }}&nbsp;грн.</span></td>
     </tr>
     <tr>
         <td class="m5">{{ mat.other.name_of_other }}</td>
         <td class="m6"><span class="all_of_other">{{ mat.all_of_other }}&nbsp;шт.</span></td>
         <td class="m7"><span class="total_of_other">{{ mat.total_of_other }}&nbsp;грн.</span></td>
-        <!-- <td class="m7"><span class="total_of_other">{{ mat.total_of_other }}&nbsp;грн.</span></td> -->
+        <td class="m7"><span class="total_of_other">{{ mat.total_of_other_pdv }}&nbsp;грн.</span></td>
     {% endfor %}
   </tbody>
 </div>

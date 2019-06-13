@@ -17,14 +17,14 @@
   {% csrf_token %}
   
   
-  <div class="card" style="margin: 30px auto">
+  <div class="card col-md-4" style="margin: 30px auto">
     <table class="table">
     
     <tr>
         <td style="width: 25%">Примітка:</td>
-        <td colspan="3" style="width: 50%">{{form.description}}{{form.description.errors}}</td>
+        <td colspan="3" style="width: 50%">{{form_nd.description}}{{form_nd.description.errors}}</td>
     </tr>
-   
+    
     <tr>
         <td></td>
         <td></td>
@@ -34,5 +34,198 @@
 </table>
   </div>  
 </form>
+
+    <div class="card col-md-4" style="margin: auto; padding: 0;">
+         <div class="card-title view-pad" style="background-color: #e5e5e5; padding: 8px 10px!important;">
+             <h5>В замовленні: <span class="number_value">{{ number_value }}</span>шт., виконано: <span class="done_value" style="color: green"></span>шт.</h5>
+         </div>
+        <div class=" class="row marl">
+        <div class="col-md-12">
+            <form id="done-steps" method="POST" class="form-inline" action="{% url 'done_steps' %}">
+                {% csrf_token %}
+                <div class="form-group"><b>Виконано:</b>
+                    <input id="done-number" style="width: 10em !important; margin: 1em 6em;" type="number" class="form-control"/>
+                    <div class="buttons_row">
+                        <button type="submit" id="tmp_submit" style="text-align: center;" class="btn btn-primary"><i class="fas fa-check"></i></button>
+                    </div>
+                </div>
+                <input type="hidden" value="{{ edit_description.id }}" name="editdescription">
+            </form>
+        </div>
+        <ul class="list-group" id="comments_div">
+          {% for comment in comments %}
+          <li class="list-group-item list-row" id="comment{{comment.id}}">
+            {% if request.user.is_superuser or request.user.role == 'ADMIN' or request.user == comment.created_by %}
+            <div class="list-row-buttons btn-group float-right">
+              <button class="btn primary_btn btn-sm dropdown-toggle" data-toggle="dropdown" type="button">Дії<span class="caret"></span></button>
+              <ul class="dropdown-menu text-center">
+                <li>
+                  <a class="action" onclick="edit_comment({{comment.id}})">Редагувати</a>
+                </li>
+                <li>
+                  <a class="action" onclick="remove_comment({{comment.id}})">Видалити</a>
+                </li>
+              </ul>
+            </div>
+            {% endif %}
+            <div class="stream-post-container" id="comment_name{{comment.id}}">
+                <pre><span class="done_number">{{ comment.tmp_number }}</span> шт.</pre>
+            </div>
+            <div class="stream-container">
+              <pre class="float-left">{{ comment.created_by }}</pre>
+              <pre class="float-right date">{{ comment.created_on|date:'d.m.Y,  H:i:s' }}</pre>
+            </div>
+          {% if comment.updated %}
+            <div class="updated-container">
+              <pre class="float-left"><b>Ред:</b> {{ comment.updated_by }}</pre>
+              <pre class="float-right date">{{ comment.updated|date:'d.m.Y,  H:i:s' }}</pre>
+            </div>
+          {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        </div>
+    </div>
+    <div class="modal fade" id="Comments_Accounts_Modal" role="dialog" data-keyboard="false" data-backdrop="static">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header alert-primary">
+            <h4 class="modal-title">Оновити кількість</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+          </div>
+          <form id="comment_edit_form" method="POST" >{% csrf_token %}
+            <div class="modal-body">
+              <div class="form-group">
+                <textarea class="form-control" textarea cols="10" rows="1" id="id_editcomment" name="comment" placeholder=""></textarea><span><i id="CommentEditError" style="display:none; color:red"></i></span>
+                <input type="hidden" value="" name="commentid" id="commentid">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary save" id="comment_edit" type="submit">Оновити</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+<script type="text/javascript">
+  $("#done-steps").submit(function(e){
+    e.preventDefault()
+
+    var data = {};
+    data.nmb = $('#done-number').val();
+    var csrf_token = $('form#done-steps input[name="csrfmiddlewaretoken"]').val();
+    data["csrfmiddlewaretoken"] = csrf_token;
+    var desc_id = $('form#done-steps input[name="editdescription"]').val();
+    data["editdescription"] = desc_id;
+    var url  = $('form#done-steps').attr("action");
+    {#console.log(data)#}
+
+    $.ajax({
+      url : url,
+      type : "POST",
+      data : data,
+      cache: false,
+      success: function(data){
+        if(data.error){
+          console.log("Error!")
+        }else {
+        d = new Date(data.created_on);
+        $("#comments_div").prepend("<li class='list-group-item list-row' id='comment"+data.comment_id+"'>"+
+                               "<div class='float-right right-container'>"+
+                               "<div class='list-row-buttons btn-group float-right'>"+
+                               "<button class='btn primary_btn btn-sm dropdown-toggle' data-toggle='dropdown' type='button'><span class='caret'></span>Дії</button>"+
+                               "<ul class='dropdown-menu text-center'>"+
+                               "<li><a class='action' onclick='edit_comment("+data.comment_id+")'>Редагувати</a></li>"+
+                               "<li><a class='action' onclick='remove_comment("+data.comment_id+")''>Видалити</a></li></ul></div></div>"+
+                               "<div class='stream-post-container' id='comment_name"+data.comment_id+"'><pre>"+data.tmp_number+' шт.'+"</pre></div>"+
+                               "<div class='stream-container'><pre class='float-left'>"+data.created_by+"</pre><pre class='float-right'>"+d.toLocaleString('uk-UA', { hour12: false })+"</pre></div>"
+                               )
+          sum = 0
+	      $(".done_number").each(function() {
+            var temp_numbers = $(this).html();
+            sum += Number(temp_numbers);
+            });
+          new_sum = sum + data.tmp_number;
+          $(".done_value").html(new_sum);
+          $("#done-number").val("");
+        }
+      }
+    });
+  });
+
+    function remove_comment(x) {
+      data = {}
+      data["comment_id"] = x;
+      data["csrfmiddlewaretoken"]= "{{ csrf_token }}";
+      $.ajax({
+      url : '{% url "remove_comment" %}',
+      type : "POST",
+      data : data,
+      cache: false,
+      success: function(data){
+        if(data.error){
+          console.log("Error!")
+        }else {
+        $("#comment" + data.cid).remove();
+        {#var tmp_number = $(".done_value").html();#}
+        sum = 0
+          $(".done_number").each(function() {
+            var temp_numbers = $(this).html();
+            sum += Number(temp_numbers);
+            });
+        $(".done_value").html(sum)
+        }
+      }
+    })
+  };
+
+function edit_comment(x) {
+    $('#Comments_Accounts_Modal').modal('show');
+    comment = $("#comment_name" + x).find("span").text()
+    $("#commentid").val(x)
+    $("#id_editcomment").val(comment)
+    {#$("#edit_file_field").html($("#comment_file_div" + x).clone())#}
+  }
+
+  $("#comment_edit").click(function (e) {
+    e.preventDefault()
+    var formData = new FormData($("#comment_edit_form")[0]);
+    {#console.log(formData);#}
+    $.ajax({
+      url: "{% url 'edit_comment' %}",
+      type: "POST",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        if (data.error) {
+          $("#CommentEditError").html(data.error).show()
+        } else {
+          d = new Date(data.updated_on);
+          $("#comment_name" + data.comment_id).html("<pre><span class='done_number'>" + data.tmp_number +"</span> шт.</pre>")
+          target = $("#comment" + data.comment_id)
+          fin = target.find("div.updated-container").remove()
+          target.append("<div class='updated-container'>" +
+          "              <pre class='float-left'><b>Ред: </b>"+data.updated_by+"</pre>" +
+          "              <pre class='float-right date'>"+d.toLocaleString('uk-UA', { hour12: false })+"</pre>" +
+          "              </div>")
+          $('#Comments_Accounts_Modal').modal('hide');
+          $("#id_editcomment").val("")
+          $("#CommentEditError").html('');
+          sum = 0
+          $(".done_number").each(function() {
+            var temp_numbers = $(this).html();
+            sum += Number(temp_numbers);
+            });
+        $(".done_value").html(sum)
+        }
+      }
+    })
+  })
+
+</script>
+
 
 {% endblock %}

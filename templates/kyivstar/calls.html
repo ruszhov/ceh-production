@@ -1,0 +1,166 @@
+{% extends 'base.html' %}{% load static%}
+
+{% load static %}
+
+{% block stylesheet %}
+ 
+  <link rel="stylesheet" href="{% static 'css/kyivstar.css' %}">
+
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Змовлення друку</li>
+{% endblock %}
+
+{% load widget_tweaks %}
+{% block content %}
+
+
+<div class="mesh-wrap">
+  <div class="mesh-loader">
+    <div class="set-one">
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+    <div class="set-two">
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+  </div>
+</div>    
+  
+<div class="container">
+
+  <h3 align="center">Виберіть період:</h3>
+  <h6 align="center" style="color: red;">Максимальний період вибору повинен бути в межах 7 днів</h6>
+  <div align="center">
+    <form id="calls-range" class="form-inline"action="{% url 'kyivstar' %}">{% csrf_token %}
+      <label for="startDate">Від:</label>
+        <input id="startDate" width="276" />
+        <label for="endDate">До:</label>
+        <input id="endDate" width="276"/>
+    <button type="button" id="kyivstar_ajax" class="btn btn-primary">Запит</button>          
+    </form>
+  </div>
+
+  <table id="call-table" data-toggle="call-table" 
+    data-sortable="true"
+    data-sort-name="start_timestamp"
+    data-sort-order="desc"
+    data-search="true"data-show-refresh="false"
+    data-show-toggle="true"
+    data-on="true"
+    data-show-columns="true"
+    data-pagination="true"
+    data-side-pagination="client"
+    data-page-size="15">
+  
+    <thead>
+      <tr>
+        <th data-field="calling_number">Номер, з якого телефонували</th>
+        <th data-field="calling_name" data-sortable="true">Хто дзвонив</th>
+        <th data-field="called_number">Номер, що викликається</th>
+        <th data-field="called_name" data-sortable="true">До кого дзвонили</th>
+        <th data-field="duration">Тривалість, сек.</th>
+        <th data-field="start_timestamp" data-sortable="true">Час початку виклику</th>
+        <th data-field="end_timestamp" data-sortable="true">Час закінчення виклику</th>
+      </tr>
+    </thead>
+
+  </table>
+
+</div>
+
+<script>
+$(".mesh-loader, #call-table").hide();
+
+var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+  $('#startDate').datepicker({
+      uiLibrary: 'bootstrap4',
+      iconsLibrary: 'fontawesome',
+      // minDate: 0,
+      // minDate: function(){
+      //   return $('#endDate').val();
+      // },
+      locale: 'ua-ua',
+      format: 'yyyy-mm-dd',
+      // startDate: '-3d',
+      // maxDate: function () {
+      //     return $('#endDate').val();
+      // }
+
+  })
+
+  $('#endDate').datepicker({
+      uiLibrary: 'bootstrap4',
+      iconsLibrary: 'fontawesome',
+      locale: 'ua-ua',
+      format: 'yyyy-mm-dd',
+      // minDate: function () {
+      //     return $('#startDate').val();
+      // }
+      // maxDate:function(){
+      //   return $('#startDate').val();  
+      // },
+  });
+
+var reftab = 0;
+$(document).ready(function(){
+  $("#kyivstar_ajax").click(function(e){
+    e.preventDefault();
+    $(".mesh-loader").show();
+    // $('#call-table').bootstrapTable('refresh');
+    // location.reload();
+    // $('#call-table').reload();
+    // $('div.bootstrap-table').html('');
+    var data = {};
+    // console.log(data);
+    data._from = $("input#startDate").val();
+    data._to = $("input#endDate").val();
+    var csrf_token = $('form#calls-range input[name="csrfmiddlewaretoken"]').val();
+    data["csrfmiddlewaretoken"] = csrf_token;
+    // console.log(csrf_token);
+    var form = $("form#calls-range");
+    var url  = form.attr("action");
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: data,
+      cache: false,
+      success: function(callback){
+        // console.log(callback.calls);
+          if(!('error' in callback)){
+          // console.log(callback);        
+          $("#call-table").show();
+          result = callback.calls;
+          // console.log(result);
+          $(".mesh-loader").hide();
+          // console.log($search);
+          var newData = jQuery.parseJSON(JSON.stringify(callback));
+          // console.log(newData);
+          var return_data = new Array();
+              for(var i=0; i<newData.length; i++){
+                return return_data.length();
+              }
+            if(reftab == 1){
+            // console.log("success1", newData);
+            $('#call-table').bootstrapTable('load', newData.calls);
+          }else{
+          // console.log("success0", newData);
+          $('#call-table').bootstrapTable({
+            data: newData.calls,
+            locale: "uk-UA",
+          });
+          reftab = 1;
+          }
+        }else {
+        console.log("Error!");
+        }
+      }
+    })
+    return false;
+  })
+})
+
+</script>
+{% endblock %}

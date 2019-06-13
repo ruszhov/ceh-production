@@ -17,7 +17,6 @@
 		<li class="breadcrumb-item active">Нове замовлення матеріалу</li>
 	</ol>
 
-
 <!-- № рахунку {{ edit_material_order_form.invoice }}  -->
 
 <div class="container">
@@ -91,6 +90,13 @@
                       <label>Сума</label>
                     </div>
                     <span class="valuta">грн.</span>
+                    <div class="group total-of-material-pdv">
+                      {{ edit_material_order_form.total_of_material_pdv }}
+                      {{ edit_material_order_form.total_of_material_pdv.errors }}
+                      <span class="bar"></span>
+                      <label>Сума з ПДВ</label>
+                    </div>
+                    <span class="valuta">грн.</span>
                 </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                      <div class="group paint">
@@ -127,6 +133,13 @@
                       <label>Сума</label>
                     </div>
                     <span class="valuta">грн.</span>
+                    <div class="group total-of-material-pdv">
+                      {{ edit_material_order_form.total_of_paint_pdv }}
+                      {{ edit_material_order_form.total_of_paint_pdv.errors }}
+                      <span class="bar"></span>
+                      <label>Сума з ПДВ</label>
+                    </div>
+                    <span class="valuta">грн.</span>
                 </div>
                 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                     <div class="group other">
@@ -161,6 +174,13 @@
                       {{ edit_material_order_form.total_of_other.errors }}
                       <span class="bar"></span>
                       <label>Сума</label>
+                    </div>
+                    <span class="valuta">грн.</span>
+                    <div class="group total-of-material-pdv">
+                      {{ edit_material_order_form.total_of_other_pdv }}
+                      {{ edit_material_order_form.total_of_other_pdv.errors }}
+                      <span class="bar"></span>
+                      <label>Сума з ПДВ</label>
                     </div>
                     <span class="valuta">грн.</span>            
                 </div>

@@ -74,6 +74,47 @@ $("body").on('click change paste keyup', function(){
 		$(this).closest('div.tab-content').find("input[name$='all_of_other']").val(total);
 		$(this).closest('div.tab-content').find("input[name$='all_of_other']").addClass('not-empty');
 	});
+
+	//підрахунок ПДВ
+	$("input[name$='total_of_material'], input[name$='total_of_paint'], input[name$='total_of_other']").on("keyup", function() {
+
+		var total = +$(this).closest('div.tab-pane.active').find("input[name*='total_of_']").val();
+		var pdv = parseFloat((total*1.2).toFixed(2));
+		var total_pdv = $(this).closest('div.tab-pane.active').find("input[name$='_pdv']").val(pdv);
+	});
+
+	$("input[name$='total_of_material_pdv'], input[name$='total_of_paint_pdv'], input[name$='total_of_other_pdv']").on("keyup", function() {
+
+		var total_pdv = $(this).closest('div.tab-pane.active').find("input[name$='_pdv']").val();
+		var pdv = parseFloat((total_pdv/1.2).toFixed(2));
+		var total = +$(this).closest('div.tab-pane.active').find("input[name*='total_of_']").not("input[name$='_pdv']").val(pdv);
+
+	});
+
+	//дадавання значення в поле ширина при виборі відповідного матеріалу з випадаючого списку
+	$("select[name$='material']").on("change", function(){
+		var selVal = this.selectedOptions[0].value;
+		// console.log(selVal);
+		targetInput = $(this).closest("div.tab-content").find("input[name$='material_width']");
+		// console.log(targetInput);
+
+		if      ((selVal == 1 )||(selVal == 30)||(selVal == 31))                 { targetInput.val('')   } 
+		else if ( selVal == 2 )                                                  { targetInput.val(1.56) }
+		else if ( selVal == 3 )                                                  { targetInput.val(3.15) }
+		else if ((selVal == 4 )||(selVal == 17)||(selVal == 26))                 { targetInput.val(1.27) }
+		else if ((selVal == 5 )||(selVal == 8) ||(selVal == 11)||(selVal == 15)) { targetInput.val(3.2)  }
+		else if ((selVal == 6 )||(selVal == 9) ||(selVal == 12)||(selVal == 16)) { targetInput.val(2.5)  }
+		else if ((selVal == 7 )||(selVal == 10)||(selVal == 28)||(selVal == 29)) { targetInput.val(2.2)  }
+		else if ((selVal == 13)||(selVal == 18)||(selVal == 25)||(selVal == 35)) { targetInput.val(1.6)  }
+		else if ((selVal == 14)||(selVal == 19)||(selVal == 20))                 { targetInput.val(1.37) }
+		else if ((selVal == 21)||(selVal == 22))                                 { targetInput.val(1)    }
+		else if ( selVal == 40)                                                  { targetInput.val(1.06) }
+		else if ((selVal == 23)||(selVal == 24))                                 { targetInput.val(1.07) }
+		else if ((selVal == 27)||(selVal == 39))                                 { targetInput.val(1.25) }
+		else if ((selVal == 32)||(selVal == 34))                                 { targetInput.val(1.26) }
+		else if ( selVal == 33)                                                  { targetInput.val(1.29) }
+		else{}
+	});
 });
 
 // стилізаця помилок
@@ -95,7 +136,7 @@ $('.add_more_materialorder').click(function(event){
 		// var curDescription = current.find("textarea[name$='description']");
 		// var allprevDescription = curDescription.prevAll("textarea[name$='description']");
 		// console.log(allprevDescription);
-		// приховуємо полярахунок і постачальник у всіх клонованих табах
+		// приховуємо поля рахунок і постачальник у всіх клонованих табах
 		var hideInvoice = current.find("div.group.invoice, div.group.provider, div.button-group.add-provider-button").addClass('hidden');
 
 		// завжди активна перша вкладка табів
@@ -186,42 +227,3 @@ $("#materialorder td.m9 span:contains('None')").each(function() {
 $("#materialorder td:contains('Оплачено')").closest('tr').find('td:first a').remove();
 $('#materialorder .m6:contains("None"), #materialorder .m7:contains("None"), #materialorder .m11:contains("None")').html('');
 
-// рахуємо None
-// $( document ).ready(function() {
-// 	$("materialorder tr").each(function(){
-// 		nonecount = $(this).find("m6:contains('None')").size();
-// 		if( nonecount == 2){
-// 			$("td[rowspan].m1").attr("rowspan", function(i, rs) { return rs - 1 })
-// 		}
-// 		else
-// 		{
-
-// 		}
-// 	});
-// })
-
-
-// $("#materialorder .m6:contains('None')").count();
-
-// $('.materialorder input, .materialorder select').each(function(){
-// 		$(this).blur(function(){
-// 		    tmpval = $(this).val();
-// 		    if(tmpval == '') {
-// 		        $(this).addClass('empty');
-// 		        $(this).removeClass('not-empty');
-// 		    } else {
-// 		        $(this).addClass('not-empty');
-// 		        $(this).removeClass('empty');
-// 		    }
-// 		});
-// 		$(this).is(function(){
-// 	    tmpval = $(this).val();
-// 		    if(tmpval == '') {
-// 		        $(this).addClass('empty');
-// 		        $(this).removeClass('not-empty');
-// 		    } else {
-// 		        $(this).addClass('not-empty');
-// 		        $(this).removeClass('empty');
-// 		    }
-// 		});
-// 	});

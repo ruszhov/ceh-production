@@ -53,7 +53,7 @@ function cloneMaterialorder(selector, type) {
         var this_id = $(this).attr('href');
         // console.log(this_id);
         var new_id = $(this).attr('href').replace('-' + (total_forms-1) + '-','-' + total_forms + '-');
-        console.log(new_id);
+        // console.log(new_id);
         $(this).attr('href', new_id);
     })
 
@@ -62,14 +62,14 @@ function cloneMaterialorder(selector, type) {
         var pane_id = $(this).attr('id');
         // console.log(pane_id);
         var new_pane_id = $(this).attr('id').replace('-' + (total_forms-1) + '-','-' + total_forms + '-');
-        console.log(new_pane_id);
+        // console.log(new_pane_id);
         $(this).attr('id', new_pane_id);
     })
 
     //кнопка видалити
     var span = newElement.find('#del_current_order svg').removeClass( "hidden" );
 
-    console.log(span);
+    // console.log(span);
 
     newElement.find('#del_current_order').on('click', function(){
         $(this).closest('div.selector-to-clone').fadeOut(300, function(){
@@ -83,6 +83,12 @@ function cloneMaterialorder(selector, type) {
     // console.log(total_forms);
     $('#id_form-TOTAL_FORMS').val(total_forms);
     $(selector).after(newElement);
+
+    // newElement.find("select[name$='material']").each(function(){
+    // var selectedValue = this.selectedOptions[0].value;
+    // var selectedText  = this.selectedOptions[0].text;
+    // console.log(selectedValue);
+    // })
 
 }
 

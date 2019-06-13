@@ -3,15 +3,33 @@ $(document).click(function(event) {
 });
 
 $(document).ready(function(){
-	
-	$("td.new_ord_nmb input[name$='number']").val('1');
-	
+	//проставляємо 1 в строці к-ть якщо там ще нічого не стоїть
+	var startNumber = $("td.new_ord_nmb input[name$='number']");
+	if ( startNumber.val() == '')
+	{
+		startNumber.val('1');
+	}
+	else
+	{}
 	// $('input, select, textarea').addClass('form-control');
 
 	$('#new_order').find('input, select, textarea').addClass('form-control');
 	$('.printorder-status').find('input, select, textarea').addClass('form-control');
 	$('.new_campaign').find('input, select, textarea').addClass('form-control');
 	$('.edit-printorder-description').find('input, select, textarea').addClass('form-control');
+
+// 	var temp_numbers = $(".done_number").html();
+// 	for(var i = 0; i < temp_numbers.length; i++){
+//     console.log(temp_numbers++);
+// }
+	sum = 0
+	$(".done_number").each(function() {
+
+		var temp_numbers = $(this).html();
+		sum += Number(temp_numbers);
+    });
+
+	$(".done_value").html(sum);
 
 	$('#new_order').find('input, select').css({
 		"width": "100%",
@@ -37,46 +55,83 @@ $(document).ready(function(){
 	$('#a0n').click(function(event){
 		$(this).closest('table').find("input[name$='print_width']").val('0.841');
 		$(this).closest('table').find("input[name$='print_height']").val('1.189');
-		$(this).removeClass('btn-secondary').addClass('btn-danger').siblings().removeClass('btn-danger').addClass('btn-secondary');
 	})
 	$('#a1n').click(function(event){
 		$(this).closest('table').find("input[name$='print_width']").val('0.594');
 		$(this).closest('table').find("input[name$='print_height']").val('0.841');
-		$(this).removeClass('btn-secondary').addClass('btn-danger').siblings().removeClass('btn-danger').addClass('btn-secondary');
 	})
 	$('#a2n').click(function(event){
 		$(this).closest('table').find("input[name$='print_width']").val('0.42');
 		$(this).closest('table').find("input[name$='print_height']").val('0.594');
-		$(this).removeClass('btn-secondary').addClass('btn-danger').siblings().removeClass('btn-danger').addClass('btn-secondary');
 	})
 	$('#a3n').click(function(event){
 		$(this).closest('table').find("input[name$='print_width']").val('0.297');
 	    $(this).closest('table').find("input[name$='print_height']").val('0.42');
-	    $(this).removeClass('btn-secondary').addClass('btn-danger').siblings().removeClass('btn-danger').addClass('btn-secondary');
 	});
 
 	$('#a4n').click(function(event){
 	    $(this).closest('table').find("input[name$='print_width']").val('0.21');
 	    $(this).closest('table').find("input[name$='print_height']").val('0.297');
-	    $(this).removeClass('btn-secondary').addClass('btn-danger').siblings().removeClass('btn-danger').addClass('btn-secondary');
 	});
 	$('#a5n').click(function(event){
 	    $(this).closest('table').find("input[name$='print_width']").val('0.148');
 	    $(this).closest('table').find("input[name$='print_height']").val('0.21');
-	    $(this).removeClass('btn-secondary').addClass('btn-danger').siblings().removeClass('btn-danger').addClass('btn-secondary');
 	});
 	$('#a6n').click(function(event){
 	    $(this).closest('table').find("input[name$='print_width']").val('0.105');
 	    $(this).closest('table').find("input[name$='print_height']").val('0.148');
-	    $(this).removeClass('btn-secondary').addClass('btn-danger').siblings().removeClass('btn-danger').addClass('btn-secondary');
 	});
 	$('#andel').click(function(event){
 		$(this).closest('table').find("input[name$='print_width']").val('');
 	    $(this).closest('table').find("input[name$='print_height']").val('');
-	    $(this).closest('table').find("input[name$='number']").val('');
+	    $(this).closest('table').find("input[name$='number']").val('1');
 	    $(this).closest('table').find("input[name$='m_kv']").val('');
 	    $(this).siblings().removeClass('btn-danger').addClass('btn-secondary');
-	})
+	    $(this).closest('td').siblings().find('a.btn-danger').removeClass('btn-danger').addClass('btn-secondary');
+ 		$(this).closest('tr').siblings().find('a.btn-danger').removeClass('btn-danger').addClass('btn-secondary');
+	});
+	// постери
+	$('#6x3').click(function(event){
+	    $(this).closest('table').find("input[name$='print_width']").val('6');
+	    $(this).closest('table').find("input[name$='print_height']").val('3');
+	});
+	$('#5_9x2_9').click(function(event){
+	    $(this).closest('table').find("input[name$='print_width']").val('5.9');
+	    $(this).closest('table').find("input[name$='print_height']").val('2.9');
+	});
+	$('#4x3').click(function(event){
+	    $(this).closest('table').find("input[name$='print_width']").val('4');
+	    $(this).closest('table').find("input[name$='print_height']").val('3');
+	});
+	$('#12x3').click(function(event){
+	    $(this).closest('table').find("input[name$='print_width']").val('3');
+	    $(this).closest('table').find("input[name$='print_height']").val('12');
+	});
+	$('#4x8').click(function(event){
+	    $(this).closest('table').find("input[name$='print_width']").val('4');
+	    $(this).closest('table').find("input[name$='print_height']").val('8');
+	});
+	//сітiк/скролл
+	$('#3_14x2_32').click(function(event){
+	    $(this).closest('table').find("input[name$='print_width']").val('3.14');
+	    $(this).closest('table').find("input[name$='print_height']").val('2.32');
+	});
+	$('#3_14x2_3').click(function(event){
+	    $(this).closest('table').find("input[name$='print_width']").val('3.14');
+	    $(this).closest('table').find("input[name$='print_height']").val('2.3');
+	});
+	$('#1_2x1_8').click(function(event){
+	    $(this).closest('table').find("input[name$='print_width']").val('1.8');
+	    $(this).closest('table').find("input[name$='print_height']").val('1.2');
+	});
+	$('#1_27x1_86').click(function(event){
+	    $(this).closest('table').find("input[name$='print_width']").val('1.86');
+	    $(this).closest('table').find("input[name$='print_height']").val('1.27');
+	});
+	$('#1_27x1_84').click(function(event){
+	    $(this).closest('table').find("input[name$='print_width']").val('1.84');
+	    $(this).closest('table').find("input[name$='print_height']").val('1.27');
+	});
 	
 	$('#add_more').click(function(event){
 
@@ -124,7 +179,7 @@ $(document).ready(function(){
 	    }
 	    else
 	    {}
-        console.log(n);
+        // console.log(n);
 	});
 
 	//додаємо кнопку "Видалити останню"
@@ -152,7 +207,7 @@ $(document).ready(function(){
 	});
 
 	//підрахунок значень кв.м.
-	$("input[name$='print_width'], input[name$='print_height'], input[name$='number']").on("change paste keyup", function() {
+	$("input[name$='print_width'], input[name$='print_height'], input[name$='number'],  input[name$='m_kv']").on("click change paste keyup", function() {
 
 		var a = +$(this).closest('table').find("input[name$='print_width']").val();
 		var b = +$(this).closest('table').find("input[name$='print_height']").val();
@@ -163,7 +218,18 @@ $(document).ready(function(){
  		$(this).closest('table').find("input[name$='m_kv']").val(total);
 	});
 
-	$("input[name$='print_width'], input[name$='print_height'], input[name$='number'], input[name$='m_kv']").click(function(){
+	// $("input[name$='print_width'], input[name$='print_height'], input[name$='number'], input[name$='m_kv'], a.remove_one, a.add_one").click(function(){
+
+	// 	var a = +$(this).closest('table').find("input[name$='print_width']").val();
+	// 	var b = +$(this).closest('table').find("input[name$='print_height']").val();
+	// 	var c = +$(this).closest('table').find("input[name$='number']").val();
+ 		
+ // 			var total = parseFloat((a*b*c).toFixed(3));
+ 		
+ // 			$(this).closest('table').find("input[name$='m_kv']").val(total);
+	// });
+
+	$("#a0n, #a1n, #a2n, #a3n, #a4n, #a5n, #a6n, #6x3, #5_9x2_9, #4x3, #12x3, #4x8, #3_14x2_32, #3_14x2_3, #1_2x1_8, #1_27x1_86, #1_27x1_84").click(function(){
 
 		var a = +$(this).closest('table').find("input[name$='print_width']").val();
 		var b = +$(this).closest('table').find("input[name$='print_height']").val();
@@ -172,22 +238,50 @@ $(document).ready(function(){
  		var total = parseFloat((a*b*c).toFixed(3));
  		
  		$(this).closest('table').find("input[name$='m_kv']").val(total);
-	});
 
-	$("#a0n, #a1n, #a2n, #a3n, #a4n, #a5n, #a6n").click(function(){
+ 		$(this).removeClass('btn-secondary').addClass('btn-danger').siblings().removeClass('btn-danger').addClass('btn-secondary');
+ 		$(this).closest('td').siblings().find('a.btn-danger').removeClass('btn-danger').addClass('btn-secondary');
+ 		$(this).closest('tr').siblings().find('a.btn-danger').removeClass('btn-danger').addClass('btn-secondary');
 
-		var a = +$(this).closest('table').find("input[name$='print_width']").val();
-		var b = +$(this).closest('table').find("input[name$='print_height']").val();
-		var c = +$(this).closest('table').find("input[name$='number']").val();
- 		
- 		var total = parseFloat((a*b*c).toFixed(3));
- 		
- 		$(this).closest('table').find("input[name$='m_kv']").val(total);
 	});
 
 	$("input[name$='image_url']").on("change paste keyup", function() {
 	    var text = $(this).val();
 		var text2 = $(this).val(text.replace(/\"/g, ""));
+	});
+
+	$("a.add_one").on("click", function(){
+		var val = $(this).closest('table').find("input[name$='number']").val();
+		// console.log(val);
+		val_int = parseInt(val);
+		total_val = val_int + 1;
+		new_val = $(this).closest('table').find("input[name$='number']").val(total_val);
+	});
+	$("a.remove_one").on("click", function(){
+		var val = $(this).closest('table').find("input[name$='number']").val();
+		val_int = parseInt(val);
+		total_val = val_int - 1;
+		new_val = $(this).closest('table').find("input[name$='number']").val(total_val);
+	});
+
+	$("a.add_one, a.remove_one").click(function(){
+
+		var a = +$(this).closest('table').find("input[name$='print_width']").val();
+		var b = +$(this).closest('table').find("input[name$='print_height']").val();
+		var c = +$(this).closest('table').find("input[name$='number']").val();
+ 		
+ 		var total = parseFloat((a*b*c).toFixed(3));
+ 		
+ 		$(this).closest('table').find("input[name$='m_kv']").val(total);
+	});
+ 		
+
+
+	$("div.table select[name$='material'] option[value='1']").css({
+	'font-weight':'bold',
+	// 'font-style':'italic',
+	// 'color':'green',
+	// console.log()
 	});
 
 	$(function () {
@@ -197,6 +291,11 @@ $(document).ready(function(){
         // evenRow: { 'background-color': '#fff' },
         searchType: 'fuzzy'
     });
+
+// $( "body" ).click(function( event ) {
+//   $( "body" ).html( "clicked: " + event.target.nodeName );
+// });
+
     
     // $( '#searchable-container' ).searchable({
     //     searchField: '#container-search',
@@ -218,7 +317,7 @@ $(document).ready(function(){
 	}
 	else
 	{
-	     $('.t14').attr('style', 'width: 215px !important');
+	     $('.t14').attr('style', 'width: 204px !important');
 	}
 
 	$("#main-table td.t5:contains('NO')").each(function() {
@@ -234,6 +333,16 @@ $(document).ready(function(){
     	// console.log(text);
     	// $(this).text(text.replace('dog', 'doll'));
     });
+
+    // $("#main-table td.t14:contains('СТОП')").each(function() {
+    // 	// var style = $('<i class="fab fa-gripfire"></i>');
+    // 	var text = $(this).closest('tr').find("td.t5").html("STOP");
+    // 	var stopDtyle = text.addClass("stopStatus")
+    // 	// console.log(text);
+    // 	// $(this).text(text.replace('dog', 'doll'));
+    // });
+
+    var statusStop = $("#main-table td.t14:contains('СТОП')").closest('tr').find("td.t5").attr('id', 'stopStatus').html("STOP");
 
     $("#main-table td:contains('RIP')").each(function() {
     	var pencil = $(this).find('a').css("color","#FFA500");
@@ -294,7 +403,18 @@ $(document).ready(function(){
             containerid: "tblExport"
         });
     });
-  
+
+    //ajax
+    // if($("#main-table td.t11:not(:contains('Виконано'))")){
+    // 	$(this).click(function(){
+    // 		$.get("/status_check/", function(data){
+    // 			$(this).find('a').remove();
+    // 			$(this).html('ok');
+    // 		})
+    // 	});
+    // }
+    // else{}
+
  });
 
 var ts = $("select[name$='name_of_camp']").val();
@@ -307,3 +427,38 @@ $("select[name$='name_of_camp'] option:first, select[name$='material'] option:fi
 	'font-style':'italic',
 	// 'color':'green',
 });
+
+//скрипт, котрий повертає позицію сторінки після перезагрузки
+;(function($){
+
+    /**
+     * Store scroll position for and set it after reload
+     *
+     * @return {boolean} [loacalStorage is available]
+     */
+    $.fn.scrollPosReaload = function(){
+        if (localStorage) {
+            var posReader = localStorage["posStorage"];
+            if (posReader) {
+                $(window).scrollTop(posReader);
+                localStorage.removeItem("posStorage");
+            }
+            $(this).click(function(e) {
+                localStorage["posStorage"] = $(window).scrollTop();
+            });
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /* ================================================== */
+
+    $(document).ready(function() {
+        // Feel free to set it for any element who trigger the reload
+        $('button.new-campaign').scrollPosReaload();
+    });
+
+}(jQuery));
+

@@ -38,7 +38,7 @@ class PrintStatus(models.Model):
 		ordering = ['status']
 
 class CampaignName(models.Model):
-	name_of_new_camp = models.CharField(max_length=50)
+	name_of_new_camp = models.CharField(max_length=50, unique=True, error_messages={'unique':u"Сюжет з таким іменем вже існує в системі!"})
 	description = models.CharField(max_length=30, blank=True)
 
 	def __str__(self):
@@ -48,6 +48,21 @@ class CampaignName(models.Model):
 		verbose_name = 'Кампанія'
 		verbose_name_plural = 'Кампанії'
 		ordering = ['name_of_new_camp']
+
+class DoneSteps(models.Model):
+	tmp_number = models.IntegerField(null=True, default=None)
+	print_order = models.ForeignKey('printorder.PrintOrder',  blank=True, null=True, related_name="printorder_comments", on_delete=models.CASCADE)
+	created_on = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(null=True)
+	created_by = models.ForeignKey(User, on_delete = models.DO_NOTHING, related_name='tmp_created_by', default=None, null=True)
+	updated_by = models.ForeignKey(User, on_delete = models.DO_NOTHING, related_name='tmp_updated_by', default=None, null=True)
+
+	def __str__(self):
+		return "%s %s" % (self.tmp_number, self.created_by)
+	class Meta:
+		verbose_name = 'Етап виконання'
+		verbose_name_plural = 'Етапи виконання'
+
 
 class PrintOrder(models.Model):
 	name_of_camp = models.ForeignKey(CampaignName, blank=False, null=False, default=None, on_delete = models.DO_NOTHING,)

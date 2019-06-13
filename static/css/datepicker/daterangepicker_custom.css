@@ -1,0 +1,7 @@
+input.datetimerange.form-control {
+    width: 400px;
+}
+.hourselect, .minuteselect, .ampmselect{
+	display: inline-block;
+	padding: 0;
+}

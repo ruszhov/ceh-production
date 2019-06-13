@@ -9,6 +9,7 @@ from django.contrib import auth
 
 from django.contrib.auth.models import User
 from .filters import MaterialOrderFilter
+from django.http import HttpResponseRedirect
 
 def materialorder(request):
     materialorder_list =  MaterialOrder.objects.all().select_related('provider', 'material', 'paint', 'other', 'created_by', 'updated_by').order_by('-created')
@@ -162,6 +163,8 @@ def materialorder_edit(request, pk):
 @login_required
 def paid_status(request, pk):
     paid_status = get_object_or_404(MaterialOrder, pk=pk)
+    redirect_to = request.GET.get('next', '')
+    # print('THIS IS URL: ' + redirect_to)
     if request.method == "POST":
         form_ps = PaidStatusForm(request.POST, instance=paid_status)
         if form_ps.is_valid():
@@ -171,7 +174,15 @@ def paid_status(request, pk):
             paid_status.save()
             # messages.success(request, 'Дані успішно збережено', extra_tags='alert alert-success')
             # return render(request, 'home.html', locals())
-            return redirect('materialorder')
+            # return redirect('materialorder')
+            # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            # next_u = request.POST.get('next', '/')
+            # print(next_u)
+            # return HttpResponseRedirect(next_u)
+            # return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+            return HttpResponseRedirect(redirect_to)
     else:
         form_ps = PaidStatusForm(instance=paid_status)
     return render(request, 'materialorder/paid_status.html', locals())
+    # return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+    

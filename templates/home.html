@@ -39,6 +39,10 @@
           <!-- {{ all_orders.form.created.label_tag }} -->
           Період:&nbsp;{% render_field all_orders.form.created class="form-control" %}
         </div>
+        <div class="form-group col-sm-3 col-md-2" id="updated_by_group" style="width: 100%">
+          <!-- {{ all_orders.form.paid.label_tag }} -->
+          {% render_field all_orders.form.updated_by class="form-control" %}
+        </div>
         
         <div class="btn-group" role="group" aria-label="all_orders group">
           <button type="submit" class="btn btn-primary search-material">
@@ -59,7 +63,7 @@
 </div>
 
 <div class="row">
-  
+ 
     <!-- <div class="col-lg-4">
         <input type="search" id="search" value="" class="form-control" placeholder="Пошук...">
     </div> -->
@@ -206,6 +210,7 @@
     {% endwith %}
   {% endif %}
 </div>
+
 {% endblock %}
 
 <script>
@@ -219,6 +224,34 @@
       locale: 'ua-ua',
       format: 'yyyy-mm-dd'
   });
+
 </script>
+{#<script>#}
+{##}
+{#$(document).ready( function() {#}
+{##}
+{#	$.scrollTrack();#}
+{##}
+{#});#}
+{##}
+{#</script>#}
+
+
+<!-- <script type="text/javascript">
+  function refreshPage () {
+      var page_y = document.getElementsByTagName("body")[0].scrollTop;
+      window.location.href = window.location.href.split('?')[0] + '?page_y=' + page_y;
+  }
+  window.onload = function () {
+      setTimeout(refreshPage, 35000);
+      if ( window.location.href.indexOf('page_y') != -1 ) {
+          var match = window.location.href.split('?')[1].split("&")[0].split("=");
+          document.getElementsByTagName("body")[0].scrollTop = match[1];
+      }
+  }
+  // alert("ok")
+</script> -->
+
+
 
 {% endblock %}

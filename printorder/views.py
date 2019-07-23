@@ -81,7 +81,9 @@ def new_order(request):
 
 @login_required
 def order_edit(request, pk):
-    post = get_object_or_404(PrintOrder, pk=pk)
+    post = get_object_or_404(PrintOrder, pk=pk)    
+    redirect_to = request.GET.get('next', '')
+    print('THIS IS URL: ' + redirect_to)
     if request.method == "POST":
         form = NewOrderForm(request.POST, instance=post)
         if form.is_valid():
@@ -89,7 +91,7 @@ def order_edit(request, pk):
             post.save()
             # messages.success(request, 'Дані успішно збережено', extra_tags='alert alert-success')
             # return render(request, 'home.html', locals())
-            return redirect('home')
+            return redirect(redirect_to)
     else:
         form = NewOrderForm(instance=post)
     return render(request, 'edit_order.html', locals())
@@ -149,13 +151,14 @@ def status_edit(request, pk):
 def description_edit(request, pk):
     comments = DoneSteps.objects.filter(print_order_id = pk).order_by('-created_on')
     edit_description = get_object_or_404(PrintOrder, pk=pk)
+    redirect_to = request.GET.get('next', '')
     number_value = getattr(edit_description, 'number')
     if request.method == "POST":
         form_nd = EditDescForm(request.POST, instance=edit_description)
         if form_nd.is_valid():
             edit_description = form_nd.save(commit=False)
             edit_description.save()
-            return redirect('home')
+            return redirect(redirect_to)
     else:
         form_nd = EditDescForm(instance=edit_description)
     return render(request, 'edit_description.html', {'form_nd':form_nd, 'edit_description':edit_description, 'comments': comments, 'number_value':number_value})
@@ -243,14 +246,6 @@ class UpdateCommentView(LoginRequiredMixin, View):
             "updated_by": comment.updated_by.username,
 
         })
-        # self.comment_obj.tmp_number = form.cleaned_data.get("tmp_number")
-        # self.comment_obj.created_by = form.cleaned_data.get("updated_by")
-        # print(form.cleaned_data)
-        # self.comment_obj.save(update_fields=["tmp_number", "created_by"])
-        # return JsonResponse({
-        #     "comment_id": self.comment_obj.id,
-        #     "comment": self.comment_obj.tmp_number,
-        # })
 
     def form_invalid(self, form):
         return JsonResponse({"error": form['tmp_number'].errors})

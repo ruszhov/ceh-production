@@ -16,15 +16,17 @@ table>thead{
 }*/
 
 /*стиль панелі фільтрів*/
-div#updated_by_group {
+div#updated_by_group, div#status_by_group {
     padding-top: 5px;
     margin: 0;
 }
-
 .navbar-nav > li.active > a {
   color: #d74b4b;
   background: transparent;
   border-bottom: none;
+}
+input#id_created_0, input#id_created_1 {
+    width: 100px!important;
 }
 a#userMenu {
     color: #fff;
@@ -46,6 +48,51 @@ button.xls:hover{
 /*table#main-table {
         width: 1700px;
     }
+
+/*Filter Box*/
+/*.filterBox{
+
+    width: 200px;
+    height: 200px;
+    background: black;
+    position: fixed;
+    right: 10%;
+    top: 0;
+    opacity: 0.4;
+    border-radius: 20px;
+
+}
+.filterBox span {
+  color: red;
+  mix-blend-mode: difference;
+  font-weight: 600;
+}*/
+
+#filterBox {
+  position: absolute;
+  z-index: 9;
+  background-color: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+  width: 220px;
+  border-radius:10px;
+  opacity: 0.7; 
+}
+#filterBox p {
+    margin: 0;
+}
+#filterBox:hover{
+    opacity: 1;
+}
+
+#filterBoxHeader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196F3;
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+}
 
 /*Головна таблиця замовлення друку*/
 table#main-table>thead, table#main-table>tbody, table#main-table>tr, table#main-table>td, table#main-table>th { display: block; }

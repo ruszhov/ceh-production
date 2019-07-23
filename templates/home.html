@@ -11,19 +11,27 @@
     <div class="well">
       <h6>Фільтрування даних за заданими параметрами:</h6>
       <div class="row">
-        <div class="form-group col-sm-3 col-md-2">
+        <div class="form-group col-sm-2 col-md-2">
           <!-- {{ all_orders.form.invoice.label_tag }} -->
           {% render_field all_orders.form.name_of_camp class="form-control" %}
         </div>
-        <div class="form-group col-sm-6 col-md-4">
+        <div class="form-group col-sm-4 col-md-4">
            <!-- {{ all_orders.form.provider__name_of_provider.label_tag }} -->
           {% render_field all_orders.form.image_url class="form-control" %}
         </div>
-        <div class="form-group col-sm-3 col-md-2">
+        <div class="form-group col-sm-2 col-md-2">
           <!-- {{ all_orders.form.material__name_of_material.label_tag }} -->
           {% render_field all_orders.form.material class="form-control" %}
         </div>
-        <div class="form-group col-sm-3 col-md-2">
+        <div class="form-group col-sm-1 col-md-1">
+          <!-- {{ all_orders.form.material__name_of_material.label_tag }} -->
+          <span>Ш:</span>{% render_field all_orders.form.print_width class="form-control" %}
+        </div>
+        <div class="form-group col-sm-1 col-md-1">
+          <!-- {{ all_orders.form.material__name_of_material.label_tag }} -->
+          <span>Д:</span>{% render_field all_orders.form.print_height class="form-control" %}
+        </div>
+        <div class="form-group col-sm-2 col-md-2">
           <!-- {{ all_orders.form.paint__name_of_paint.label_tag }} -->
           {% render_field all_orders.form.manager class="form-control" %}
         </div>
@@ -31,11 +39,11 @@
           {{ all_orders.form.other__name_of_other.label_tag }}
           {% render_field all_orders.form.other__name_of_other class="form-control" %}
         </div> -->
-         <div class="form-group col-sm-3 col-md-2">
+         <div class="form-group col-sm-3 col-md-2" id="status_by_group">
           <!-- {{ all_orders.form.paid.label_tag }} -->
           {% render_field all_orders.form.status class="form-control" %}
         </div>
-        <div class="form-inline col-sm-8 col-md-6">
+        <div class="form-inline col-sm-6 col-md-4">
           <!-- {{ all_orders.form.created.label_tag }} -->
           Період:&nbsp;{% render_field all_orders.form.created class="form-control" %}
         </div>
@@ -86,6 +94,11 @@
   
 </div>
 
+<div id="filterBox" style="display: none">
+  <div id="filterBoxHeader">Фільтр</div>
+  <p></p>
+</div>
+
 <table class="table table-hover table-responsive table-striped table-sm" id="main-table">
   <thead class="thead-dark">
     <tr">
@@ -112,7 +125,7 @@
     {% for board in orders %}
       <tr>
         {% if perms.printOrder.change_PrintOrder %}
-        <td class="t1"><a href="{% url 'order_edit' pk=board.pk %}"><i class="far fa-edit"></i></a></td>
+        <td class="t1"><a href="{% url 'order_edit' pk=board.pk %}?next={{ request.get_full_path|urlencode }}"><i class="far fa-edit"></i></a></td>
         {% endif %}
         <td class="t2">{{ board.created|date:"d.m" }}/{{ board.created|date:"H:i" }}<br></td>
         <td class="t3"><b>{{ board.name_of_camp.name_of_new_camp }} <br></b></td>
@@ -125,7 +138,7 @@
         <td class="t11"><a href="{% url 'status_edit' pk=board.pk %}"><i class="fas fa-pencil-alt"></i></a> {{ board.status.status }}<br></td>
         <td class="t12">{{ board.updated_by }} <br></td>
         <td class="t13">{{ board.updated|date:"d.m" }}/{{ board.updated|date:"H:i" }}<br></td>
-        <td class="t14"><a href="{% url 'description_edit' pk=board.pk %}"><i class="far fa-clipboard"></i></a>{{ board.description }}<br></td>
+        <td class="t14"><a href="{% url 'description_edit' pk=board.pk %}?next={{ request.get_full_path|urlencode }}"><i class="far fa-clipboard"></i></a>{{ board.description }}<br></td>
         <td class="t15">{{ board.created_by }}<br></td>
       </tr>
     {% endfor %}
@@ -225,16 +238,53 @@
       format: 'yyyy-mm-dd'
   });
 
+//Make the DIV element draggagle:
+dragElement(document.getElementById("filterBox"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "Header")) {
+    /* if present, the header is where you move the DIV from:*/
+    document.getElementById(elmnt.id + "Header").onmousedown = dragMouseDown;
+  } else {
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+
 </script>
-{#<script>#}
-{##}
-{#$(document).ready( function() {#}
-{##}
-{#	$.scrollTrack();#}
-{##}
-{#});#}
-{##}
-{#</script>#}
+
+
 
 
 <!-- <script type="text/javascript">

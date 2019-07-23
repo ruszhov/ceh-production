@@ -395,6 +395,99 @@ $(document).ready(function(){
     $('#main-table td.t6:contains("0.148 x 0.21")').html('A5');
     $('#main-table td.t6:contains("0.105 x 0.148")').html('A6');
 
+    //Filter Visualisation
+
+	var selNameOfCamp = ($('select[name$=name_of_camp] option:selected'))
+	var selMaterial   = ($('select[name$=material] option:selected'    ))
+	var selManager    = ($('select[name$=manager] option:selected'))
+	var selStatus     = ($('select[name$=status] option:selected'))
+	var selUpdatedBy  = ($('select[name$=updated_by] option:selected'))
+
+	var selImgUrl     = ($('input[name$=image_url]'))
+	var selWidth      = ($('input[name$=print_width]'))
+	var selHeight      = ($('input[name$=print_height]'))
+	var selCreatedMin = ($('input[name$=created_min]'))
+	var selCreatedMax = ($('input[name$=created_max]'))
+
+	var curNameOfCamp = selNameOfCamp.is(":selected") && selNameOfCamp.text() != 'Сюжет'
+	var curMaterial   = selMaterial.is(":selected") && selMaterial.text() != 'Матеріал'
+
+	var lastDiv = $('div#filterBox p').last()
+
+	if (curNameOfCamp){
+		lastDiv.append( "<p>Кампанія: <strong>" + selNameOfCamp.text() +" </strong></p>" );
+	};
+	if (selImgUrl.val() != ''){
+		lastDiv.append( "<p>Пошук: <strong>" + selImgUrl.val() +" </strong></p>" );
+	};
+	if (curMaterial){
+		$('div#filterBox p').last().append( "<p>Матеріал: <strong>" + selMaterial.text() +" </strong></p>" );
+	};
+	if (selWidth.val() != ''){
+		lastDiv.append( "<p>Ширина: <strong>" + selWidth.val() +"м. </strong></p>");
+	};
+	if (selHeight.val() != ''){
+		lastDiv.append( "<p>Довжина: <strong>" + selHeight.val() +"м. </strong></p>");
+	};
+	if (selManager.is(":selected") && selManager.text() != 'Менеджер'){
+		lastDiv.append( "<p>Менеджер: <strong>" + selManager.text() +" </strong></p>" );
+	};
+	if (selStatus.is(":selected") && selStatus.text() != 'Статус'){
+		lastDiv.append( "<p>Статус: <strong>" + selStatus.text() +" </strong></p>" );
+	};
+	if (selCreatedMin.val() != ''){
+		lastDiv.append( "<p>Від: <strong>" + selCreatedMin.val() +"</strong></p>");
+	};
+	if (selCreatedMax.val() != ''){
+		lastDiv.append( "<p>До: <strong>" + selCreatedMax.val() +"</strong></p>");
+	};
+	if (selUpdatedBy.is(":selected") && selUpdatedBy.text() != 'Виконав'){
+		lastDiv.append( "<p>Виконав: <strong>" + selUpdatedBy.text() +" </strong></p>" );
+	};
+
+	//set position
+	$('#filterBox').click(function(){
+		var p = $('#filterBox').position();
+		sessionStorage.setItem("left", p.left);
+		sessionStorage.setItem("top", p.top);
+	})
+
+	//get position
+	// $('#filterBox').css({
+	// 	'top': sessionStorage.getItem('top')+'px',
+	// 	'left': sessionStorage.getItem('left')+'px'
+	// })
+
+	//counting of p elements
+	if ($('#filterBox p').length > 1){
+		$('#filterBox').css({
+		'top': sessionStorage.getItem('top')+'px',
+		'left': sessionStorage.getItem('left')+'px',
+		'display': 'block'
+	})
+	}
+
+	
+
+    // console.log(sessionStorage.getItem('Сюжет'));
+    // console.log(sessionStorage.getItem('Частина посилання на файл'));
+    // console.log(sessionStorage.getItem('Від'));
+    // console.log(sessionStorage.getItem('До'));
+
+  //   $("select").change(function(){
+  //       var selectedCountry = $(this).children("option:selected").text();
+  //       filter_val.push({
+		//     key:   "Кампанія",
+		//     value: selectedCountry
+		// });
+		// var selected = $(this).children("option:selected").text();
+  //       filter_val.push({
+		//     key:   "123",
+		//     value: selectedCountry
+		// });
+  //       console.log(filter_val);
+  //   });
+
     //маркування нового дня
  
 

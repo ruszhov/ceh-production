@@ -104,7 +104,6 @@ def new_order(request):
 @login_required
 def materialorder_edit(request, pk):
     edit_material_order = get_object_or_404(MaterialOrder, pk=pk)
-
     provider_form = NewProviderForm(request.POST or None)
     if request.method == "POST" and provider_form.is_valid():
         form_p = provider_form.save()
@@ -164,7 +163,7 @@ def materialorder_edit(request, pk):
 def paid_status(request, pk):
     paid_status = get_object_or_404(MaterialOrder, pk=pk)
     redirect_to = request.GET.get('next', '')
-    # print('THIS IS URL: ' + redirect_to)
+    print('THIS IS URL: ' + redirect_to)
     if request.method == "POST":
         form_ps = PaidStatusForm(request.POST, instance=paid_status)
         if form_ps.is_valid():

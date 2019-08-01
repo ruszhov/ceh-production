@@ -405,7 +405,7 @@ $(document).ready(function(){
 
 	var selImgUrl     = ($('input[name$=image_url]'))
 	var selWidth      = ($('input[name$=print_width]'))
-	var selHeight      = ($('input[name$=print_height]'))
+	var selHeight     = ($('input[name$=print_height]'))
 	var selCreatedMin = ($('input[name$=created_min]'))
 	var selCreatedMax = ($('input[name$=created_max]'))
 

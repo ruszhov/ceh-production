@@ -354,8 +354,8 @@ $(document).ready(function(){
     	$(this).css("padding-left", "18px");
     });
 
-    $("#main-table td:contains('Виконано')").closest('tr').find('td:first a').remove();
-
+    // $("#main-table td:contains('Виконано')").closest('tr').find('td:first a').remove();
+   
     //рахувальниця на сторінці home
 	var total = 0;
 	$("#main-table").on("click", "td.t7", function(){
@@ -382,7 +382,7 @@ $(document).ready(function(){
     var statusOleg = $("#main-table td.t12:contains('Олег')").closest('tr').find("td:contains('Виконано')").addClass('table-success');
     var statusPetro = $("#main-table td.t12:contains('Петро')").closest('tr').find("td:contains('Виконано')").addClass('table-warning');
     var statusSerg = $("#main-table td.t12:contains('Сергій')").closest('tr').find("td:contains('Виконано')").addClass('table-danger');
-    var statusSerg = $("#main-table td.t12:contains('Роман')").closest('tr').find("td:contains('Виконано')").css('background-color', '#FFB775');
+    var statusSerg = $("#main-table td.t12:contains('Роман'), #main-table td.t12:contains('Остап')").closest('tr').find("td:contains('Виконано')").css('background-color', '#FFB775');
 
     $('#main-table .t12:contains("None")').html('');
 
@@ -467,47 +467,12 @@ $(document).ready(function(){
 	})
 	}
 
-	
-
-    // console.log(sessionStorage.getItem('Сюжет'));
-    // console.log(sessionStorage.getItem('Частина посилання на файл'));
-    // console.log(sessionStorage.getItem('Від'));
-    // console.log(sessionStorage.getItem('До'));
-
-  //   $("select").change(function(){
-  //       var selectedCountry = $(this).children("option:selected").text();
-  //       filter_val.push({
-		//     key:   "Кампанія",
-		//     value: selectedCountry
-		// });
-		// var selected = $(this).children("option:selected").text();
-  //       filter_val.push({
-		//     key:   "123",
-		//     value: selectedCountry
-		// });
-  //       console.log(filter_val);
-  //   });
-
-    //маркування нового дня
- 
 
     $("#btnExport").click(function () {
         $("#main-table").btechco_excelexport({
             containerid: "tblExport"
         });
     });
-
-    //ajax
-    // if($("#main-table td.t11:not(:contains('Виконано'))")){
-    // 	$(this).click(function(){
-    // 		$.get("/status_check/", function(data){
-    // 			$(this).find('a').remove();
-    // 			$(this).html('ok');
-    // 		})
-    // 	});
-    // }
-    // else{}
-
  });
 
 var ts = $("select[name$='name_of_camp']").val();

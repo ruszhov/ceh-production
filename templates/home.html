@@ -124,8 +124,10 @@
     <div id="searchable-container">
     {% for board in orders %}
       <tr>
-        {% if perms.printOrder.change_PrintOrder %}
+        {% if perms.printOrder.change_PrintOrder%}
         <td class="t1"><a href="{% url 'order_edit' pk=board.pk %}?next={{ request.get_full_path|urlencode }}"><i class="far fa-edit"></i></a></td>
+        {% else %}
+        <td class="t1">
         {% endif %}
         <td class="t2">{{ board.created|date:"d.m" }}/{{ board.created|date:"H:i" }}<br></td>
         <td class="t3"><b>{{ board.name_of_camp.name_of_new_camp }} <br></b></td>

@@ -354,8 +354,14 @@ $(document).ready(function(){
     	$(this).css("padding-left", "18px");
     });
 
-    // $("#main-table td:contains('Виконано')").closest('tr').find('td:first a').remove();
-   
+    //Remove Edit button if User != 'admin'
+    if ($('a#userMenu span#userName').text().trim() == "admin"){
+        console.log('yes');
+    }
+    else{
+        $("#main-table td:contains('Виконано')").closest('tr').find('td:first a').remove();
+    }
+
     //рахувальниця на сторінці home
 	var total = 0;
 	$("#main-table").on("click", "td.t7", function(){

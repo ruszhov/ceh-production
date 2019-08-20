@@ -4,13 +4,13 @@ $(document).click(function(event) {
 
 $(document).ready(function(){
 	//проставляємо 1 в строці к-ть якщо там ще нічого не стоїть
-	var startNumber = $("td.new_ord_nmb input[name$='number']");
-	if ( startNumber.val() == '')
-	{
-		startNumber.val('1');
-	}
-	else
-	{}
+//	var startNumber = $("td.new_ord_nmb input[name$='number']");
+//	if ( startNumber.val() == '')
+//	{
+//		startNumber.val('1');
+//	}
+//	else
+//	{}
 	// $('input, select, textarea').addClass('form-control');
 
 	$('#new_order').find('input, select, textarea').addClass('form-control');
@@ -274,8 +274,6 @@ $(document).ready(function(){
  		
  		$(this).closest('table').find("input[name$='m_kv']").val(total);
 	});
- 		
-
 
 	$("div.table select[name$='material'] option[value='1']").css({
 	'font-weight':'bold',
@@ -284,6 +282,10 @@ $(document).ready(function(){
 	// console.log()
 	});
 
+
+
+    //  MAIN TABLE
+
 	$(function () {
     $( '#main-table' ).searchable({
         // striped: true,
@@ -291,23 +293,6 @@ $(document).ready(function(){
         // evenRow: { 'background-color': '#fff' },
         searchType: 'fuzzy'
     });
-
-// $( "body" ).click(function( event ) {
-//   $( "body" ).html( "clicked: " + event.target.nodeName );
-// });
-
-    
-    // $( '#searchable-container' ).searchable({
-    //     searchField: '#container-search',
-    //     selector: '.row',
-    //     childSelector: '.col-xs-4',
-    //     show: function( elem ) {
-    //         elem.slideDown(100);
-    //     },
-    //     hide: function( elem ) {
-    //         elem.slideUp( 100 );
-    //     }
-    // })
 	});
 
 	// міняємо ширину колонки "Примітка" якщо є стовпець "Ред"
@@ -317,7 +302,7 @@ $(document).ready(function(){
 	}
 	else
 	{
-	     $('.t14').attr('style', 'width: 204px !important');
+//	     $('.t14').attr('style', 'width: 204px !important');
 	}
 
 	$("#main-table td.t5:contains('NO')").each(function() {
@@ -356,11 +341,20 @@ $(document).ready(function(){
 
     //Remove Edit button if User != 'admin'
     if ($('a#userMenu span#userName').text().trim() == "admin"){
-        console.log('yes');
+        //console.log('yes');
     }
     else{
         $("#main-table td:contains('Виконано')").closest('tr').find('td:first a').remove();
     }
+
+    //remove first td on each tr if user doesn't login in
+    if ($('a#userMenu span#userName').text().trim() == ""){
+        $("#main-table tr").each(function() {
+		    $(this).find("td:first").remove();
+		    $(this).find("td.t14").attr("style", "width:206px");
+        })
+        $("#main-table th").attr("style", "width: 206px");
+    };
 
     //рахувальниця на сторінці home
 	var total = 0;
@@ -470,9 +464,8 @@ $(document).ready(function(){
 		'top': sessionStorage.getItem('top')+'px',
 		'left': sessionStorage.getItem('left')+'px',
 		'display': 'block'
-	})
+	    })
 	}
-
 
     $("#btnExport").click(function () {
         $("#main-table").btechco_excelexport({
@@ -493,36 +486,36 @@ $("select[name$='name_of_camp'] option:first, select[name$='material'] option:fi
 });
 
 //скрипт, котрий повертає позицію сторінки після перезагрузки
-;(function($){
-
-    /**
-     * Store scroll position for and set it after reload
-     *
-     * @return {boolean} [loacalStorage is available]
-     */
-    $.fn.scrollPosReaload = function(){
-        if (localStorage) {
-            var posReader = localStorage["posStorage"];
-            if (posReader) {
-                $(window).scrollTop(posReader);
-                localStorage.removeItem("posStorage");
-            }
-            $(this).click(function(e) {
-                localStorage["posStorage"] = $(window).scrollTop();
-            });
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /* ================================================== */
-
-    $(document).ready(function() {
-        // Feel free to set it for any element who trigger the reload
-        $('button.new-campaign').scrollPosReaload();
-    });
-
-}(jQuery));
+//;(function($){
+//
+//    /**
+//     * Store scroll position for and set it after reload
+//     *
+//     * @return {boolean} [loacalStorage is available]
+//     */
+//    $.fn.scrollPosReaload = function(){
+//        if (localStorage) {
+//            var posReader = localStorage["posStorage"];
+//            if (posReader) {
+//                $(window).scrollTop(posReader);
+//                localStorage.removeItem("posStorage");
+//            }
+//            $(this).click(function(e) {
+//                localStorage["posStorage"] = $(window).scrollTop();
+//            });
+//
+//            return true;
+//        }
+//
+//        return false;
+//    }
+//
+//    /* ================================================== */
+//
+//    $(document).ready(function() {
+//        // Feel free to set it for any element who trigger the reload
+//        $('button.new-campaign').scrollPosReaload();
+//    });
+//
+//}(jQuery));
 

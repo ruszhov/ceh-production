@@ -1277,6 +1277,7 @@ def printstatistics_oracal_gl(request):
 	orah_by_days_137 = dict()
 	orah_by_days_126 = dict()
 	orah_by_days_1 = dict()
+	orah_by_days_105 = dict()
 
 	for order_by_days in all_oracal_by_days:
 		if not order_by_days["date_item"] in days_list:
@@ -1299,6 +1300,12 @@ def printstatistics_oracal_gl(request):
 				orah_by_days_137[order_by_days["date_item"]] += order_by_days["m_kv_amount"]
 			else:
 				orah_by_days_137[order_by_days["date_item"]] = order_by_days["m_kv_amount"]
+
+		if order_by_days["material_id"] == 40:
+			if order_by_days["date_item"] in orah_by_days_105:
+				orah_by_days_105[order_by_days["date_item"]] += order_by_days["m_kv_amount"]
+			else:
+				orah_by_days_105[order_by_days["date_item"]] = order_by_days["m_kv_amount"]
 
 	# print (days_list)
 	# print (bbs_by_days)
@@ -1324,11 +1331,19 @@ def printstatistics_oracal_gl(request):
 		else:
 			orah_by_days_1_data.append(0)
 
+	orah_by_days_105_data = list()
+	for day_item in days_list:
+		if day_item in orah_by_days_105:
+			orah_by_days_105_data.append(orah_by_days_105[day_item])
+		else:
+			orah_by_days_105_data.append(0)
+
 	all_oracal_by_days_data = dict()
 	all_oracal_by_days_data["chart_print"] = dict()
 	all_oracal_by_days_data["chart_print"]["days_list"] = days_list
 	all_oracal_by_days_data["chart_print"]["series"] = [
 		{"name": "Оракал глянцевий 1м", "data": orah_by_days_1_data},
+		{"name": "Оракал глянцевий 1,05м", "data": orah_by_days_105_data},
 		{"name": "Оракал глянцевий 1.26м", "data": orah_by_days_126_data},
 		{"name": "Оракал глянцевий 1,37м", "data": orah_by_days_137_data},
 	]
@@ -1363,10 +1378,12 @@ def printstatistics_oracal_gl(request):
 
 	months_list = list()
 	orah_by_months_1 = dict()
+	orah_by_months_105 = dict()
 	orah_by_months_126 = dict()
 	orah_by_months_137 = dict()
 
 	orah_by_months_1_in = dict()
+	orah_by_months_105_in = dict()
 	orah_by_months_126_in = dict()
 	orah_by_months_137_in = dict()
 
@@ -1379,6 +1396,12 @@ def printstatistics_oracal_gl(request):
 				orah_by_months_1[order_by_months["date_item"]] += order_by_months["m_kv_amount"]
 			else:
 				orah_by_months_1[order_by_months["date_item"]] = order_by_months["m_kv_amount"]
+
+		if order_by_months["material_id"] == 40:
+			if order_by_months["date_item"] in orah_by_months_105:
+				orah_by_months_105[order_by_months["date_item"]] += order_by_months["m_kv_amount"]
+			else:
+				orah_by_months_105[order_by_months["date_item"]] = order_by_months["m_kv_amount"]
 
 		if order_by_months["material_id"] == 31:
 			if order_by_months["date_item"] in orah_by_months_126:
@@ -1401,6 +1424,12 @@ def printstatistics_oracal_gl(request):
 				orah_by_months_1_in[order_by_months_in["date_item"]] += order_by_months_in["m_kv_amount"]
 			else:
 				orah_by_months_1_in[order_by_months_in["date_item"]] = order_by_months_in["m_kv_amount"]
+
+		if order_by_months_in["material_id"] == 41:
+			if order_by_months_in["date_item"] in orah_by_months_105_in:
+				orah_by_months_105_in[order_by_months_in["date_item"]] += order_by_months_in["m_kv_amount"]
+			else:
+				orah_by_months_105_in[order_by_months_in["date_item"]] = order_by_months_in["m_kv_amount"]
 
 		if order_by_months_in["material_id"] == 32:
 			if order_by_months_in["date_item"] in orah_by_months_126_in:
@@ -1428,6 +1457,13 @@ def printstatistics_oracal_gl(request):
 		else:
 			orah_by_months_data_1.append(0)
 
+	orah_by_months_data_105 = list()
+	for month_item in months_list:
+		if month_item in orah_by_months_105:
+			orah_by_months_data_105.append(orah_by_months_105[month_item])
+		else:
+			orah_by_months_data_105.append(0)
+
 	orah_by_months_data_126 = list()
 	for month_item in months_list:
 		if month_item in orah_by_months_126:
@@ -1449,6 +1485,13 @@ def printstatistics_oracal_gl(request):
 			orah_by_months_data_1_in.append(orah_by_months_1_in[month_item])
 		else:
 			orah_by_months_data_1_in.append(0)
+			
+	orah_by_months_data_105_in = list()
+	for month_item in months_list:
+		if month_item in orah_by_months_105_in:
+			orah_by_months_data_105_in.append(orah_by_months_105_in[month_item])
+		else:
+			orah_by_months_data_105_in.append(0)
 
 	orah_by_months_data_126_in = list()
 	for month_item in months_list:
@@ -1472,17 +1515,20 @@ def printstatistics_oracal_gl(request):
 	all_orah_by_months_data["chart_print"]["months_list"] = months_list
 	all_orah_by_months_data["chart_print"]["months_series"] = [
 
-		{"name": "Оракал глянцевий 1м (використано)", "data": orah_by_months_data_1, "pointPadding": 0.3, "pointPlacement": -0.3, "color": "rgba(165,170,217,1)"},
-		{"name": "Оракал глянцевий 1м (надійшло)", "data": orah_by_months_data_1_in, "pointPadding": 0.4, "pointPlacement": -0.3, "color": "rgba(126,86,134,.9)"},
+		{"name": "Оракал глянцевий 1м (використано)", "data": orah_by_months_data_1, "pointPadding": 0.35, "pointPlacement": -0.35, "color": "rgba(165,170,217,1)"},
+		{"name": "Оракал глянцевий 1м (надійшло)", "data": orah_by_months_data_1_in, "pointPadding": 0.42, "pointPlacement": -0.35, "color": "rgba(126,86,134,.9)"},
 
-		{"name": "Оракал глянцевий 1.26м (використано)", "data": orah_by_months_data_126, "pointPadding": 0.3, "pointPlacement": 0.0, "color": "rgba(248,161,63,1)"},
-		{"name": "Оракал глянцевий 1.26м (надійшло)", "data": orah_by_months_data_126_in, "pointPadding": 0.4, "pointPlacement": 0.0, "color": "rgba(186,60,61,.9)"},
+		{"name": "Оракал глянцевий 1.05м (використано)", "data": orah_by_months_data_105, "pointPadding": 0.35, "pointPlacement": -0.12, "color": "rgba(248,161,63,1)"},
+		{"name": "Оракал глянцевий 1.05м (надійшло)", "data": orah_by_months_data_105_in, "pointPadding": 0.42, "pointPlacement": -0.12, "color": "rgba(186,60,61,.9)"},
 
-		{"name": "Оракал глянцевий 1.37м (використано)", "data": orah_by_months_data_137, "pointPadding": 0.3, "pointPlacement": 0.3, "color": "rgba(171,168,169,1)"},
-		{"name": "Оракал глянцевий 1.37м (надійшло)", "data": orah_by_months_data_137_in, "pointPadding": 0.4, "pointPlacement": 0.3, "color": "rgba(73,70,70,.9)"},
+		{"name": "Оракал глянцевий 1.26м (використано)", "data": orah_by_months_data_126, "pointPadding": 0.35, "pointPlacement": 0.12, "color": "rgba(171,168,169,1)"},
+		{"name": "Оракал глянцевий 1.26м (надійшло)", "data": orah_by_months_data_126_in, "pointPadding": 0.42, "pointPlacement": 0.12, "color": "rgba(73,70,70,.9)"},
+
+		{"name": "Оракал глянцевий 1.37м (використано)", "data": orah_by_months_data_137, "pointPadding": 0.35, "pointPlacement": 0.35, "color": "rgba(138,255,174,1)"},
+		{"name": "Оракал глянцевий 1.37м (надійшло)", "data": orah_by_months_data_137_in, "pointPadding": 0.42, "pointPlacement": 0.35, "color": "rgba(29,130,60,.9)"},
 
 	]
-	# print(all_baner_by_months_data)
+	# print(all_orah_by_months_data)
 	#end of filtering by months##############################################################################################################
 
 	def custom_serializer(obj):
@@ -1519,6 +1565,7 @@ def printstatistics_oracal_mat(request):
 	oram_by_days_137 = dict()
 	oram_by_days_126 = dict()
 	oram_by_days_1 = dict()
+	oram_by_days_105 = dict()
 
 	for order_by_days in all_oracal_by_days:
 		if not order_by_days["date_item"] in days_list:
@@ -1529,6 +1576,12 @@ def printstatistics_oracal_mat(request):
 				oram_by_days_1[order_by_days["date_item"]] += order_by_days["m_kv_amount"]
 			else:
 				oram_by_days_1[order_by_days["date_item"]] = order_by_days["m_kv_amount"]
+
+		if order_by_days["material_id"] == 41:
+			if order_by_days["date_item"] in oram_by_days_105:
+				oram_by_days_105[order_by_days["date_item"]] += order_by_days["m_kv_amount"]
+			else:
+				oram_by_days_105[order_by_days["date_item"]] = order_by_days["m_kv_amount"]
 
 		if order_by_days["material_id"] == 32:
 			if order_by_days["date_item"] in oram_by_days_126:
@@ -1566,11 +1619,19 @@ def printstatistics_oracal_mat(request):
 		else:
 			oram_by_days_1_data.append(0)
 
+	oram_by_days_105_data = list()
+	for day_item in days_list:
+		if day_item in oram_by_days_105:
+			oram_by_days_105_data.append(oram_by_days_105[day_item])
+		else:
+			oram_by_days_105_data.append(0)
+
 	all_oracal_by_days_data = dict()
 	all_oracal_by_days_data["chart_print"] = dict()
 	all_oracal_by_days_data["chart_print"]["days_list"] = days_list
 	all_oracal_by_days_data["chart_print"]["series"] = [
 		{"name": "Оракал матовий 1м", "data": oram_by_days_1_data},
+		{"name": "Оракал матовий 1.05м", "data": oram_by_days_105_data},
 		{"name": "Оракал матовий 1.26м", "data": oram_by_days_126_data},
 		{"name": "Оракал матовий 1,37м", "data": oram_by_days_137_data},
 	]
@@ -1605,10 +1666,12 @@ def printstatistics_oracal_mat(request):
 
 	months_list = list()
 	oram_by_months_1 = dict()
+	oram_by_months_105 = dict()
 	oram_by_months_126 = dict()
 	oram_by_months_137 = dict()
 
 	oram_by_months_1_in = dict()
+	oram_by_months_105_in = dict()
 	oram_by_months_126_in = dict()
 	oram_by_months_137_in = dict()
 
@@ -1621,6 +1684,12 @@ def printstatistics_oracal_mat(request):
 				oram_by_months_1[order_by_months["date_item"]] += order_by_months["m_kv_amount"]
 			else:
 				oram_by_months_1[order_by_months["date_item"]] = order_by_months["m_kv_amount"]
+
+		if order_by_months["material_id"] == 41:
+			if order_by_months["date_item"] in oram_by_months_105:
+				oram_by_months_105[order_by_months["date_item"]] += order_by_months["m_kv_amount"]
+			else:
+				oram_by_months_105[order_by_months["date_item"]] = order_by_months["m_kv_amount"]
 
 		if order_by_months["material_id"] == 32:
 			if order_by_months["date_item"] in oram_by_months_126:
@@ -1643,6 +1712,12 @@ def printstatistics_oracal_mat(request):
 				oram_by_months_1_in[order_by_months_in["date_item"]] += order_by_months_in["m_kv_amount"]
 			else:
 				oram_by_months_1_in[order_by_months_in["date_item"]] = order_by_months_in["m_kv_amount"]
+
+		if order_by_months_in["material_id"] == 42:
+			if order_by_months_in["date_item"] in oram_by_months_105_in:
+				oram_by_months_105_in[order_by_months_in["date_item"]] += order_by_months_in["m_kv_amount"]
+			else:
+				oram_by_months_105_in[order_by_months_in["date_item"]] = order_by_months_in["m_kv_amount"]
 
 		if order_by_months_in["material_id"] == 34:
 			if order_by_months_in["date_item"] in oram_by_months_126_in:
@@ -1670,6 +1745,13 @@ def printstatistics_oracal_mat(request):
 		else:
 			oram_by_months_data_1.append(0)
 
+	oram_by_months_data_105 = list()
+	for month_item in months_list:
+		if month_item in oram_by_months_105:
+			oram_by_months_data_105.append(oram_by_months_105[month_item])
+		else:
+			oram_by_months_data_105.append(0)
+
 	oram_by_months_data_126 = list()
 	for month_item in months_list:
 		if month_item in oram_by_months_126:
@@ -1691,6 +1773,13 @@ def printstatistics_oracal_mat(request):
 			oram_by_months_data_1_in.append(oram_by_months_1_in[month_item])
 		else:
 			oram_by_months_data_1_in.append(0)
+			
+	oram_by_months_data_105_in = list()
+	for month_item in months_list:
+		if month_item in oram_by_months_105_in:
+			oram_by_months_data_105_in.append(oram_by_months_105_in[month_item])
+		else:
+			oram_by_months_data_105_in.append(0)
 
 	oram_by_months_data_126_in = list()
 	for month_item in months_list:
@@ -1714,14 +1803,17 @@ def printstatistics_oracal_mat(request):
 	all_oram_by_months_data["chart_print"]["months_list"] = months_list
 	all_oram_by_months_data["chart_print"]["months_series"] = [
 
-		{"name": "Оракал матовий 1м (використано)", "data": oram_by_months_data_1, "pointPadding": 0.3, "pointPlacement": -0.3, "color": "rgba(165,170,217,1)"},
-		{"name": "Оракал матовий 1м (надійшло)", "data": oram_by_months_data_1_in, "pointPadding": 0.4, "pointPlacement": -0.3, "color": "rgba(126,86,134,.9)"},
+		{"name": "Оракал матовий 1м (використано)", "data": oram_by_months_data_1, "pointPadding": 0.35, "pointPlacement": -0.35, "color": "rgba(165,170,217,1)"},
+		{"name": "Оракал матовий 1м (надійшло)", "data": oram_by_months_data_1_in, "pointPadding": 0.42, "pointPlacement": -0.35, "color": "rgba(126,86,134,.9)"},
 
-		{"name": "Оракал матовий 1.26м (використано)", "data": oram_by_months_data_126, "pointPadding": 0.3, "pointPlacement": 0.0, "color": "rgba(248,161,63,1)"},
-		{"name": "Оракал матовий 1.26м (надійшло)", "data": oram_by_months_data_126_in, "pointPadding": 0.4, "pointPlacement": 0.0, "color": "rgba(186,60,61,.9)"},
+		{"name": "Оракал матовий 1.05м (використано)", "data": oram_by_months_data_105, "pointPadding": 0.35, "pointPlacement": -0.12, "color": "rgba(248,161,63,1)"},
+		{"name": "Оракал матовий 1.05м (надійшло)", "data": oram_by_months_data_105_in, "pointPadding": 0.42, "pointPlacement": -0.12, "color": "rgba(186,60,61,.9)"},
 
-		{"name": "Оракал матовий 1.37м (використано)", "data": oram_by_months_data_137, "pointPadding": 0.3, "pointPlacement": 0.3, "color": "rgba(171,168,169,1)"},
-		{"name": "Оракал матовий 1.37м (надійшло)", "data": oram_by_months_data_137_in, "pointPadding": 0.4, "pointPlacement": 0.3, "color": "rgba(73,70,70,.9)"},
+		{"name": "Оракал матовий 1.26м (використано)", "data": oram_by_months_data_126, "pointPadding": 0.35, "pointPlacement": 0.12, "color": "rgba(171,168,169,1)"},
+		{"name": "Оракал матовий 1.26м (надійшло)", "data": oram_by_months_data_126_in, "pointPadding": 0.42, "pointPlacement": 0.12, "color": "rgba(73,70,70,.9)"},
+
+		{"name": "Оракал матовий 1.37м (використано)", "data": oram_by_months_data_137, "pointPadding": 0.35, "pointPlacement": 0.35, "color": "rgba(138,255,174,1)"},
+		{"name": "Оракал матовий 1.37м (надійшло)", "data": oram_by_months_data_137_in, "pointPadding": 0.42, "pointPlacement": 0.35, "color": "rgba(29,130,60,.9)"},
 
 	]
 	# print(all_baner_by_months_data)

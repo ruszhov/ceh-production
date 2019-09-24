@@ -218,7 +218,7 @@ class UpdateCommentView(LoginRequiredMixin, View):
     http_method_names = ["post"]
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
+        # print(request.POST)
         self.comment_obj = get_object_or_404(DoneSteps, id=request.POST.get("commentid"))
         self.nmb = int(request.POST.get('comment'))
         if request.user == self.comment_obj.created_by or request.user.is_superuser:

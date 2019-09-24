@@ -30,9 +30,9 @@ def kyivstar(request):
 	        "departments": "on",
 	        "ownership": "on",
 	    }
-		print(querystring)
+		# print(querystring)
 		response = requests.request("GET", url, params=querystring)
-		print(response)
+		# print(response)
 	else:
 		massage = "NO"
 	return HttpResponse(response, content_type='application/json')

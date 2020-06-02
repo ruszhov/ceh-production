@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'qd#_7ysl0jp@40+8lf^t$r!ilc6_woq2u^p75(ebw-s=_aw#go'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # LOGGING = {
 #     'version': 1,
@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'about',
     'materialorder',
     'django_filters',
+    'machinelog',
 ]
 
 MIDDLEWARE = [
@@ -111,17 +112,19 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-
-    'asterisk': {
-        'NAME': 'asterisk',
-        'ENGINE': 'django.db.backends.mysql',
-        'USER': 'ruslan',
-        'PASSWORD': 'gfhjkm88hsdyz',
-        'HOST': '192.168.3.77',
-        'PORT': '3306'
-    },
+    }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'production',
+#         'USER': 'production',
+#         'PASSWORD': 'zaq1!QAZ',
+#         'HOST': '192.168.3.71',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation

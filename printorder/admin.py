@@ -15,7 +15,7 @@ class MaterialAdmin(admin.ModelAdmin):
 	search_fields = ['name_of_material']
 
 	class Meta:
-		model=  Material
+		model =  Material
 admin.site.register(Material, MaterialAdmin)
 
 class OfficeManagerAdmin(admin.ModelAdmin):
@@ -39,3 +39,4 @@ class PrintStatusAdmin(admin.ModelAdmin):
 	class Meta:
 		model = PrintStatus
 admin.site.register(PrintStatus, PrintStatusAdmin)
+

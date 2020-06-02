@@ -15,7 +15,9 @@ from django.contrib import auth
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
-
+from django.core import serializers
+import json
+import datetime
 
 
 # import json
@@ -36,7 +38,6 @@ from .filters import PrintOrderFilter
 def home(request):
     my_orders = PrintOrder.objects.all().select_related('name_of_camp', 'material', 'manager', 'status', 'created_by', 'updated_by').order_by('-created')
     all_orders = PrintOrderFilter(request.GET, queryset=my_orders)
-    # print(all_orders)
     page = request.GET.get('page', 1)
     username = auth.get_user(request).username
 
@@ -64,9 +65,28 @@ def new_campaign(request):
         form_nc = NewCampaignForm()
     return render(request, 'new_campaign.html', locals())
 
+def generate_invoice_number():
+    today = datetime.datetime.today().strftime("%Y%m%d")[2:]
+    latest_entry = Invoice.objects.filter(created_on__day=str(timezone.now().day)).last()
+    # print(latest_entry.invoice)
+    if latest_entry and latest_entry.invoice != '':
+        cur_nmb = int(latest_entry.invoice.split('-')[2])
+        cur_nmb += 1
+        invoice = str('AK-'+today+'-'+str(cur_nmb))
+        return invoice
+    # elif latest_entry.invoice == '':
+    #     last_filled_entry = Invoice.objects.filter(created_on__day=str(timezone.now().day)).exclude(invoice__exact='').last()
+    #     las_curr_nmb = int(last_filled_entry.invoice.split('-')[2])
+    #     invoice = str('AK-'+today+'-'+str(las_curr_nmb+(latest_entry.id-last_filled_entry.id)+1))
+    #     return invoice
+    else:
+        invoice = str('AK-'+today+'-'+str(1))
+        return invoice
+
 @login_required
 def new_order(request):
     order_formset = formset_factory(NewOrderForm)
+    new_invoice = generate_invoice_number()
     if request.method == 'POST':
         formset = order_formset(request.POST)
         if formset.is_valid():
@@ -74,16 +94,19 @@ def new_order(request):
                 new_order = form.save(commit=False)
                 new_order.created_by = request.user
                 new_order.save()
+                try:
+                    new_order.invoice_set.create(invoice=str(form.cleaned_data['invoice']))
+                except IndexError as error:
+                    new_order.invoice_set.create(invoice=new_invoice)
             return redirect('home')
     else:
         formset = order_formset()
-    return render(request, 'new_order.html', {'formset':formset})
+    return render(request, 'new_order.html', {'formset': formset, 'new_invoice': new_invoice})
 
 @login_required
 def order_edit(request, pk):
-    post = get_object_or_404(PrintOrder, pk=pk)    
+    post = get_object_or_404(PrintOrder, pk=pk)
     redirect_to = request.GET.get('next', '')
-    print('THIS IS URL: ' + redirect_to)
     if request.method == "POST":
         form = NewOrderForm(request.POST, instance=post)
         if form.is_valid():
@@ -99,6 +122,8 @@ def order_edit(request, pk):
 @login_required
 def status_edit(request, pk):
     edit_status = get_object_or_404(PrintOrder, pk=pk)
+    redirect_to = request.GET.get('next', '')
+    # print('THIS IS URL: ' + redirect_to),
     if request.method == "POST":
         form_ns = EditStatusForm(request.POST, instance=edit_status)
         if form_ns.is_valid():
@@ -108,26 +133,39 @@ def status_edit(request, pk):
             edit_status.save()
             # messages.success(request, 'Дані успішно збережено', extra_tags='alert alert-success')
             # return render(request, 'home.html', locals())
-            return redirect('home')
+            return redirect(redirect_to)
     else:
         form_ns = EditStatusForm(instance=edit_status)
     return render(request, 'edit_status.html', {'form':form_ns})
 
-# def check_print_status(request):
-#     if request.method == "GET":
-#         print_status = request.GET["print_status"]
 
-#         statuses = PrintStatus.objects.all()
-#         # statuses = json.dumps(all_statuses) 
-#         print(statuses)
-#         for share in statuses:
-#             print (share.status)
 
-#         if print_status in statuses:
-#             return HttpResponse("ok", content_type='text/html')
-#         else:
-#             return HttpResponse("no", content_type='text/html')
-#     return HttpResponse("no", content_type='text/html')
+def check_print_status(request):
+    if request.method == "POST" and request.is_ajax():
+        order_id = request.POST['order_id']
+        status = get_object_or_404(PrintOrder, pk=order_id).status
+        if status != None:
+            order = PrintOrder.objects.filter(pk=order_id)
+            status = serializers.serialize('json', list(order), fields=('status', 'updated_by'))
+            obj = json.loads(status)
+            response = {}
+            for dict in obj:
+                if dict['fields']['status'] != None:
+                    status_name = PrintStatus.objects.filter(pk=dict['fields']['status']).values('status')[0]['status']
+                    user = User.objects.filter(pk=dict['fields']['updated_by']).values('username')
+                    if not user:
+                        u = "not_user"
+                        response["user"] = {'username': 'not_user'}
+                    else:
+                        for u in user:
+                            response["user"] = u
+                    response["status"] = status_name
+                    response["product_id"] = PrintOrder.objects.filter(pk=order_id).values('pk')[0]['pk']
+            # print(response)
+            return JsonResponse(response)
+        else:
+            return HttpResponse(False)
+
 
 # @login_required
 # def description_edit(request, pk):

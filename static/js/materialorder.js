@@ -98,21 +98,20 @@ $("body").on('click change paste keyup', function(){
 		targetInput = $(this).closest("div.tab-content").find("input[name$='material_width']");
 		// console.log(targetInput);
 
-		if      ((selVal == 1 )||(selVal == 30)||(selVal == 31))                 { targetInput.val('')   } 
-		else if ( selVal == 2 )                                                  { targetInput.val(1.56) }
-		else if ( selVal == 3 )                                                  { targetInput.val(3.15) }
-		else if ((selVal == 4 )||(selVal == 17)||(selVal == 26))                 { targetInput.val(1.27) }
-		else if ((selVal == 5 )||(selVal == 8) ||(selVal == 11)||(selVal == 15)) { targetInput.val(3.2)  }
-		else if ((selVal == 6 )||(selVal == 9) ||(selVal == 12)||(selVal == 16)) { targetInput.val(2.5)  }
-		else if ((selVal == 7 )||(selVal == 10)||(selVal == 28)||(selVal == 29)) { targetInput.val(2.2)  }
-		else if ((selVal == 13)||(selVal == 18)||(selVal == 25)||(selVal == 35)) { targetInput.val(1.6)  }
-		else if ((selVal == 14)||(selVal == 19)||(selVal == 20))                 { targetInput.val(1.37) }
-		else if ((selVal == 21)||(selVal == 22))                                 { targetInput.val(1)    }
-		else if ( selVal == 40)                                                  { targetInput.val(1.06) }
-		else if ((selVal == 23)||(selVal == 24))                                 { targetInput.val(1.07) }
-		else if ((selVal == 27)||(selVal == 39))                                 { targetInput.val(1.25) }
-		else if ((selVal == 32)||(selVal == 34))                                 { targetInput.val(1.26) }
-		else if ( selVal == 33)                                                  { targetInput.val(1.29) }
+		if      ((selVal == 1 )||(selVal == 30)||(selVal == 31))                               { targetInput.val('')   }
+		else if ( selVal == 2 )                                                                { targetInput.val(1.56) }
+		else if ( selVal == 3 )                                                                { targetInput.val(3.15) }
+		else if ((selVal == 4 )||(selVal == 17)||(selVal == 26))                               { targetInput.val(1.27) }
+		else if ((selVal == 5 )||(selVal == 8) ||(selVal == 11)||(selVal == 15))               { targetInput.val(3.2)  }
+		else if ((selVal == 6 )||(selVal == 9) ||(selVal == 12)||(selVal == 16))               { targetInput.val(2.5)  }
+		else if ((selVal == 7 )||(selVal == 10)||(selVal == 28)||(selVal == 29))               { targetInput.val(2.2)  }
+		else if ((selVal == 13)||(selVal == 18)||(selVal == 25)||(selVal == 35))               { targetInput.val(1.6)  }
+		else if ((selVal == 14)||(selVal == 19)||(selVal == 20)||(selVal == 21)||selVal == 22) { targetInput.val(1.37) }
+		else if ( selVal == 40)                                                                { targetInput.val(1.06) }
+		else if ((selVal == 23)||(selVal == 24))                                               { targetInput.val(1.07) }
+		else if ((selVal == 27)||(selVal == 39))                                               { targetInput.val(1.25) }
+		else if ( selVal == 33)                                                                { targetInput.val(1.29) }
+		else if ((selVal == 41)||(selVal == 32)||(selVal == 42)||(selVal == 34))               { targetInput.val(1.05) }
 		else{}
 	});
 });
@@ -191,6 +190,7 @@ $("#search-toggle").click(function() {
 $(".clean-material").click(function(event){
 	$(this).closest(".search-box").find("input").val('');
 	$(this).closest(".search-box").find("select").val('');
+	$(this).closest(".search-box").find('input:checkbox').removeAttr('checked');
 });
 $(".close-material, .search-material").click(function(event){
 	$('.transform').toggleClass('transform-active');

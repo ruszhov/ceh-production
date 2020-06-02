@@ -51,6 +51,11 @@
           <!-- {{ all_orders.form.paid.label_tag }} -->
           {% render_field all_orders.form.updated_by class="form-control" %}
         </div>
+        <div id="without_status">
+          <!-- {{ all_orders.form.paid.label_tag }} -->
+            <span>В роботі: </span>
+          {% render_field all_orders.form.clean_status class="form-control" %}
+        </div>
         
         <div class="btn-group" role="group" aria-label="all_orders group">
           <button type="submit" class="btn btn-primary search-material">
@@ -106,6 +111,7 @@
       <th class="t1 has-perms">Ред</th>
       {% endif %}
       <th class="t2">Дата/Час</th>
+      <th class="t2inv">№ замовлення</th>
       <th class="t3">Сюжет</th>
       <th class="t4">Файл</th>
       <th class="t5">Пріорітет</th>
@@ -126,10 +132,13 @@
       <tr>
         {% if perms.printorder.change_printorder%}
         <td class="t1"><a href="{% url 'order_edit' pk=board.pk %}?next={{ request.get_full_path|urlencode }}"><i class="far fa-edit"></i></a></td>
-        {% else %}
-        <td class="t1">
         {% endif %}
         <td class="t2">{{ board.created|date:"d.m" }}/{{ board.created|date:"H:i" }}<br></td>
+        <td class="t2inv">
+            {% for entry in board.invoice_set.all %}
+              {{entry.invoice}}
+            {% endfor %}
+        </td>
         <td class="t3"><b>{{ board.name_of_camp.name_of_new_camp }} <br></b></td>
         <td class="t4"><a href="{{ board.image_url }}" target="self">{{ board.image_url }}</a></td>      
         <td class="t5">{{ board.prioritet }} <br></td>
@@ -137,7 +146,7 @@
         <td class="t7">{{ board.number }} <br></td>
         <td class="t9">{{ board.material.name_of_material }} <br></td>
         <td class="t10">{{ board.manager.name_of_manager }} <br></td>
-        <td class="t11"><a href="{% url 'status_edit' pk=board.pk %}"><i class="fas fa-pencil-alt"></i></a> {{ board.status.status }}<br></td>
+        <td class="t11" data-order-id={{ board.pk }}><a href="{% url 'status_edit' pk=board.pk %}?next={{ request.get_full_path|urlencode }}"><i class="fas fa-pencil-alt"></i></a> {{ board.status.status }}<br></td>
         <td class="t12">{{ board.updated_by }} <br></td>
         <td class="t13">{{ board.updated|date:"d.m" }}/{{ board.updated|date:"H:i" }}<br></td>
         <td class="t14"><a href="{% url 'description_edit' pk=board.pk %}?next={{ request.get_full_path|urlencode }}"><i class="far fa-clipboard"></i></a>{{ board.description }}<br></td>

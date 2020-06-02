@@ -1,0 +1,118 @@
+{% extends 'logs/logs.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+
+  <link rel="stylesheet" href="{% static 'css/logs.css' %}">
+  <link rel="stylesheet" href="{% static 'alertify/alertify.min.css' %}">
+  <link rel="stylesheet" href="{% static 'alertify/alertify.min.js' %}">
+  <link rel="stylesheet" href="{% static 'alertify/themes/default.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+     <ol class="breadcrumb my-4">
+        <li class="breadcrumb-item"><a href="{% url 'logs' %}">Логи</a></li>
+        <li class="breadcrumb-item active"><b>RIP логи</b></li>
+         <span><h4>RIP Логи</h4></span>
+         <a href="{% url 'get-logs' %}" class="btn btn-success update_logs" style="margin: 0"><i class="fas fa-sync"></i> Оновити всі логи</a>
+    </ol>
+    <div class="row">
+          <form id="print-results" class="form-inline" action="{% url 'rip-logs' %}" method="post">{% csrf_token %}
+              <label for="id_date_from">Від:</label>
+                {{form.date_from}}
+                <label for="id_date_to">До:</label>
+                {{form.date_to}}
+           <button type="submit" id="get_db_logs" class="btn btn-primary">Запит</button>
+           </form>
+    </div>
+
+    <div class="row table-row" style="display: none">
+        {% if result %}
+            <table id="print-log-table" data-toggle="table"
+                data-sortable="true"
+                data-sort-name="start_timestamp"
+                data-sort-order="desc"
+                data-search="true"
+                data-show-refresh="false"
+                data-show-toggle="true"
+                data-on="true"
+                data-show-columns="true"
+                data-pagination="true"
+                data-side-pagination="client"
+                data-page-size="15">
+
+                <thead>
+                  <tr>
+                    <th data-field="start" data-sortable="true">Початок</th>
+                    <th data-field="printer" data-sortable="true">Машина</th>
+                    <th data-field="work_name" data-sortable="true">Назава макету</th>
+                    <th data-field="count" data-sortable="true">Кількість</th>
+                    <th data-field="width" data-sortable="true">Ширина</th>
+                    <th data-field="height" data-sortable="true">Висота</th>
+                    <th data-field="status" data-sortable="true">Статус</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for item in result %}
+                        <tr>
+                            <td>{{item.datetime|date:"d.m.y"}} / {{item.datetime|date:"H:i"}}</td>
+                            <td>{{item.printer}}</td>
+                            <td>{{item.work_name}}</td>
+                            <td>{{item.count}}</td>
+                            <td>{{item.width}}</td>
+                            <td>{{item.height}}</td>
+                            <td>{{item.status}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    {% endif %}
+    </div>
+    <div class="spinner-wrapper" style="display: none">
+        <div class="loadingio-spinner-blocks-bviunr6j92k" style="display: none">
+            <div class="ldio-rol5uaqmsrf">
+                <div style='left:38px;top:38px;animation-delay:0s'></div>
+                <div style='left:80px;top:38px;animation-delay:0.125s'></div>
+                <div style='left:122px;top:38px;animation-delay:0.25s'></div>
+                <div style='left:38px;top:80px;animation-delay:0.875s'></div>
+                <div style='left:122px;top:80px;animation-delay:0.375s'></div>
+                <div style='left:38px;top:122px;animation-delay:0.75s'></div>
+                <div style='left:80px;top:122px;animation-delay:0.625s'></div>
+                <div style='left:122px;top:122px;animation-delay:0.5s'></div>
+            </div>
+        </div>
+    </div>
+    <div class="spinner-box" style="display: none">
+        <div class="circle-border">
+            <div class="circle-core"></div>
+        </div>
+    </div>
+
+</div>
+
+<script src="{% static 'alertify/alertify.min.js' %}"></script>
+<script src="{% static 'js/logs.js' %}"></script>
+
+<script>
+
+  {% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            function sayHi() {
+              alertify.error("{{ message }}");
+            }
+            setTimeout(sayHi, 1000);
+        {% else %}
+            alertify.success("{{ message }}");
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+</script>
+
+{% endblock %}

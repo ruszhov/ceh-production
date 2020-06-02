@@ -22,9 +22,11 @@
     {{ formset.management_form }}
     <div class="container form-group">
         <div class="table">
-        <h4 align="center" id="h4">Нове замовлення <span class="figure"></span></h4>
-        <table class="table" id="new_order">
             {% for form in formset %}
+        <h4 align="center" id="h4" data-new-invoice={{new_invoice}}>Нове замовлення <span class="figure"></span>{{form.invoice}}{{form.invoice.errors}}</h4>
+
+        <table class="table" id="new_order">
+
             <tr>
                 <td class="desc">Сюжет:</td>
                 <td colspan="3" style="width: 65%">{{form.name_of_camp}}{{form.name_of_camp.errors}}</td>
@@ -112,6 +114,11 @@
 </form>
 
 <script>
+
+    //Обробка значень для нового номера замовлення
+	$('#id_form-0-invoice').addClass('form-control').css({'width' : '10em', 'display' : 'inline-block'});
+	var newInvoice = document.getElementById('h4').dataset.newInvoice;
+	var targetInvoice = document.getElementById('id_form-0-invoice').value = newInvoice;
 
     $('#add_more').click(function() {
         cloneMore('div.table:last', 'service');

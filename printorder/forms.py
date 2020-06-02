@@ -3,11 +3,21 @@ from .models import *
 
 class NewOrderForm(forms.ModelForm):
 
+	invoice = forms.CharField()
+
 	def __init__(self, *args, **kwargs):
+		extra_fields = kwargs.pop('extra', 0)
+
 		super(NewOrderForm, self).__init__(*args, **kwargs)
 
 		self.fields['image_url'].widget.attrs['placeholder'] = 'Вставте сюди посилання на файл'
+		self.fields['invoice'].initial = extra_fields
+		self.fields['invoice'].required = False
 		# self.fields['name_of_camp'].widget = forms.SelectMultiple(attrs={'size':'40px'})
+		for index in range(int(extra_fields)):
+			# generate extra fields in the number specified via extra_fields
+			self.fields['invoice_{index}'.format(index=index)] = \
+				forms.CharField()
 
 	class Meta:
 		model = PrintOrder
@@ -39,7 +49,6 @@ class NewCampaignForm(forms.ModelForm):
 	class Meta:
 		model = CampaignName
 		exclude = []
-
 
 class EditDoneStepsForm(forms.ModelForm):
 

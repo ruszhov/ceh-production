@@ -28,6 +28,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+migrations/
 .Python
 build/
 develop-eggs/

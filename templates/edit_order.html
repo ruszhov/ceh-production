@@ -20,7 +20,11 @@
     {{ formset.management_form }}
     <div class="container form-group">
         <div class="table">
-        <h4 align="center" id="h4">Редагування замовлення за {{ post.created|date:"d-M-Y" }} / {{ post.created|date:"H:i" }} год.</h4>
+        <h4 align="center" id="h4">Редагування замовлення
+            {% for invoice in post.invoice_set.all %}
+            {{ invoice.invoice }}
+            {% endfor %}
+            від {{ post.created|date:"d.m.Y" }} </h4>
         <table class="table" id="new_order">
             <tr>
                 <td class="desc">Сюжет:</td>

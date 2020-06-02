@@ -16,6 +16,6 @@ urlpatterns = [
     # url(r'^orders/(?P<pk>\d+)/$', views.orders, name='orders'),
     url(r'^new/$', views.new_order, name='new_order'),
     url(r'^new/campaign/$', views.new_campaign, name='new_campaign'),    
-    # url(r'^check_print_status/$', views.check_print_status, name='check_print_status'),    
+    # url(r'^check_print_status/$', views.check_print_status, name='check_print_status'),
     # url(r'^status_check/$', views.status_check, name='status_check'),
 ]

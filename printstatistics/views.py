@@ -66,21 +66,25 @@ def printstatistics_bbs(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
+	# startmonth = datetime.ye
 
-	all_bbs_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	# all_bbs_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
+	all_bbs_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_bbs_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	# all_bbs_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
+	all_bbs_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 	# print(all_bbs_by_months)
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\
@@ -131,7 +135,7 @@ def printstatistics_bbs(request):
 	# for month in months_list:
 	# 	if not month["month_item"]
 	months_list = [months.get(n, n) for n in months_list]
-	print(months_list)
+	# print(months_list)
 	# print(months_list)
 
 	all_bbs_by_months_data = dict()
@@ -142,7 +146,7 @@ def printstatistics_bbs(request):
 		{"name": "Блюбек 1.56м (використано)", "data": bbs_by_months_data, "pointPadding": 0.3, "pointPlacement": 0.0},
 		{"name": "Блюбек 1.56м (надійшло)", "data": bbs_by_months_data_in, "pointPadding": 0.4, "pointPlacement": 0.0},
 	]
-	print(all_bbs_by_months_data)
+	# print(all_bbs_by_months_data)
 
 	#End filtering by months ####################################################################################################
 
@@ -270,20 +274,21 @@ def printstatistics_baner_lam(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
 
-	all_baner_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_baner_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_baner_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_baner_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\
@@ -509,6 +514,7 @@ def printstatistics_baner_lyt(request):
 
 	# print (all_bbs_by_dates)
 	days_list = list()
+	baner_lyt_by_days_137 = dict()
 	baner_lyt_by_days_16 = dict()
 	baner_lyt_by_days_22 = dict()
 	baner_lyt_by_days_25 = dict()
@@ -518,6 +524,12 @@ def printstatistics_baner_lyt(request):
 		if not order_by_days["date_item"] in days_list:
 			days_list.append(order_by_days["date_item"])
 
+		if order_by_days["material_id"] == 37:
+			if order_by_days["date_item"] in baner_lyt_by_days_137:
+				baner_lyt_by_days_137[order_by_days["date_item"]] += order_by_days["m_kv_amount"]
+			else:
+				baner_lyt_by_days_137[order_by_days["date_item"]] = order_by_days["m_kv_amount"]
+				
 		if order_by_days["material_id"] == 29:
 			if order_by_days["date_item"] in baner_lyt_by_days_16:
 				baner_lyt_by_days_16[order_by_days["date_item"]] += order_by_days["m_kv_amount"]
@@ -544,6 +556,13 @@ def printstatistics_baner_lyt(request):
 
 	# print (days_list)
 	# print (bbs_by_days)
+
+	baner_lyt_by_days_data_137 = list()
+	for day_item in days_list:
+		if day_item in baner_lyt_by_days_137:
+			baner_lyt_by_days_data_137.append(baner_lyt_by_days_137[day_item])
+		else:
+			baner_lyt_by_days_data_137.append(0)
 
 	baner_lyt_by_days_data_16 = list()
 	for day_item in days_list:
@@ -578,6 +597,7 @@ def printstatistics_baner_lyt(request):
 	all_baner_by_days_data["chart_print"]["days_list"] = days_list
 	all_baner_by_days_data["chart_print"]["series"] = [
 
+		{"name": "Банер литий 1.37м", "data": baner_lyt_by_days_data_137},
 		{"name": "Банер литий 1.6м", "data": baner_lyt_by_days_data_16},
 		{"name": "Банер литий 2.2м", "data": baner_lyt_by_days_data_22},
 		{"name": "Банер литий 2.5м", "data": baner_lyt_by_days_data_25},
@@ -589,20 +609,21 @@ def printstatistics_baner_lyt(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
 
-	all_baner_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_baner_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_baner_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_baner_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\
@@ -613,19 +634,40 @@ def printstatistics_baner_lyt(request):
 	# print (all_baner_by_months_in)
 
 	months_list = list()
+	baner_lyt_by_months_137 = dict()
 	baner_lyt_by_months_16 = dict()
 	baner_lyt_by_months_22 = dict()
 	baner_lyt_by_months_25 = dict()
 	baner_lyt_by_months_32 = dict()
 
+	baner_lyt_by_months_137_in = dict()
 	baner_lyt_by_months_16_in = dict()
 	baner_lyt_by_months_22_in = dict()
 	baner_lyt_by_months_25_in = dict()
 	baner_lyt_by_months_32_in = dict()
 
+	# def add_order_by_months(dict, months_list, string, *args):
+	# 	for order in dict:
+	# 		if not order["date_item"] in months_list:
+	# 			months_list.append(order["date_item"])
+	# 		for i in args:
+	# 			material = string + '_' + str(i)
+	# 			if order["material_id"] == i:
+	# 				if order["date_item"] in material:
+	# 					material[order["date_item"]] += order["m_kv_amount"]
+	# 				else:
+	# 					material[order["date_item"]] = order["m_kv_amount"]
+
+
 	for order_by_months in all_baner_by_months:
 		if not order_by_months["date_item"] in months_list:
 			months_list.append(order_by_months["date_item"])
+
+		if order_by_months["material_id"] == 37:
+			if order_by_months["date_item"] in baner_lyt_by_months_137:
+				baner_lyt_by_months_137[order_by_months["date_item"]] += order_by_months["m_kv_amount"]
+			else:
+				baner_lyt_by_months_137[order_by_months["date_item"]] = order_by_months["m_kv_amount"]
 
 		if order_by_months["material_id"] == 29:
 			if order_by_months["date_item"] in baner_lyt_by_months_16:
@@ -655,6 +697,12 @@ def printstatistics_baner_lyt(request):
 		if not order_by_months_in["date_item"] in months_list:
 			months_list.append(order_by_months_in["date_item"])
 
+		if order_by_months_in["material_id"] == 38:
+			if order_by_months_in["date_item"] in baner_lyt_by_months_137_in:
+				baner_lyt_by_months_137_in[order_by_months_in["date_item"]] += order_by_months_in["m_kv_amount"]
+			else:
+				baner_lyt_by_months_137_in[order_by_months_in["date_item"]] = order_by_months_in["m_kv_amount"]
+
 		if order_by_months_in["material_id"] == 25:
 			if order_by_months_in["date_item"] in baner_lyt_by_months_16_in:
 				baner_lyt_by_months_16_in[order_by_months_in["date_item"]] += order_by_months_in["m_kv_amount"]
@@ -679,6 +727,13 @@ def printstatistics_baner_lyt(request):
 			else:
 				baner_lyt_by_months_32_in[order_by_months_in["date_item"]] = order_by_months_in["m_kv_amount"]
 
+
+	baner_lyt_by_months_data_137 = list()
+	for month_item in months_list:
+		if month_item in baner_lyt_by_months_137:
+			baner_lyt_by_months_data_137.append(baner_lyt_by_months_137[month_item])
+		else:
+			baner_lyt_by_months_data_137.append(0)
 
 	baner_lyt_by_months_data_16 = list()
 	for month_item in months_list:
@@ -709,6 +764,13 @@ def printstatistics_baner_lyt(request):
 			baner_lyt_by_months_data_32.append(0)
 
 
+
+	baner_lyt_by_months_data_137_in = list()
+	for month_item in months_list:
+		if month_item in baner_lyt_by_months_137_in:
+			baner_lyt_by_months_data_137_in.append(baner_lyt_by_months_137_in[month_item])
+		else:
+			baner_lyt_by_months_data_137_in.append(0)
 
 	baner_lyt_by_months_data_16_in = list()
 	for month_item in months_list:
@@ -746,17 +808,20 @@ def printstatistics_baner_lyt(request):
 	all_baner_by_months_data["chart_print"]["months_list"] = months_list
 	all_baner_by_months_data["chart_print"]["months_series"] = [
 
-		{"name": "Банер литий 1.37м (використано)", "data": baner_lyt_by_months_data_16, "pointPadding": 0.35, "pointPlacement": -0.35, "color": "rgba(165,170,217,1)"},
-		{"name": "Банер литий 1.37м (надійшло)", "data": baner_lyt_by_months_data_16_in, "pointPadding": 0.42, "pointPlacement": -0.35, "color": "rgba(126,86,134,.9)"},
+		{"name": "Банер литий 1.37м (використано)", "data": baner_lyt_by_months_data_137, "pointPadding": 0.36, "pointPlacement": -0.4, "color": "rgba(165,170,217,1)"},
+		{"name": "Банер литий 1.37м (надійшло)", "data": baner_lyt_by_months_data_137_in, "pointPadding": 0.42, "pointPlacement": -0.4, "color": "rgba(126,86,134,.9)"},
 
-		{"name": "Банер литий 1.6м (використано)", "data": baner_lyt_by_months_data_22, "pointPadding": 0.35, "pointPlacement": -0.12, "color": "rgba(248,161,63,1)"},
-		{"name": "Банер литий 1.6м (надійшло)", "data": baner_lyt_by_months_data_22_in, "pointPadding": 0.42, "pointPlacement": -0.12, "color": "rgba(186,60,61,.9)"},
+		{"name": "Банер литий 1.6м (використано)", "data": baner_lyt_by_months_data_16, "pointPadding": 0.36, "pointPlacement": -0.2, "color": "rgba(248,161,63,1)"},
+		{"name": "Банер литий 1.6м (надійшло)", "data": baner_lyt_by_months_data_16_in, "pointPadding": 0.42, "pointPlacement": -0.2, "color": "rgba(186,60,61,.9)"},
 
-		{"name": "Банер литий 2.2м (використано)", "data": baner_lyt_by_months_data_25, "pointPadding": 0.35, "pointPlacement": 0.12, "color": "rgba(171,168,169,1)"},
-		{"name": "Банер литий 2.2м (надійшло)", "data": baner_lyt_by_months_data_25_in, "pointPadding": 0.42, "pointPlacement": 0.12, "color": "rgba(73,70,70,.9)"},
+		{"name": "Банер литий 2.2м (використано)", "data": baner_lyt_by_months_data_22, "pointPadding": 0.36, "pointPlacement": 0.0, "color": "rgba(171,168,169,1)"},
+		{"name": "Банер литий 2.2м (надійшло)", "data": baner_lyt_by_months_data_22_in, "pointPadding": 0.42, "pointPlacement": 0.0, "color": "rgba(73,70,70,.9)"},
 		
-		{"name": "Банер литий 2.5м (використано)", "data": baner_lyt_by_months_data_32, "pointPadding": 0.35, "pointPlacement": 0.35, "color": "rgba(138,255,174,1)"},
-		{"name": "Банер литий 2.5м (надійшло)", "data": baner_lyt_by_months_data_32_in, "pointPadding": 0.42, "pointPlacement": 0.35, "color": "rgba(29,130,60,.9)"},
+		{"name": "Банер литий 2.5м (використано)", "data": baner_lyt_by_months_data_25, "pointPadding": 0.36, "pointPlacement": 0.2, "color": "rgba(138,255,174,1)"},
+		{"name": "Банер литий 2.5м (надійшло)", "data": baner_lyt_by_months_data_25_in, "pointPadding": 0.42, "pointPlacement": 0.2, "color": "rgba(29,130,60,.9)"},
+
+		{"name": "Банер литий 3.2м (використано)", "data": baner_lyt_by_months_data_32, "pointPadding": 0.36, "pointPlacement": 0.4, "color": "rgba(138,255,174,1)"},
+		{"name": "Банер литий 3.2м (надійшло)", "data": baner_lyt_by_months_data_32_in, "pointPadding": 0.42, "pointPlacement": 0.4, "color": "rgba(29,130,60,.9)"},
 ]
 
 	# print(all_baner_by_months_data)
@@ -857,20 +922,21 @@ def printstatistics_baner_sitka(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
 
-	all_baner_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_baner_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_baner_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_baner_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\
@@ -1096,20 +1162,21 @@ def printstatistics_beklit(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
 
-	all_baner_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_baner_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_baner_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_baner_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\
@@ -1342,10 +1409,10 @@ def printstatistics_oracal_gl(request):
 	all_oracal_by_days_data["chart_print"] = dict()
 	all_oracal_by_days_data["chart_print"]["days_list"] = days_list
 	all_oracal_by_days_data["chart_print"]["series"] = [
-		{"name": "Оракал глянцевий 1м", "data": orah_by_days_1_data},
-		{"name": "Оракал глянцевий 1,05м", "data": orah_by_days_105_data},
-		{"name": "Оракал глянцевий 1.26м", "data": orah_by_days_126_data},
-		{"name": "Оракал глянцевий 1,37м", "data": orah_by_days_137_data},
+		{"name": "Оракал глянцевий прозорий 1,37м", "data": orah_by_days_1_data},
+		{"name": "Оракал глянцевий білий 1,05м", "data": orah_by_days_105_data},
+		{"name": "Оракал глянцевий прозорий 1,05м", "data": orah_by_days_126_data},
+		{"name": "Оракал глянцевий білий 1,37м", "data": orah_by_days_137_data},
 	]
 
 	#Start filtering by months ##########################################################################################
@@ -1353,20 +1420,21 @@ def printstatistics_oracal_gl(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
 
-	all_orah_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_orah_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_orah_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_orah_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\
@@ -1515,17 +1583,17 @@ def printstatistics_oracal_gl(request):
 	all_orah_by_months_data["chart_print"]["months_list"] = months_list
 	all_orah_by_months_data["chart_print"]["months_series"] = [
 
-		{"name": "Оракал глянцевий 1м (використано)", "data": orah_by_months_data_1, "pointPadding": 0.35, "pointPlacement": -0.35, "color": "rgba(165,170,217,1)"},
-		{"name": "Оракал глянцевий 1м (надійшло)", "data": orah_by_months_data_1_in, "pointPadding": 0.42, "pointPlacement": -0.35, "color": "rgba(126,86,134,.9)"},
+		{"name": "Оракал глянцевий прозорий 1,37м (використано)", "data": orah_by_months_data_1, "pointPadding": 0.35, "pointPlacement": -0.35, "color": "rgba(165,170,217,1)"},
+		{"name": "Оракал глянцевий прозорий 1,37м (надійшло)", "data": orah_by_months_data_1_in, "pointPadding": 0.42, "pointPlacement": -0.35, "color": "rgba(126,86,134,.9)"},
 
-		{"name": "Оракал глянцевий 1.05м (використано)", "data": orah_by_months_data_105, "pointPadding": 0.35, "pointPlacement": -0.12, "color": "rgba(248,161,63,1)"},
-		{"name": "Оракал глянцевий 1.05м (надійшло)", "data": orah_by_months_data_105_in, "pointPadding": 0.42, "pointPlacement": -0.12, "color": "rgba(186,60,61,.9)"},
+		{"name": "Оракал глянцевий білий 1,05м (використано)", "data": orah_by_months_data_105, "pointPadding": 0.35, "pointPlacement": -0.12, "color": "rgba(248,161,63,1)"},
+		{"name": "Оракал глянцевий білий 1,05м (надійшло)", "data": orah_by_months_data_105_in, "pointPadding": 0.42, "pointPlacement": -0.12, "color": "rgba(186,60,61,.9)"},
 
-		{"name": "Оракал глянцевий 1.26м (використано)", "data": orah_by_months_data_126, "pointPadding": 0.35, "pointPlacement": 0.12, "color": "rgba(171,168,169,1)"},
-		{"name": "Оракал глянцевий 1.26м (надійшло)", "data": orah_by_months_data_126_in, "pointPadding": 0.42, "pointPlacement": 0.12, "color": "rgba(73,70,70,.9)"},
+		{"name": "Оракал глянцевий прозорий 1,05м (використано)", "data": orah_by_months_data_126, "pointPadding": 0.35, "pointPlacement": 0.12, "color": "rgba(171,168,169,1)"},
+		{"name": "Оракал глянцевий прозорий 1,05м (надійшло)", "data": orah_by_months_data_126_in, "pointPadding": 0.42, "pointPlacement": 0.12, "color": "rgba(73,70,70,.9)"},
 
-		{"name": "Оракал глянцевий 1.37м (використано)", "data": orah_by_months_data_137, "pointPadding": 0.35, "pointPlacement": 0.35, "color": "rgba(138,255,174,1)"},
-		{"name": "Оракал глянцевий 1.37м (надійшло)", "data": orah_by_months_data_137_in, "pointPadding": 0.42, "pointPlacement": 0.35, "color": "rgba(29,130,60,.9)"},
+		{"name": "Оракал глянцевий білий 1,37м (використано)", "data": orah_by_months_data_137, "pointPadding": 0.35, "pointPlacement": 0.35, "color": "rgba(138,255,174,1)"},
+		{"name": "Оракал глянцевий білий 1,37м (надійшло)", "data": orah_by_months_data_137_in, "pointPadding": 0.42, "pointPlacement": 0.35, "color": "rgba(29,130,60,.9)"},
 
 	]
 	# print(all_orah_by_months_data)
@@ -1583,7 +1651,7 @@ def printstatistics_oracal_mat(request):
 			else:
 				oram_by_days_105[order_by_days["date_item"]] = order_by_days["m_kv_amount"]
 
-		if order_by_days["material_id"] == 32:
+		if order_by_days["material_id"] == 34:
 			if order_by_days["date_item"] in oram_by_days_126:
 				oram_by_days_126[order_by_days["date_item"]] += order_by_days["m_kv_amount"]
 			else:
@@ -1630,10 +1698,10 @@ def printstatistics_oracal_mat(request):
 	all_oracal_by_days_data["chart_print"] = dict()
 	all_oracal_by_days_data["chart_print"]["days_list"] = days_list
 	all_oracal_by_days_data["chart_print"]["series"] = [
-		{"name": "Оракал матовий 1м", "data": oram_by_days_1_data},
-		{"name": "Оракал матовий 1.05м", "data": oram_by_days_105_data},
-		{"name": "Оракал матовий 1.26м", "data": oram_by_days_126_data},
-		{"name": "Оракал матовий 1,37м", "data": oram_by_days_137_data},
+		{"name": "Оракал матовий прозорий 1,37м", "data": oram_by_days_1_data},
+		{"name": "Оракал матовий білий 1,05м", "data": oram_by_days_105_data},
+		{"name": "Оракал матовий прозорий 1,05м", "data": oram_by_days_126_data},
+		{"name": "Оракал матовий білий 1,37м", "data": oram_by_days_137_data},
 	]
 
 	#Start filtering by months ##########################################################################################
@@ -1641,20 +1709,21 @@ def printstatistics_oracal_mat(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
 
-	all_oram_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_oram_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_oram_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_oram_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\
@@ -1691,7 +1760,7 @@ def printstatistics_oracal_mat(request):
 			else:
 				oram_by_months_105[order_by_months["date_item"]] = order_by_months["m_kv_amount"]
 
-		if order_by_months["material_id"] == 32:
+		if order_by_months["material_id"] == 34:
 			if order_by_months["date_item"] in oram_by_months_126:
 				oram_by_months_126[order_by_months["date_item"]] += order_by_months["m_kv_amount"]
 			else:
@@ -1803,17 +1872,17 @@ def printstatistics_oracal_mat(request):
 	all_oram_by_months_data["chart_print"]["months_list"] = months_list
 	all_oram_by_months_data["chart_print"]["months_series"] = [
 
-		{"name": "Оракал матовий 1м (використано)", "data": oram_by_months_data_1, "pointPadding": 0.35, "pointPlacement": -0.35, "color": "rgba(165,170,217,1)"},
-		{"name": "Оракал матовий 1м (надійшло)", "data": oram_by_months_data_1_in, "pointPadding": 0.42, "pointPlacement": -0.35, "color": "rgba(126,86,134,.9)"},
+		{"name": "Оракал матовий прозорий 1.37м (використано)", "data": oram_by_months_data_1, "pointPadding": 0.35, "pointPlacement": -0.35, "color": "rgba(165,170,217,1)"},
+		{"name": "Оракал матовий прозорий 1.37м (надійшло)", "data": oram_by_months_data_1_in, "pointPadding": 0.42, "pointPlacement": -0.35, "color": "rgba(126,86,134,.9)"},
 
-		{"name": "Оракал матовий 1.05м (використано)", "data": oram_by_months_data_105, "pointPadding": 0.35, "pointPlacement": -0.12, "color": "rgba(248,161,63,1)"},
-		{"name": "Оракал матовий 1.05м (надійшло)", "data": oram_by_months_data_105_in, "pointPadding": 0.42, "pointPlacement": -0.12, "color": "rgba(186,60,61,.9)"},
+		{"name": "Оракал матовий білий 1.05м (використано)", "data": oram_by_months_data_105, "pointPadding": 0.35, "pointPlacement": -0.12, "color": "rgba(248,161,63,1)"},
+		{"name": "Оракал матовий білий 1.05м (надійшло)", "data": oram_by_months_data_105_in, "pointPadding": 0.42, "pointPlacement": -0.12, "color": "rgba(186,60,61,.9)"},
 
-		{"name": "Оракал матовий 1.26м (використано)", "data": oram_by_months_data_126, "pointPadding": 0.35, "pointPlacement": 0.12, "color": "rgba(171,168,169,1)"},
-		{"name": "Оракал матовий 1.26м (надійшло)", "data": oram_by_months_data_126_in, "pointPadding": 0.42, "pointPlacement": 0.12, "color": "rgba(73,70,70,.9)"},
+		{"name": "Оракал матовий прозорий 1.05м (використано)", "data": oram_by_months_data_126, "pointPadding": 0.35, "pointPlacement": 0.12, "color": "rgba(171,168,169,1)"},
+		{"name": "Оракал матовий прозорий 1.05м (надійшло)", "data": oram_by_months_data_126_in, "pointPadding": 0.42, "pointPlacement": 0.12, "color": "rgba(73,70,70,.9)"},
 
-		{"name": "Оракал матовий 1.37м (використано)", "data": oram_by_months_data_137, "pointPadding": 0.35, "pointPlacement": 0.35, "color": "rgba(138,255,174,1)"},
-		{"name": "Оракал матовий 1.37м (надійшло)", "data": oram_by_months_data_137_in, "pointPadding": 0.42, "pointPlacement": 0.35, "color": "rgba(29,130,60,.9)"},
+		{"name": "Оракал матовий білий 1.37м (використано)", "data": oram_by_months_data_137, "pointPadding": 0.35, "pointPlacement": 0.35, "color": "rgba(138,255,174,1)"},
+		{"name": "Оракал матовий білий 1.37м (надійшло)", "data": oram_by_months_data_137_in, "pointPadding": 0.42, "pointPlacement": 0.35, "color": "rgba(29,130,60,.9)"},
 
 	]
 	# print(all_baner_by_months_data)
@@ -1898,20 +1967,21 @@ def printstatistics_scroll(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
 
-	all_scroll_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_scroll_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_scroll_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_scroll_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\
@@ -2120,20 +2190,21 @@ def printstatistics_sitik(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
 
-	all_sitik_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_sitik_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_sitik_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_sitik_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\
@@ -2374,20 +2445,21 @@ def printstatistics_photo(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
 
-	all_photo_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_photo_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_photo_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_photo_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\
@@ -2577,20 +2649,21 @@ def printstatistics_holst(request):
 	today = datetime.datetime.now()
 	endmonth = datetime.date.today() + timedelta(days = 1)
 	startmonth = endmonth - timedelta(days=365)
+	start_curr_year = datetime.datetime(year=today.year, month=1, day=1)
 
-	all_holst_by_months = PrintOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_holst_by_months = PrintOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv"))\
 		.order_by("date_item")
 
-	all_holst_by_months_in = MaterialOrder.objects.filter(created__range=["2018-08-01", endmonth])\
+	all_holst_by_months_in = MaterialOrder.objects.filter(created__range=[start_curr_year, endmonth])\
 		.annotate(date_item=ExtractMonth('created'))\
 		.values("date_item", "material__name_of_material", "material_id")\
 		.annotate(m_kv_amount = Sum("m_kv_of_material"))\
 		.order_by("date_item")
 
-	# all_bbs_1 = PrintOrder.objects.filter(created__range=["2018-08-01", "2018-08-16"], material_id = 1)\
+	# all_bbs_1 = PrintOrder.objects.filter(created__range=[startmonth, "2018-08-16"], material_id = 1)\
 	# 	.annotate(date_item=ExtractMonth('created'))\
 	# 	.values("date_item", "material__name_of_material", "material_id")\
 	# 	.annotate(m_kv_amount = Sum("m_kv"))\

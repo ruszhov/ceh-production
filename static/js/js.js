@@ -2,6 +2,41 @@ $(document).click(function(event) {
    window.lastElementClicked = event.target;
 });
 
+// function formatDate(d)
+// {
+//     //get the month
+//     var month = d.getMonth();
+//     //get the day
+//     //convert day to string
+//     var day = d.getDate().toString();
+//     //get the year
+//     var year = d.getFullYear();
+//
+//     //pull the last two digits of the year
+//     year = year.toString().substr(-2);
+//
+//     //increment month by 1 since it is 0 indexed
+//     //converts month to a string
+//     month = (month + 1).toString();
+//
+//     //if month is 1-9 pad right with a 0 for two digits
+//     if (month.length === 1)
+//     {
+//         month = "0" + month;
+//     }
+//
+//     //if day is between 1-9 pad right with a 0 for two digits
+//     if (day.length === 1)
+//     {
+//         day = "0" + day;
+//     }
+//
+//     //return the string "MMddyy"
+//     return year + month + day;
+// }
+//
+// tmp_nmb = 0
+
 $(document).ready(function(){
 	//проставляємо 1 в строці к-ть якщо там ще нічого не стоїть
 //	var startNumber = $("td.new_ord_nmb input[name$='number']");
@@ -43,11 +78,7 @@ $(document).ready(function(){
 		"height": "50px",
 		"padding": "3px 12px",
 		"font-size": "12px",
-	})
-
-	// $("#id_form-0-print_height").on("change paste keyup", function() {
-	//    alert($(this).val()); 
-	// });
+	});
 
 	$('td.formatka').find('a').css('color', 'white');
  
@@ -84,7 +115,6 @@ $(document).ready(function(){
 	$('#andel').click(function(event){
 		$(this).closest('table').find("input[name$='print_width']").val('');
 	    $(this).closest('table').find("input[name$='print_height']").val('');
-	    $(this).closest('table').find("input[name$='number']").val('1');
 	    $(this).closest('table').find("input[name$='m_kv']").val('');
 	    $(this).siblings().removeClass('btn-danger').addClass('btn-secondary');
 	    $(this).closest('td').siblings().find('a.btn-danger').removeClass('btn-danger').addClass('btn-secondary');
@@ -144,6 +174,7 @@ $(document).ready(function(){
 		var prevPrioritet = previous.find("select[name$='prioritet'] :selected").val();
 
 		//Беремо значення ширини, висоти, кількості та площі з попередньої таблиці
+		var prevInvoice = previous.find("input[name$=invoice]").val();
 		var prevHeight = previous.find("input[name$='height']").val();
 		var prevWidth = previous.find("input[name$='width']").val();
 		var prevNumb = previous.find("input[name$='number']").val();
@@ -152,6 +183,7 @@ $(document).ready(function(){
 		//Копіюєм значення select, взяті перед тим в поточну талицю
 		var current = $("div.container div.table:last");
 		// var curnumber = current.find($("input[name$='number']").val('1'));
+		var currentInvoice = current.find("input[name$='invoice']").val(prevInvoice);
 		var currentNameOfCamp = current.find("select[name$='name_of_camp']").val(prevNameOfCamp);
 		var currentMaterial = current.find("select[name$='material']").val(prevMaterial);
 		var currentManager = current.find("select[name$='manager']").val(prevManager);
@@ -348,13 +380,13 @@ $(document).ready(function(){
     }
 
     //remove first td on each tr if user doesn't login in
-    if ($('a#userMenu span#userName').text().trim() == ""){
-        $("#main-table tr").each(function() {
-		    $(this).find("td:first").remove();
-		    $(this).find("td.t14").attr("style", "width:206px");
-        })
-        $("#main-table th").attr("style", "width: 206px");
-    };
+    // if ($('a#userMenu span#userName').text().trim() == ""){
+    //     $("#main-table tr").each(function() {
+	// 	    $(this).find("td:first").remove();
+	// 	    $(this).find("td.t14").attr("style", "width:206px");
+    //     })
+    //     $("#main-table th").attr("style", "width: 206px");
+    // };
 
     //рахувальниця на сторінці home
 	var total = 0;
@@ -409,6 +441,8 @@ $(document).ready(function(){
 	var selCreatedMin = ($('input[name$=created_min]'))
 	var selCreatedMax = ($('input[name$=created_max]'))
 
+	var selStatusCheck     = ($('input[name$=clean_status]'))
+
 	var curNameOfCamp = selNameOfCamp.is(":selected") && selNameOfCamp.text() != 'Сюжет'
 	var curMaterial   = selMaterial.is(":selected") && selMaterial.text() != 'Матеріал'
 
@@ -444,13 +478,16 @@ $(document).ready(function(){
 	if (selUpdatedBy.is(":selected") && selUpdatedBy.text() != 'Виконав'){
 		lastDiv.append( "<p>Виконав: <strong>" + selUpdatedBy.text() +" </strong></p>" );
 	};
+	if (selStatusCheck.is(":checked")){
+		lastDiv.append( "<p>В роботі: <strong>всі, крім \"Виконано\"</strong></p>" );
+	};
 
 	//set position
 	$('#filterBox').click(function(){
 		var p = $('#filterBox').position();
 		sessionStorage.setItem("left", p.left);
 		sessionStorage.setItem("top", p.top);
-	})
+	});
 
 	//get position
 	// $('#filterBox').css({

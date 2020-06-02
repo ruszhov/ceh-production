@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Material(models.Model):
 	name_of_material = models.CharField(max_length=50)
@@ -93,3 +95,14 @@ class PrintOrder(models.Model):
 	class Meta:
 		verbose_name = 'Замовлення друку'
 		verbose_name_plural = 'Список замовлень друку'
+
+class Invoice(models.Model):
+	invoice = models.CharField (max_length=15, null=True, default=None, blank=True)
+	print_order = models.ForeignKey('printorder.PrintOrder', blank=True, null=True, on_delete=models.CASCADE)
+	created_on = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return "%s %s" % (self.invoice, self.print_order)
+	class Meta:
+		verbose_name = '№ замовлення'
+		verbose_name_plural = 'Номери замовлень'
